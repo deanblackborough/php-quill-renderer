@@ -6,6 +6,7 @@ namespace DBlackborough\Quill;
  * Quill renderer, converts quill delta inserts into html
  *
  * @todo Validate options
+ * @todo Validate $deltas
  * @todo Tests for each attribute
  * @todo Tests for each container supported
  *
@@ -37,6 +38,11 @@ class Renderer
     private $options = array();
 
     /**
+     * @var string
+     */
+    private $html;
+
+    /**
      * Renderer constructor.
      *
      * @param array @options Options data array, if empty default options are used
@@ -64,7 +70,8 @@ class Renderer
                 'underline',
                 'strike'
             ),
-            'containerTag' => 'p'
+            'containerTag' => 'p',
+            'newLineTag' => 'br'
         );
     }
 
@@ -92,13 +99,15 @@ class Renderer
     }
 
     /**
-     * @param string $inserts JSON inserts string
+     * @param string $deltas JSON inserts string
      *
      * @return boolean
      */
-    public function load($inserts)
+    public function load($deltas)
     {
-        if ($this->deltas = json_decode($inserts, true) !== null) {
+        $this->deltas = json_decode($deltas, true);
+
+        if ($this->deltas !== null && count($this->deltas) > 0) {
             $this->json_valid = true;
             return true;
         } else {
@@ -107,10 +116,55 @@ class Renderer
     }
 
     /**
+     * Convert new lines
+     *
+     * @param string $subject
+     * @return string
+     */
+    private function convertNewlines($subject)
+    {
+        $patterns = array(
+            "/[\n]{2,}/",
+            "/[\n]{1}/"
+        );
+        $replacements = array(
+            '<' . $this->options['containerTag'] . '></' . $this->options['containerTag'] . '>',
+            '<' . $this->options['newLineTag'] . '/>',
+        );
+
+        return preg_replace($patterns, $replacements, $subject);
+    }
+
+    /**
      * @return string
      */
     public function toHtml()
     {
+        $this->html = null;
 
+        if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
+
+            $inserts = count($this->deltas['ops']);
+
+            foreach ($this->deltas['ops'] as $k => $insert) {
+
+                echo $k;
+                var_dump($insert);
+
+                if ($k === 0) {
+                    $this->html .= '<' . $this->options['containerTag'] . '>';
+                }
+
+                if (array_key_exists('insert', $insert) === true) {
+                    $this->html .= $this->convertNewlines($insert['insert']);
+                }
+
+                if ($k === ($inserts-1)) {
+                    $this->html .= '</' . $this->options['containerTag'] . '>';
+                }
+            }
+        }
+
+        return $this->html;
     }
 }

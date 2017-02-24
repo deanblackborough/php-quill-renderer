@@ -7,5 +7,5 @@ $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet, consectetur adipiscing
 $renderer = new \DBlackborough\Quill\Renderer();
 
 if ($renderer->load($deltas) === true) {
-
+    var_dump($renderer->toHtml());
 }
