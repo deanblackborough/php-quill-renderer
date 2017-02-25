@@ -76,6 +76,37 @@ class Renderer
     }
 
     /**
+     * Validate the attribute value,
+     *
+     * @param string $attribute
+     * @param string $value
+     *
+     * @return boolean
+     */
+    private function validAttribute($attribute, $value)
+    {
+        $valid = false;
+
+        switch ($attribute)
+        {
+            case 'bold':
+            case 'italic':
+            case 'underline':
+            case 'strike':
+                if($value === true) {
+                    $valid = true;
+                }
+                break;
+
+            default:
+                // Do nothing, valid already set to false
+                break;
+        }
+
+        return $valid;
+    }
+
+    /**
      * Default options
      *
      * @return array
@@ -188,9 +219,36 @@ class Renderer
                 if ($k === 0) {
                     $this->html .= '<' . $this->options['container'] . '>';
                 }
+                
+                $tags = array();
+                $hasTags = false;
+                
+                if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
+                    foreach ($insert['attributes'] as $attribute => $value) {
+                        if ($this->validAttribute($attribute, $value) === true) {
+                            $tags[] = $this->options['attributes'][$attribute];
+                        }
+                    }
+                }
+
+                if (count($tags) > 0) {
+                    $hasTags = true; // Set bool so we don't need to check array size again
+                }
+
+                if ($hasTags === true) {
+                    foreach ($tags as $tag) {
+                        $this->html .= '<' . $tag . '>';
+                    }
+                }
 
                 if (array_key_exists('insert', $insert) === true) {
                     $this->html .= $this->convertNewlines($insert['insert']);
+                }
+
+                if ($hasTags === true) {
+                    foreach (array_reverse($tags) as $tag) {
+                        $this->html .= '</' . $tag . '>';
+                    }
                 }
 
                 if ($k === ($inserts-1)) {

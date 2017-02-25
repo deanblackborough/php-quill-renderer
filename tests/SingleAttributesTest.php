@@ -59,14 +59,14 @@ final class SingleAttributesTest extends \PHPUnit_Framework_TestCase
     public function testUnderlineBecomesU()
     {
         $expected = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
-        $this->renderer->load($this->italic_deltas);
+        $this->renderer->load($this->underline_deltas);
         $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
     public function testStrikeBecomesS()
     {
         $expected = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
-        $this->renderer->load($this->italic_deltas);
+        $this->renderer->load($this->strike_deltas);
         $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 }
