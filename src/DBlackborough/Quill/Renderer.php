@@ -190,7 +190,7 @@ class Renderer
                 }
 
                 if (array_key_exists('insert', $insert) === true) {
-                    $this->html .= trim($this->convertNewlines($insert['insert']));
+                    $this->html .= $this->convertNewlines($insert['insert']);
                 }
 
                 if ($k === ($inserts-1)) {

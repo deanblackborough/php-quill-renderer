@@ -56,17 +56,17 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->renderer->toHtml());
     }
 
-    public function testExtraSpaceRemovedFromFrontOfInsert()
+    public function testExtraSpaceNotRemovedFromFrontOfInsert()
     {
         $deltas = '{"ops":[{"insert":" Lorem ipsum dolor sit amet"}]}';
-        $expected = '<p>Lorem ipsum dolor sit amet</p>';
+        $expected = '<p> Lorem ipsum dolor sit amet</p>';
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->toHtml());
     }
 
     public function testExtraSpaceRemovedFromAfterMultipleNewlines()
     {
-        $deltas = '{"ops":[{"insert":" Lorem ipsum dolor\n\n sit amet"}]}';
+        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n\n sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor</p><p>sit amet</p>';
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->toHtml());
