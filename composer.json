@@ -10,5 +10,6 @@
             "type": "vcs",
             "url": "https://github.com/deanblackborough/php-quill-renderer"
         }
-    ]
+    ],
+    "license": "MIT"
 }
