@@ -1,0 +1,14 @@
+{
+    "name": "deanblackborough/php-quill-renderer",
+    "autoload": {
+        "psr-0" : {
+            "DBlackborough\\Quill" : "src"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/deanblackborough/php-quill-renderer"
+        }
+    ]
+}

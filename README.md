@@ -5,3 +5,10 @@
 # PHP Quill Renderer
 
 Render quill insert deltas to HTML.
+
+## Description
+
+Simple Quill delta insert renderer, currently it only supports the attributes I require, 'italic', 'bold', 'underline' 
+and 'strike', I will add support for additional attributes as I need them in Dlayer.
+
+Created for use in [Dlayer](https://github.com/Dlayer/dlayer) but works as a stand-alone tool.
