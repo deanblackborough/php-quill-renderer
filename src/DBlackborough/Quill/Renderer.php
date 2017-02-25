@@ -162,12 +162,12 @@ class Renderer
     private function convertNewlines($subject)
     {
         $patterns = array(
-            "/[\n]{2,}/",
+            "/[\n]{2,} */",
             "/[\n]{1}/"
         );
         $replacements = array(
             '</' . $this->options['container'] . '><' . $this->options['container'] . '>',
-            '<' . $this->options['newline'] . '/>',
+            '<' . $this->options['newline'] . ' />',
         );
 
         return preg_replace($patterns, $replacements, $subject);
@@ -190,7 +190,7 @@ class Renderer
                 }
 
                 if (array_key_exists('insert', $insert) === true) {
-                    $this->html .= $this->convertNewlines($insert['insert']);
+                    $this->html .= trim($this->convertNewlines($insert['insert']));
                 }
 
                 if ($k === ($inserts-1)) {

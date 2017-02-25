@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
 
 final class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->renderer->toHtml());
     }
 
-    public function testDivAttributeOptionSet()
+    public function testContainerAttributeOptionSet()
     {
         $this->assertTrue($this->renderer->setOption('container', 'div'));
     }
