@@ -7,8 +7,8 @@ namespace DBlackborough\Quill;
  *
  * @todo Validate options
  * @todo Validate $deltas
+ * @todo Log and return errors
  * @todo Tests for each attribute
- * @todo Tests for each container supported
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -99,6 +99,44 @@ class Renderer
     }
 
     /**
+     * Set a new option value, replace existing option values
+     *
+     * @param string $option The Option to replace
+     * @param string $value The new value for the option
+     *
+     * @return boolean
+     */
+    public function setOption($option, $value)
+    {
+        if (array_key_exists($option, $this->options) === true) {
+            $this->options[$option] = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Set a new attributes option, replace existing attribute option values
+     *
+     * @param string $option Attribute option to replace
+     * @param string $value New Attribute option value
+     *
+     * @return boolean
+     */
+    public function setAttributeOption($option, $value)
+    {
+        if (array_key_exists('attributes', $this->options) === true &&
+            array_key_exists($option, $this->options['attributes']) === true) {
+
+            $this->options['attributes'][$option] = $value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @param string $deltas JSON inserts string
      *
      * @return boolean
@@ -147,10 +185,6 @@ class Renderer
             $inserts = count($this->deltas['ops']);
 
             foreach ($this->deltas['ops'] as $k => $insert) {
-
-                /*echo $k;
-                var_dump($insert);*/
-
                 if ($k === 0) {
                     $this->html .= '<' . $this->options['container'] . '>';
                 }
