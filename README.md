@@ -13,6 +13,10 @@ and 'strike', I will add support for additional attributes as I need them in Dla
 
 Created for use in [Dlayer](https://github.com/Dlayer/dlayer) but works as a stand-alone tool.
 
+## Composer 
+
+```composer require deanblackborough/php-quill-renderer```
+
 ## Planned features
 
 * Links
