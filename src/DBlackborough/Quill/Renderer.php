@@ -65,13 +65,13 @@ class Renderer
     {
         return array(
             'attributes' => array(
-                'bold',
-                'italic',
-                'underline',
-                'strike'
+                'bold' => 'strong',
+                'italic' => 'em',
+                'underline' => 'u',
+                'strike' => 's'
             ),
-            'containerTag' => 'p',
-            'newLineTag' => 'br'
+            'container' => 'p',
+            'newline' => 'br'
         );
     }
 
@@ -128,8 +128,8 @@ class Renderer
             "/[\n]{1}/"
         );
         $replacements = array(
-            '<' . $this->options['containerTag'] . '></' . $this->options['containerTag'] . '>',
-            '<' . $this->options['newLineTag'] . '/>',
+            '</' . $this->options['container'] . '><' . $this->options['container'] . '>',
+            '<' . $this->options['newline'] . '/>',
         );
 
         return preg_replace($patterns, $replacements, $subject);
@@ -148,11 +148,11 @@ class Renderer
 
             foreach ($this->deltas['ops'] as $k => $insert) {
 
-                echo $k;
-                var_dump($insert);
+                /*echo $k;
+                var_dump($insert);*/
 
                 if ($k === 0) {
-                    $this->html .= '<' . $this->options['containerTag'] . '>';
+                    $this->html .= '<' . $this->options['container'] . '>';
                 }
 
                 if (array_key_exists('insert', $insert) === true) {
@@ -160,7 +160,8 @@ class Renderer
                 }
 
                 if ($k === ($inserts-1)) {
-                    $this->html .= '</' . $this->options['containerTag'] . '>';
+                    $this->html = rtrim($this->html, '<' . $this->options['newline'] . '/>');
+                    $this->html .= '</' . $this->options['container'] . '>';
                 }
             }
         }
