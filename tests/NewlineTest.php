@@ -17,13 +17,13 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
     public function testDeltasInValid()
     {
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n sit amet}]}';
-        $this->assertFalse($this->renderer->load($deltas));
+        $this->assertFalse($this->renderer->load($deltas), __METHOD__ . ' failed');
     }
 
     public function testDeltasValid()
     {
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n sit amet"}]}';
-        $this->assertTrue($this->renderer->load($deltas));
+        $this->assertTrue($this->renderer->load($deltas), __METHOD__ . ' failed');
     }
 
     public function testNewlineAdded()
@@ -31,12 +31,12 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor<br /> sit amet</p>';
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
     public function testNewlineAttributeOptionSet()
     {
-        $this->assertTrue($this->renderer->setOption('newline', 'hr'));
+        $this->assertTrue($this->renderer->setOption('newline', 'hr'), __METHOD__ . ' failed');
     }
 
     public function testNewlineHrTag()
@@ -45,7 +45,7 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $expected = '<p>Lorem ipsum dolor<hr /> sit amet</p>';
         $this->renderer->load($deltas);
         $this->renderer->setOption('newline', 'hr');
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
     public function testDoubleNewlineBecomesParagraph()
@@ -53,7 +53,7 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n\n sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor</p><p>sit amet</p>';
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
     public function testExtraSpaceNotRemovedFromFrontOfInsert()
@@ -61,7 +61,7 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":" Lorem ipsum dolor sit amet"}]}';
         $expected = '<p> Lorem ipsum dolor sit amet</p>';
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
     public function testExtraSpaceRemovedFromAfterMultipleNewlines()
@@ -69,6 +69,6 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n\n sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor</p><p>sit amet</p>';
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 }

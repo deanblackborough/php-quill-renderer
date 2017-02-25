@@ -17,13 +17,13 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testDeltasInValid()
     {
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet}]}';
-        $this->assertFalse($this->renderer->load($deltas));
+        $this->assertFalse($this->renderer->load($deltas), __METHOD__ . ' failed');
     }
 
     public function testDeltasValid()
     {
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
-        $this->assertTrue($this->renderer->load($deltas));
+        $this->assertTrue($this->renderer->load($deltas), __METHOD__ . ' failed');
     }
 
     public function testParagraphAroundOneInsert()
@@ -31,12 +31,12 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor sit amet</p>';
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
     public function testContainerAttributeOptionSet()
     {
-        $this->assertTrue($this->renderer->setOption('container', 'div'));
+        $this->assertTrue($this->renderer->setOption('container', 'div'), __METHOD__ . ' failed');
     }
 
     public function testDivAAroundOneInsert()
@@ -45,6 +45,6 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $expected = '<div>Lorem ipsum dolor sit amet</div>';
         $this->renderer->load($deltas);
         $this->renderer->setOption('container', 'div');
-        $this->assertEquals($expected, $this->renderer->toHtml());
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 }
