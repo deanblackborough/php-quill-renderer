@@ -1,6 +1,6 @@
 <?php
 
-require '/../src/DBlackborough/Quill/Renderer.php';
+require __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
 
 final class ContainerTest extends \PHPUnit_Framework_TestCase
 {
