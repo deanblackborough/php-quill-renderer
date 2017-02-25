@@ -5,6 +5,14 @@
             "DBlackborough\\Quill" : "src"
         }
     },
+    "homepage": "https://github.com/deanblackborough/php-quill-renderer",
+    "keywords": [ "quill", "renderer", "html"],
+    "authors": [
+        {
+            "name": "Dean Blackborough",
+            "email": "dean@g3d-development.com"
+        }
+    ],
     "require": {
         "php": "^5.6 || ^7.0"
     },
