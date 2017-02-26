@@ -1,5 +1,6 @@
 {
     "name": "deanblackborough/php-quill-renderer",
+    "description": "Render quill insert deltas to HTML",
     "autoload": {
         "psr-0" : {
             "DBlackborough\\Quill" : "src"
