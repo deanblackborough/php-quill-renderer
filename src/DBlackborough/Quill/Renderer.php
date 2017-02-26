@@ -252,7 +252,7 @@ class Renderer
                 }
 
                 if ($k === ($inserts-1)) {
-                    $this->html = rtrim($this->html, '<' . $this->options['newline'] . '/>');
+                    $this->html = rtrim($this->html, '<' . $this->options['newline'] . ' />');
                     $this->html .= '</' . $this->options['container'] . '>';
                 }
             }

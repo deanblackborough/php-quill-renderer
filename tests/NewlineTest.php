@@ -71,4 +71,12 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
+
+    public function testStripFinalNewline()
+    {
+        $deltas = '{"ops":[{"insert":"Some how we are getting an erroneous br tag at the end of the html.\n"}]}';
+        $expected = '<p>Some how we are getting an erroneous br tag at the end of the html.</p>';
+        $this->renderer->load($deltas);
+        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
+    }
 }
