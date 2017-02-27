@@ -5,11 +5,6 @@ namespace DBlackborough\Quill;
 /**
  * Quill renderer, converts quill delta inserts into html
  *
- * @todo Validate options
- * @todo Validate $deltas
- * @todo Log and return errors
- * @todo Tests for each attribute
- *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
@@ -43,12 +38,30 @@ class Renderer
     private $html;
 
     /**
+     * @var array
+     */
+    private $errors;
+
+    /**
+     * @var boolean
+     */
+    private $content_valid = false;
+
+    /**
+     * @var array
+     */
+    private $content;
+
+    /**
      * Renderer constructor.
      *
      * @param array @options Options data array, if empty default options are used
      */
     public function __construct(array $options = array())
     {
+        $this->html = null;
+        $this->content = array();
+
         if (count($options) === 0) {
             $options = $this->defaultOptions();
         }
@@ -76,14 +89,14 @@ class Renderer
     }
 
     /**
-     * Validate the attribute value,
+     * Check to see if the requested attribute is valid, needs to be a known attribute and have an option set
      *
      * @param string $attribute
      * @param string $value
      *
      * @return boolean
      */
-    private function validAttribute($attribute, $value)
+    private function isAttributeValid($attribute, $value)
     {
         $valid = false;
 
@@ -93,7 +106,10 @@ class Renderer
             case 'italic':
             case 'underline':
             case 'strike':
-                if($value === true) {
+                if(array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    $value === true) {
+
                     $valid = true;
                 }
                 break;
@@ -104,6 +120,31 @@ class Renderer
         }
 
         return $valid;
+    }
+
+    /**
+     * Get attribute tag(s)
+     *
+     * @param string $attribute
+     *
+     * @return string|null
+     */
+    private function getAttributeTag($attribute)
+    {
+        switch ($attribute)
+        {
+            case 'bold':
+            case 'italic':
+            case 'underline':
+            case 'strike':
+                return $this->options['attributes'][$attribute];
+                break;
+
+            default:
+                // Do nothing, valid already set to false
+                return null;
+                break;
+        }
     }
 
     /**
@@ -207,17 +248,26 @@ class Renderer
     /**
      * @return string
      */
-    public function toHtml()
+    private function parseDeltas()
     {
-        $this->html = null;
-
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
 
             $inserts = count($this->deltas['ops']);
 
+            $i = 0;
+
             foreach ($this->deltas['ops'] as $k => $insert) {
+
+                $this->content[$i] = array(
+                    'content' => null,
+                    'tags' => array()
+                );
+
                 if ($k === 0) {
-                    $this->html .= '<' . $this->options['container'] . '>';
+                    $this->content[$i]['tags'][] = array(
+                        'open' => '<' . $this->options['container'] . '>',
+                        'close' => null
+                    );
                 }
                 
                 $tags = array();
@@ -225,8 +275,11 @@ class Renderer
                 
                 if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
                     foreach ($insert['attributes'] as $attribute => $value) {
-                        if ($this->validAttribute($attribute, $value) === true) {
-                            $tags[] = $this->options['attributes'][$attribute];
+                        if ($this->isAttributeValid($attribute, $value) === true) {
+                            $tag = $this->getAttributeTag($attribute);
+                            if ($tag !== null) {
+                                $tags[] = $tag;
+                            }
                         }
                     }
                 }
@@ -237,23 +290,55 @@ class Renderer
 
                 if ($hasTags === true) {
                     foreach ($tags as $tag) {
-                        $this->html .= '<' . $tag . '>';
+                        $this->content[$i]['tags'][] = array(
+                            'open' => '<' . $tag . '>',
+                            'close' => '</' . $tag . '>'
+                        );
                     }
                 }
 
                 if (array_key_exists('insert', $insert) === true) {
-                    $this->html .= $this->convertNewlines($insert['insert']);
-                }
-
-                if ($hasTags === true) {
-                    foreach (array_reverse($tags) as $tag) {
-                        $this->html .= '</' . $tag . '>';
-                    }
+                    $this->content[$i]['content'] = $this->convertNewlines($insert['insert']);
                 }
 
                 if ($k === ($inserts-1)) {
-                    $this->html = rtrim($this->html, '<' . $this->options['newline'] . ' />');
-                    $this->html .= '</' . $this->options['container'] . '>';
+                    $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . ' />');
+                    $this->content[$i]['tags'][] = array(
+                        'open' => null,
+                        'close' => '</' . $this->options['container'] . '>'
+                    );
+                }
+
+                $i++;
+            }
+        }
+
+        $this->content_valid = true;
+    }
+
+    /**
+     * Generate the html
+     *
+     * @return string
+     */
+    public function toHtml()
+    {
+        $this->parseDeltas();
+
+        if ($this->content_valid === true) {
+            foreach ($this->content as $content) {
+                foreach ($content['tags'] as $tag) {
+                    if ($tag['open'] !== null) {
+                        $this->html .= $tag['open'];
+                    }
+                }
+
+                $this->html .= $content['content'];
+
+                foreach (array_reverse($content['tags']) as $tag) {
+                    if ($tag['close'] !== null) {
+                        $this->html .= $tag['close'];
+                    }
                 }
             }
         }
