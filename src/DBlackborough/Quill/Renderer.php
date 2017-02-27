@@ -81,7 +81,11 @@ class Renderer
                 'bold' => 'strong',
                 'italic' => 'em',
                 'underline' => 'u',
-                'strike' => 's'
+                'strike' => 's',
+                'list' => array(
+                    'bullet' => array('ul', 'li'),
+                    'ordered' => array('ol', 'li')
+                )
             ),
             'container' => 'p',
             'newline' => 'br'
@@ -113,6 +117,14 @@ class Renderer
                     $valid = true;
                 }
                 break;
+            case 'list':
+                if(array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists('list', $this->options['attributes']) === true &&
+                    array_key_exists($value, $this->options['attributes']['list']) === true) {
+
+                    $valid = true;
+                }
+                break;
 
             default:
                 // Do nothing, valid already set to false
@@ -126,10 +138,11 @@ class Renderer
      * Get attribute tag(s)
      *
      * @param string $attribute
+     * @param string $value
      *
      * @return string|null
      */
-    private function getAttributeTag($attribute)
+    private function getAttributeTag($attribute, $value)
     {
         switch ($attribute)
         {
@@ -138,6 +151,10 @@ class Renderer
             case 'underline':
             case 'strike':
                 return $this->options['attributes'][$attribute];
+                break;
+
+            case 'list':
+                return $this->options['attributes']['list'][$value];
                 break;
 
             default:
@@ -276,7 +293,7 @@ class Renderer
                 if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
                     foreach ($insert['attributes'] as $attribute => $value) {
                         if ($this->isAttributeValid($attribute, $value) === true) {
-                            $tag = $this->getAttributeTag($attribute);
+                            $tag = $this->getAttributeTag($attribute, $value);
                             if ($tag !== null) {
                                 $tags[] = $tag;
                             }
@@ -290,14 +307,21 @@ class Renderer
 
                 if ($hasTags === true) {
                     foreach ($tags as $tag) {
-                        $this->content[$i]['tags'][] = array(
-                            'open' => '<' . $tag . '>',
-                            'close' => '</' . $tag . '>'
-                        );
+                        if (is_array($tag) === false) {
+                            $this->content[$i]['tags'][] = array(
+                                'open' => '<' . $tag . '>',
+                                'close' => '</' . $tag . '>'
+                            );
+                        } else {
+                            $this->content[$i-1]['tags'][] = array(
+                                'open' => '<' . $tag[1] . '>',
+                                'close' => '</' . $tag[1] . '>'
+                            );
+                        }
                     }
                 }
 
-                if (array_key_exists('insert', $insert) === true) {
+                if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
                     $this->content[$i]['content'] = $this->convertNewlines($insert['insert']);
                 }
 

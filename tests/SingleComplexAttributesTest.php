@@ -27,14 +27,14 @@ final class SingleComplexAttributesTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->renderer->load($this->ordered_deltas), __METHOD__ . ' failed');
     }
 
-    /*public function testSimpleOrderedList()
+    public function testSimpleOrderedList()
     {
         $expected = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol></p>';
-        $this->renderer->load($this->bullets_deltas);
+        $this->renderer->load($this->ordered_deltas);
         $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
     }
 
-    public function testSimpleBulletList()
+    /*public function testSimpleBulletList()
     {
         $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul></p>';
         $this->renderer->load($this->bullets_deltas);
