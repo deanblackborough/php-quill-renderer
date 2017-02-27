@@ -5,7 +5,7 @@ require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
 /**
  * Test single attribute replacements
  */
-final class SingleAttributesTest extends \PHPUnit_Framework_TestCase
+final class SingleSimpleAttributesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \DBlackborough\Quill\Renderer

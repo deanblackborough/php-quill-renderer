@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
 
-final class ListsTest extends \PHPUnit_Framework_TestCase
+final class SingleComplexAttributesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \DBlackborough\Quill\Renderer
@@ -27,7 +27,7 @@ final class ListsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->renderer->load($this->ordered_deltas), __METHOD__ . ' failed');
     }
 
-    public function testSimpleOrderedList()
+    /*public function testSimpleOrderedList()
     {
         $expected = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol></p>';
         $this->renderer->load($this->bullets_deltas);
@@ -39,5 +39,5 @@ final class ListsTest extends \PHPUnit_Framework_TestCase
         $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul></p>';
         $this->renderer->load($this->bullets_deltas);
         $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
-    }
+    }*/
 }
