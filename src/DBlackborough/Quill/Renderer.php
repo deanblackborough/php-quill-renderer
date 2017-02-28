@@ -273,6 +273,9 @@ class Renderer
 
             $i = 0;
 
+            $list = false;
+            $list_item = 0;
+
             foreach ($this->deltas['ops'] as $k => $insert) {
 
                 $this->content[$i] = array(
@@ -280,15 +283,8 @@ class Renderer
                     'tags' => array()
                 );
 
-                if ($k === 0) {
-                    $this->content[$i]['tags'][] = array(
-                        'open' => '<' . $this->options['container'] . '>',
-                        'close' => null
-                    );
-                }
-                
                 $tags = array();
-                $hasTags = false;
+                $has_tags = false;
                 
                 if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
                     foreach ($insert['attributes'] as $attribute => $value) {
@@ -302,10 +298,10 @@ class Renderer
                 }
 
                 if (count($tags) > 0) {
-                    $hasTags = true; // Set bool so we don't need to check array size again
+                    $has_tags = true; // Set bool so we don't need to check array size again
                 }
 
-                if ($hasTags === true) {
+                if ($has_tags === true) {
                     foreach ($tags as $tag) {
                         if (is_array($tag) === false) {
                             $this->content[$i]['tags'][] = array(
@@ -313,10 +309,48 @@ class Renderer
                                 'close' => '</' . $tag . '>'
                             );
                         } else {
+                            if ($tag[1] === 'li') {
+                                if ($list === false) {
+                                    $list = true;
+                                    $list_item = 0;
+                                }
+
+                                if ($list_item === 0) {
+                                    $this->content[$i-1]['tags'][] = array(
+                                        'open' => '<' . $tag[0] . '>',
+                                        'close' => null
+                                    );
+                                }
+                            }
                             $this->content[$i-1]['tags'][] = array(
                                 'open' => '<' . $tag[1] . '>',
                                 'close' => '</' . $tag[1] . '>'
                             );
+
+                            // Remove previous closing tag if exists
+                            if($i > 1) {
+                                $previous_tags = $this->content[$i - 2]['tags'];
+                                $new_previous_tags = array();
+                                foreach ($previous_tags as $previous_tag_item) {
+                                    if (array_key_exists('close', $previous_tag_item) === true &&
+                                        $previous_tag_item['close'] !== '</' . $tag[0] . '>'
+                                    ) {
+                                        $new_previous_tags = $previous_tag_item;
+                                    }
+                                }
+
+                                $this->content[$i - 2]['tags'] = $new_previous_tags;
+                            }
+
+                            // Add closing tag to list, removed if we loop again
+                            $this->content[$i]['tags'][] = array(
+                                'open' => null,
+                                'close' => '</' . $tag[0] . '>'
+                            );
+
+                            if ($list === true) {
+                                $list_item++;
+                            }
                         }
                     }
                 }
@@ -327,13 +361,58 @@ class Renderer
 
                 if ($k === ($inserts-1)) {
                     $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . ' />');
-                    $this->content[$i]['tags'][] = array(
-                        'open' => null,
-                        'close' => '</' . $this->options['container'] . '>'
-                    );
                 }
 
                 $i++;
+            }
+
+            if (count($this->content) > 0) {
+
+                // Check to see if first item a list, if not add container tag
+                $assigned_tags = $this->content[0]['tags'];
+                $list = false;
+
+                if (count($assigned_tags) > 0) {
+                    foreach ($assigned_tags as $assigned_tag) {
+                        if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
+                            $list = true;
+                        }
+                    }
+                }
+
+                if ($list === false) {
+                    $this->content[0]['tags'][] = array(
+                        'open' => '<' . $this->options['container'] . '>',
+                        'close' => null
+                    );
+                    foreach ($assigned_tags as $assigned_tag) {
+                        $this->content[0]['tags'][] = $assigned_tag;
+                    }
+                }
+
+                // Check to see if last item a list, if not add container tag
+                $last_item = count($this->content) - 1;
+                $assigned_tags = $this->content[$last_item]['tags'];
+                $list = false;
+
+                if (count($assigned_tags) > 0) {
+                    foreach ($assigned_tags as $assigned_tag) {
+                        if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
+                            $list = true;
+                        }
+                    }
+                }
+
+                if ($list === false) {
+                    $this->content[$last_item]['tags'] = array();
+                    foreach ($assigned_tags as $assigned_tag) {
+                        $this->content[$last_item]['tags'][] = $assigned_tag;
+                    }
+                    $this->content[$last_item]['tags'][] = array(
+                        'open' => null,
+                        'close' => '</' . $this->options['container'] . '>',
+                    );
+                }
             }
         }
 
