@@ -81,23 +81,33 @@ class Html extends \DBlackborough\Quill\Renderer
     }
 
     /**
-     * Convert new lines
+     * Convert new lines into containers and newlines
      *
      * @param string $subject
-     * @return string
+     * @return array Two indexes, subject and tags
      */
     protected function convertNewlines($subject)
     {
-        $patterns = array(
-            "/[\n]{2,} */",
-            "/[\n]{1}/"
-        );
-        $replacements = array(
-            '</' . $this->options['container'] . '><' . $this->options['container'] . '>',
-            '<' . $this->options['newline'] . ' />',
-        );
+        $tags = array();
 
-        return preg_replace($patterns, $replacements, $subject);
+        if (preg_match("/[\n]{2,} */", $subject) === true) {
+            $tags[] = array(
+                'open' => null,
+                'close' => '</' . $this->options['container'] . '>'
+            );
+            $tags[] = array(
+                'open' => '<' . $this->options['container'] . '>',
+                'close' => null,
+            );
+
+        }
+        $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['container'] . '><' . $this->options['container'] . '>', $subject);
+        $subject = preg_replace("/[\n]{1}/", '<' . $this->options['newline'] . ' />', $subject);
+
+        return array(
+            'tags' => $tags,
+            'subject' => $subject
+        );
     }
 
     /**
@@ -194,7 +204,13 @@ class Html extends \DBlackborough\Quill\Renderer
                 }
 
                 if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
-                    $this->content[$i]['content'] = $this->convertNewlines($insert['insert']);
+                    $content = $this->convertNewlines($insert['insert']);
+                    if (count($content['tags']) > 0) {
+                        foreach($content['tags'] as $tag) {
+                            $this->content[$i]['tags'][] = $tag;
+                        }
+                    }
+                    $this->content[$i]['content'] = $content['subject'];
                 }
 
                 if ($k === ($inserts-1)) {
@@ -269,7 +285,7 @@ class Html extends \DBlackborough\Quill\Renderer
         if ($this->content_valid === true) {
             foreach ($this->content as $content) {
                 foreach ($content['tags'] as $tag) {
-                    if ($tag['open'] !== null) {
+                    if (array_key_exists('open', $tag) === true && $tag['open'] !== null) {
                         $this->html .= $tag['open'];
                     }
                 }
@@ -277,7 +293,7 @@ class Html extends \DBlackborough\Quill\Renderer
                 $this->html .= $content['content'];
 
                 foreach (array_reverse($content['tags']) as $tag) {
-                    if ($tag['close'] !== null) {
+                    if (array_key_exists('close', $tag) === true && $tag['close'] !== null) {
                         $this->html .= $tag['close'];
                     }
                 }
