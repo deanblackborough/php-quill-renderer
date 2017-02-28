@@ -5,42 +5,47 @@ namespace DBlackborough\Quill;
 /**
  * Quill renderer, converts quill delta inserts into html
  *
- * @todo Validate options
- * @todo Validate $deltas
- * @todo Log and return errors
- * @todo Tests for each attribute
- *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Renderer
+abstract class Renderer
 {
     /**
      * Delta inserts
      *
      * @var array
      */
-    private $deltas;
+    protected $deltas;
 
     /**
      * Valid inserts json array
      *
      * @param boolean
      */
-    private $json_valid = false;
+    protected $json_valid = false;
 
     /**
      * Options data array
      *
      * @param array
      */
-    private $options = array();
+    protected $options = array();
 
     /**
-     * @var string
+     * @var array
      */
-    private $html;
+    protected $errors;
+
+    /**
+     * @var boolean
+     */
+    protected $content_valid = false;
+
+    /**
+     * @var array
+     */
+    protected $content;
 
     /**
      * Renderer constructor.
@@ -49,6 +54,9 @@ class Renderer
      */
     public function __construct(array $options = array())
     {
+        $this->html = null;
+        $this->content = array();
+
         if (count($options) === 0) {
             $options = $this->defaultOptions();
         }
@@ -61,29 +69,17 @@ class Renderer
      *
      * @return array
      */
-    private function defaultOptions()
-    {
-        return array(
-            'attributes' => array(
-                'bold' => 'strong',
-                'italic' => 'em',
-                'underline' => 'u',
-                'strike' => 's'
-            ),
-            'container' => 'p',
-            'newline' => 'br'
-        );
-    }
+    abstract protected function defaultOptions();
 
     /**
-     * Validate the attribute value,
+     * Check to see if the requested attribute is valid, needs to be a known attribute and have an option set
      *
      * @param string $attribute
      * @param string $value
      *
      * @return boolean
      */
-    private function validAttribute($attribute, $value)
+    protected function isAttributeValid($attribute, $value)
     {
         $valid = false;
 
@@ -93,7 +89,18 @@ class Renderer
             case 'italic':
             case 'underline':
             case 'strike':
-                if($value === true) {
+                if(array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    $value === true) {
+
+                    $valid = true;
+                }
+                break;
+            case 'list':
+                if(array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists('list', $this->options['attributes']) === true &&
+                    array_key_exists($value, $this->options['attributes']['list']) === true) {
+
                     $valid = true;
                 }
                 break;
@@ -184,80 +191,13 @@ class Renderer
         }
     }
 
-    /**
-     * Convert new lines
-     *
-     * @param string $subject
+     /**
      * @return string
      */
-    private function convertNewlines($subject)
-    {
-        $patterns = array(
-            "/[\n]{2,} */",
-            "/[\n]{1}/"
-        );
-        $replacements = array(
-            '</' . $this->options['container'] . '><' . $this->options['container'] . '>',
-            '<' . $this->options['newline'] . ' />',
-        );
-
-        return preg_replace($patterns, $replacements, $subject);
-    }
+    abstract protected function parseDeltas();
 
     /**
      * @return string
      */
-    public function toHtml()
-    {
-        $this->html = null;
-
-        if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
-
-            $inserts = count($this->deltas['ops']);
-
-            foreach ($this->deltas['ops'] as $k => $insert) {
-                if ($k === 0) {
-                    $this->html .= '<' . $this->options['container'] . '>';
-                }
-                
-                $tags = array();
-                $hasTags = false;
-                
-                if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
-                    foreach ($insert['attributes'] as $attribute => $value) {
-                        if ($this->validAttribute($attribute, $value) === true) {
-                            $tags[] = $this->options['attributes'][$attribute];
-                        }
-                    }
-                }
-
-                if (count($tags) > 0) {
-                    $hasTags = true; // Set bool so we don't need to check array size again
-                }
-
-                if ($hasTags === true) {
-                    foreach ($tags as $tag) {
-                        $this->html .= '<' . $tag . '>';
-                    }
-                }
-
-                if (array_key_exists('insert', $insert) === true) {
-                    $this->html .= $this->convertNewlines($insert['insert']);
-                }
-
-                if ($hasTags === true) {
-                    foreach (array_reverse($tags) as $tag) {
-                        $this->html .= '</' . $tag . '>';
-                    }
-                }
-
-                if ($k === ($inserts-1)) {
-                    $this->html = rtrim($this->html, '<' . $this->options['newline'] . ' />');
-                    $this->html .= '</' . $this->options['container'] . '>';
-                }
-            }
-        }
-
-        return $this->html;
-    }
+    abstract public function render();
 }
