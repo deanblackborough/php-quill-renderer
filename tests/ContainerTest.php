@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
 
 final class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +12,7 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->renderer = new \DBlackborough\Quill\Renderer();
+        $this->renderer = new \DBlackborough\Quill\Renderer\Html();
     }
 
     public function testDeltasInValid()
@@ -31,7 +32,7 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor sit amet</p>';
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 
     public function testContainerAttributeOptionSet()
@@ -45,6 +46,6 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $expected = '<div>Lorem ipsum dolor sit amet</div>';
         $this->renderer->load($deltas);
         $this->renderer->setOption('container', 'div');
-        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 }

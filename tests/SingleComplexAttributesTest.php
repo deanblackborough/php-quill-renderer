@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
 
 final class SingleComplexAttributesTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +15,7 @@ final class SingleComplexAttributesTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->renderer = new \DBlackborough\Quill\Renderer();
+        $this->renderer = new \DBlackborough\Quill\Renderer\Html();
     }
 
     public function testBulletsDeltasValid()
@@ -31,13 +32,13 @@ final class SingleComplexAttributesTest extends \PHPUnit_Framework_TestCase
     {
         $expected = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>';
         $this->renderer->load($this->ordered_deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 
     public function testSimpleBulletList()
     {
         $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>';
         $this->renderer->load($this->bullets_deltas);
-        $this->assertEquals($expected, $this->renderer->toHtml(), __METHOD__ . ' failed');
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 }
