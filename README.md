@@ -5,8 +5,6 @@
 
 # PHP Quill Renderer
 
----
-
 *Render quill insert deltas to HTML.*
 
 ## Description
