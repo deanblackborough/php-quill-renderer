@@ -84,9 +84,10 @@ class Html extends \DBlackborough\Quill\Renderer
      * Convert new lines into containers and newlines
      *
      * @param string $subject
+     * @param integer $i Content array index
      * @return array Two indexes, subject and tags
      */
-    protected function convertNewlines($subject)
+    protected function convertNewlines($subject, $i)
     {
         $tags = array();
 
@@ -102,7 +103,22 @@ class Html extends \DBlackborough\Quill\Renderer
 
         }
         $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['container'] . '><' . $this->options['container'] . '>', $subject);
-        $subject = preg_replace("/[\n]{1}/", '<' . $this->options['newline'] . ' />', $subject);
+
+        $closing_block_element = false;
+        if ($i > 0) {
+            $previous_tags = $this->content[$i-1]['tags'];
+            foreach ($previous_tags as $tag) {
+                if ($tag['close'] === '</ul>' || $tag['close'] === '</ol>') {
+                    $closing_block_element = true;
+                }
+            }
+        }
+
+        if ($closing_block_element === false) {
+            $subject = preg_replace("/[\n]{1}/", '<' . $this->options['newline'] . ' />', $subject);
+        } else {
+            $subject = preg_replace("/[\n]{1}/", '<' . $this->options['container'] . '>', rtrim($subject), 1);
+        }
 
         return array(
             'tags' => $tags,
@@ -204,7 +220,7 @@ class Html extends \DBlackborough\Quill\Renderer
                 }
 
                 if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
-                    $content = $this->convertNewlines($insert['insert']);
+                    $content = $this->convertNewlines($insert['insert'], $i);
                     if (count($content['tags']) > 0) {
                         foreach($content['tags'] as $tag) {
                             $this->content[$i]['tags'][] = $tag;
@@ -222,51 +238,10 @@ class Html extends \DBlackborough\Quill\Renderer
 
             if (count($this->content) > 0) {
 
-                // Check to see if first item a list, if not add container tag
-                $assigned_tags = $this->content[0]['tags'];
-                $list = false;
+                // Check to see if first item a block element, if not add container tag
+                $this->firstItemBlockElement();
 
-                if (count($assigned_tags) > 0) {
-                    foreach ($assigned_tags as $assigned_tag) {
-                        if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
-                            $list = true;
-                        }
-                    }
-                }
-
-                if ($list === false) {
-                    $this->content[0]['tags'][] = array(
-                        'open' => '<' . $this->options['container'] . '>',
-                        'close' => null
-                    );
-                    foreach ($assigned_tags as $assigned_tag) {
-                        $this->content[0]['tags'][] = $assigned_tag;
-                    }
-                }
-
-                // Check to see if last item a list, if not add container tag
-                $last_item = count($this->content) - 1;
-                $assigned_tags = $this->content[$last_item]['tags'];
-                $list = false;
-
-                if (count($assigned_tags) > 0) {
-                    foreach ($assigned_tags as $assigned_tag) {
-                        if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
-                            $list = true;
-                        }
-                    }
-                }
-
-                if ($list === false) {
-                    $this->content[$last_item]['tags'] = array();
-                    foreach ($assigned_tags as $assigned_tag) {
-                        $this->content[$last_item]['tags'][] = $assigned_tag;
-                    }
-                    $this->content[$last_item]['tags'][] = array(
-                        'open' => null,
-                        'close' => '</' . $this->options['container'] . '>',
-                    );
-                }
+                $this->LastItemBlockElement();
             }
         }
 
@@ -301,5 +276,67 @@ class Html extends \DBlackborough\Quill\Renderer
         }
 
         return $this->html;
+    }
+
+    /**
+     * Check to see if the last content item is a block element, if not add container
+     */
+    protected function lastItemBlockElement()
+    {
+        $last_item = count($this->content) - 1;
+        $assigned_tags = $this->content[$last_item]['tags'];
+        $block = false;
+
+        if (count($assigned_tags) > 0) {
+            foreach ($assigned_tags as $assigned_tag) {
+                /**
+                 * @todo This should check the tags defined in list options, not ul and ol directly
+                 */
+                if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
+                    $block = true;
+                }
+            }
+        }
+
+        if ($block === false) {
+            $this->content[$last_item]['tags'] = array();
+            foreach ($assigned_tags as $assigned_tag) {
+                $this->content[$last_item]['tags'][] = $assigned_tag;
+            }
+            $this->content[$last_item]['tags'][] = array(
+                'open' => null,
+                'close' => '</' . $this->options['container'] . '>',
+            );
+        }
+    }
+
+    /**
+     * Check to see if the ifrst content item is a block element, if not add container
+     */
+    protected function firstItemBlockElement()
+    {
+        $assigned_tags = $this->content[0]['tags'];
+        $block = false;
+
+        if (count($assigned_tags) > 0) {
+            foreach ($assigned_tags as $assigned_tag) {
+                /**
+                 * @todo This should check the tags defined in list options, not ul and ol directly
+                 */
+                if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
+                    $block = true;
+                }
+            }
+        }
+
+        if ($block === false) {
+            $this->content[0]['tags'][] = array(
+                'open' => '<' . $this->options['container'] . '>',
+                'close' => null
+            );
+            foreach ($assigned_tags as $assigned_tag) {
+                $this->content[0]['tags'][] = $assigned_tag;
+            }
+        }
     }
 }
