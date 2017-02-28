@@ -104,26 +104,72 @@ class Html extends \DBlackborough\Quill\Renderer
         }
         $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['container'] . '><' . $this->options['container'] . '>', $subject);
 
-        $closing_block_element = false;
-        if ($i > 0) {
-            $previous_tags = $this->content[$i-1]['tags'];
-            foreach ($previous_tags as $tag) {
-                if ($tag['close'] === '</ul>' || $tag['close'] === '</ol>') {
-                    $closing_block_element = true;
-                }
-            }
-        }
-
-        if ($closing_block_element === false) {
-            $subject = preg_replace("/[\n]{1}/", '<' . $this->options['newline'] . ' />', $subject);
-        } else {
-            $subject = preg_replace("/[\n]{1}/", '<' . $this->options['container'] . '>', rtrim($subject), 1);
-        }
-
         return array(
             'tags' => $tags,
             'subject' => $subject
         );
+    }
+
+    /**
+     * Check to see if the last content item is a block element, if not add container
+     */
+    protected function lastItemBlockElement()
+    {
+        $last_item = count($this->content) - 1;
+        $assigned_tags = $this->content[$last_item]['tags'];
+        $block = false;
+
+        if (count($assigned_tags) > 0) {
+            foreach ($assigned_tags as $assigned_tag) {
+                /**
+                 * @todo This should check the tags defined in list options, not ul and ol directly
+                 */
+                if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
+                    $block = true;
+                }
+            }
+        }
+
+        if ($block === false) {
+            $this->content[$last_item]['tags'] = array();
+            foreach ($assigned_tags as $assigned_tag) {
+                $this->content[$last_item]['tags'][] = $assigned_tag;
+            }
+            $this->content[$last_item]['tags'][] = array(
+                'open' => null,
+                'close' => '</' . $this->options['container'] . '>',
+            );
+        }
+    }
+
+    /**
+     * Check to see if the first content item is a block element, if not add container
+     */
+    protected function firstItemBlockElement()
+    {
+        $assigned_tags = $this->content[0]['tags'];
+        $block = false;
+
+        if (count($assigned_tags) > 0) {
+            foreach ($assigned_tags as $assigned_tag) {
+                /**
+                 * @todo This should check the tags defined in list options, not ul and ol directly
+                 */
+                if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
+                    $block = true;
+                }
+            }
+        }
+
+        if ($block === false) {
+            $this->content[0]['tags'][] = array(
+                'open' => '<' . $this->options['container'] . '>',
+                'close' => null
+            );
+            foreach ($assigned_tags as $assigned_tag) {
+                $this->content[0]['tags'][] = $assigned_tag;
+            }
+        }
     }
 
     /**
@@ -276,67 +322,5 @@ class Html extends \DBlackborough\Quill\Renderer
         }
 
         return $this->html;
-    }
-
-    /**
-     * Check to see if the last content item is a block element, if not add container
-     */
-    protected function lastItemBlockElement()
-    {
-        $last_item = count($this->content) - 1;
-        $assigned_tags = $this->content[$last_item]['tags'];
-        $block = false;
-
-        if (count($assigned_tags) > 0) {
-            foreach ($assigned_tags as $assigned_tag) {
-                /**
-                 * @todo This should check the tags defined in list options, not ul and ol directly
-                 */
-                if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
-                    $block = true;
-                }
-            }
-        }
-
-        if ($block === false) {
-            $this->content[$last_item]['tags'] = array();
-            foreach ($assigned_tags as $assigned_tag) {
-                $this->content[$last_item]['tags'][] = $assigned_tag;
-            }
-            $this->content[$last_item]['tags'][] = array(
-                'open' => null,
-                'close' => '</' . $this->options['container'] . '>',
-            );
-        }
-    }
-
-    /**
-     * Check to see if the ifrst content item is a block element, if not add container
-     */
-    protected function firstItemBlockElement()
-    {
-        $assigned_tags = $this->content[0]['tags'];
-        $block = false;
-
-        if (count($assigned_tags) > 0) {
-            foreach ($assigned_tags as $assigned_tag) {
-                /**
-                 * @todo This should check the tags defined in list options, not ul and ol directly
-                 */
-                if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
-                    $block = true;
-                }
-            }
-        }
-
-        if ($block === false) {
-            $this->content[0]['tags'][] = array(
-                'open' => '<' . $this->options['container'] . '>',
-                'close' => null
-            );
-            foreach ($assigned_tags as $assigned_tag) {
-                $this->content[0]['tags'][] = $assigned_tag;
-            }
-        }
     }
 }

@@ -30,22 +30,8 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
     public function testNewlineAdded()
     {
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n sit amet"}]}';
-        $expected = '<p>Lorem ipsum dolor<br /> sit amet</p>';
+        $expected = "<p>Lorem ipsum dolor\n sit amet</p>";
         $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
-    }
-
-    public function testNewlineAttributeOptionSet()
-    {
-        $this->assertTrue($this->renderer->setOption('newline', 'hr'), __METHOD__ . ' failed');
-    }
-
-    public function testNewlineHrTag()
-    {
-        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n sit amet"}]}';
-        $expected = '<p>Lorem ipsum dolor<hr /> sit amet</p>';
-        $this->renderer->load($deltas);
-        $this->renderer->setOption('newline', 'hr');
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 
@@ -76,7 +62,7 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
     public function testStripFinalNewline()
     {
         $deltas = '{"ops":[{"insert":"Some how we are getting an erroneous br tag at the end of the html.\n"}]}';
-        $expected = '<p>Some how we are getting an erroneous br tag at the end of the html.</p>';
+        $expected = "<p>Some how we are getting an erroneous br tag at the end of the html.\n</p>";
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }

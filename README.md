@@ -44,9 +44,6 @@ Bold | `<strong>`
 Italic | `<em>`
 Underline | `<u>`
 Strike | `<s>`
-Ordered list | `<ol>`
-Bullet list | `<ul>`
-
 
 ## Planned features
 
