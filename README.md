@@ -1,3 +1,4 @@
+[![Latest Stable Version](https://img.shields.io/packagist/v/deanblackborough/php-quill-renderer.svg?style=flat-square)](https://packagist.org/packages/deanblackborough/php-quill-renderer)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dlayer/dlayer/blob/master/LICENSE)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 [![Build Status](https://travis-ci.org/deanblackborough/php-quill-renderer.svg?branch=master)](https://travis-ci.org/deanblackborough/php-quill-renderer)
@@ -10,8 +11,7 @@
 
 ## Description
 
-Simple Quill delta insert renderer, currently it only supports the attributes I require, 'italic', 'bold', 'underline' 
-and 'strike', I will add support for additional attributes as I need them in Dlayer.
+Simple Quill delta insert renderer, currently it only supports the attributes listed below, I will add support for additional attributes as I need them in Dlayer.
 
 Created for use in [Dlayer](https://github.com/Dlayer/dlayer) but works as a stand-alone tool.
 
@@ -31,8 +31,10 @@ use for the `container` and `newline`.
  
 ### Default options
 
-* `container`: `p`
-*  `newline`: `br`
+Separator | HTML Tag
+--- | --- 
+Container | `<p>`
+Newline | `<br />`
 
 #### Default attribute options
 
@@ -42,6 +44,9 @@ Bold | `<strong>`
 Italic | `<em>`
 Underline | `<u>`
 Strike | `<s>`
+Ordered list | `<ol>`
+Bullet list | `<ul>`
+
 
 ## Planned features
 
