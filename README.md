@@ -19,9 +19,9 @@ The easiest way to use the renderer is with composer. ```composer require deanbl
 alternatively include the classes in src/ in your library.
  
 ## Usage
-* Instantiate the render, either use default option or pass in custom options ```$renderer = new \DBlackborough\Quill\Renderer();```
+* Instantiate the renderer, either use the default options or pass in your custom options ```$renderer = new \DBlackborough\Quill\Renderer\Html();```
 * Load the json ```$renderer->load($json);```. Returns TRUE|FALSE
-* Return html ```echo $renderer->toHtml();```
+* Return html ```echo $renderer->render();```
 
 ## Options
 The html tag to use for the `bold`, `italic`, `strike` and `underline` attributes can be set along with the tags to 
@@ -45,5 +45,6 @@ Strike | `<s>`
 
 ## Planned features
 
+* Lists (Bullets and Ordered)
 * Links
 * External images
