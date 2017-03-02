@@ -3,16 +3,19 @@
 
 Full changelog for PHP Quill Renderer
 
-## Dev master
+## v0.20.1 - 2017-03-02
+
+* Updated the README, example incorrect.
+* Updated all method documentation
 
 ### v0.20 - 2017-02-26
+
+I got most of the way through adding basic support for lists and then stumbled on a problem, I need to rework 
+ how new lines are handled and tidy up the code, needs to be come aware of block elements.
 
 * Reworked rendering code.
 * Added base class so additional rendering class can be developed, for example a markdown renderer.
 
-I got most of the way through adding basic support for lists and then stumbled on a problem, I need to rework 
- how new lines are handled and tidy up the code, needs to be come aware of block elements.
- 
 ### v0.10 - 2017-02-26
 
 * Newline correctly trimmed from final insert. [Bugfix]
