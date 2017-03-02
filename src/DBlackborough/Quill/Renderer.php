@@ -33,11 +33,6 @@ abstract class Renderer
     protected $options = array();
 
     /**
-     * @var array
-     */
-    protected $errors;
-
-    /**
      * @var boolean
      */
     protected $content_valid = false;
@@ -65,7 +60,7 @@ abstract class Renderer
     }
 
     /**
-     * Default options
+     * Set default options for renderer
      *
      * @return array
      */
@@ -83,23 +78,24 @@ abstract class Renderer
     {
         $valid = false;
 
-        switch ($attribute)
-        {
+        switch ($attribute) {
             case 'bold':
             case 'italic':
             case 'underline':
             case 'strike':
-                if(array_key_exists('attributes', $this->options) === true &&
+                if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
-                    $value === true) {
+                    $value === true
+                ) {
 
                     $valid = true;
                 }
                 break;
             case 'list':
-                if(array_key_exists('attributes', $this->options) === true &&
+                if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists('list', $this->options['attributes']) === true &&
-                    array_key_exists($value, $this->options['attributes']['list']) === true) {
+                    array_key_exists($value, $this->options['attributes']['list']) === true
+                ) {
 
                     $valid = true;
                 }
@@ -114,7 +110,7 @@ abstract class Renderer
     }
 
     /**
-     * Default options
+     * Get the currently defined options
      *
      * @return array
      */
@@ -165,7 +161,8 @@ abstract class Renderer
     public function setAttributeOption($option, $value)
     {
         if (array_key_exists('attributes', $this->options) === true &&
-            array_key_exists($option, $this->options['attributes']) === true) {
+            array_key_exists($option, $this->options['attributes']) === true
+        ) {
 
             $this->options['attributes'][$option] = $value;
             return true;
@@ -191,12 +188,16 @@ abstract class Renderer
         }
     }
 
-     /**
+    /**
+     * Loop through the deltas and generate the contents array
+     *
      * @return string
      */
     abstract protected function parseDeltas();
 
     /**
+     * Generate the final output the contents array
+     *
      * @return string
      */
     abstract public function render();
