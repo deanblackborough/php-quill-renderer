@@ -30,7 +30,7 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
     public function testNewlineAdded()
     {
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor\n sit amet"}]}';
-        $expected = "<p>Lorem ipsum dolor\n sit amet</p>";
+        $expected = "<p>Lorem ipsum dolor<br /> sit amet</p>";
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
@@ -63,6 +63,14 @@ final class NewlineTest extends \PHPUnit_Framework_TestCase
     {
         $deltas = '{"ops":[{"insert":"Some how we are getting an erroneous br tag at the end of the html.\n"}]}';
         $expected = "<p>Some how we are getting an erroneous br tag at the end of the html.\n</p>";
+        $this->renderer->load($deltas);
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
+    }
+
+    public function testMultipleDoubleandSingleNewlines()
+    {
+        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor.\nsit amet\n\nLorem ipsum dolor.\nsit amet\n\nsit amet\n\nsite amet\n\nLorem ipsum dolor.\nsit amet\n"}]}';
+        $expected = '<p>Lorem ipsum dolor.<br />>sit amet</p><p>Lorem ipsum dolor.<br />sit amet</p><p>sit amet</p><p>site amet</p><p>Lorem ipsum dolor.<br />sit amet</p></div>';
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
