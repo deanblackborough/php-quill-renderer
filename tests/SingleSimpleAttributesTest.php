@@ -17,6 +17,7 @@ final class SingleSimpleAttributesTest extends \PHPUnit_Framework_TestCase
     private $italic_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"italic":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $strike_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"strike":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $underline_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"underline":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $link_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet, "},{"attributes":{"link":"http://www,example.com"},"insert":"consectetur"},{"insert":" adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. \n\nIn vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. "},{"attributes":{"link":"http://www.examle.com"},"insert":"Etiam "},{"insert":"sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. \n\nAliquam erat eros, dignissim in quam id.\n"}]}';
 
     public function setUp()
     {
@@ -68,6 +69,13 @@ final class SingleSimpleAttributesTest extends \PHPUnit_Framework_TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
         $this->renderer->load($this->strike_deltas);
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
+    }
+
+    public function testLinksBecomeAHrefs()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet, <a href="http://www.example.com">consectetur</a> adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. </p><p>In vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. <a href="http://www.example.com">Etiam</a> sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. </p><p>Aliquam erat eros, dignissim in quam id.</p>';
+        $this->renderer->load($this->link_deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 }
