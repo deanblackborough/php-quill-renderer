@@ -285,17 +285,14 @@ class Html extends Renderer
                 }
 
                 if ($k === ($inserts-1)) {
-                    $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . ' />');
+                    $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . " />\n");
                 }
 
                 $i++;
             }
 
             if (count($this->content) > 0) {
-
-                // Check to see if first item a block element, if not add container tag
                 $this->firstItemBlockElement();
-
                 $this->LastItemBlockElement();
             }
         }

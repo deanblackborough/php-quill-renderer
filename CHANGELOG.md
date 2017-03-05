@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+# v0.30.0 - 
+
+* Reworked the newline replacement
+
 ## v0.20.1 - 2017-03-02
 
 * Updated the README, example incorrect.
