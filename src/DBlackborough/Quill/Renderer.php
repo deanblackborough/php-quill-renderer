@@ -85,8 +85,7 @@ abstract class Renderer
             case 'strike':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
-                    $value === true
-                ) {
+                    $value === true) {
 
                     $valid = true;
                 }
@@ -94,12 +93,20 @@ abstract class Renderer
             case 'list':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists('list', $this->options['attributes']) === true &&
-                    array_key_exists($value, $this->options['attributes']['list']) === true
-                ) {
+                    array_key_exists($value, $this->options['attributes']['list']) === true) {
 
                     $valid = true;
                 }
                 break;
+            case 'link':
+                if (array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    strlen($value) > 0) {
+
+                    $valid = true;
+                }
+                break;
+
 
             default:
                 // Do nothing, valid already set to false

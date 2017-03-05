@@ -44,9 +44,9 @@ class Html extends Renderer
                 'italic' => 'em',
                 'underline' => 'u',
                 'strike' => 's',
-                'list' => array(
-                    'bullet' => array('ul', 'li'),
-                    'ordered' => array('ol', 'li')
+                'link' => array(
+                    'outer' => 'a',
+                    'attribute' => 'href'
                 )
             ),
             'container' => 'p',
@@ -70,11 +70,8 @@ class Html extends Renderer
             case 'italic':
             case 'underline':
             case 'strike':
+            case 'link':
                 return $this->options['attributes'][$attribute];
-                break;
-
-            case 'list':
-                return $this->options['attributes']['list'][$value];
                 break;
 
             default:
@@ -127,12 +124,7 @@ class Html extends Renderer
 
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
-                /**
-                 * @todo This should check the tags defined in list options, not ul and ol directly
-                 */
-                if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
-                    $block = true;
-                }
+                // Block element check
             }
         }
 
@@ -159,12 +151,7 @@ class Html extends Renderer
 
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
-                /**
-                 * @todo This should check the tags defined in list options, not ul and ol directly
-                 */
-                if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
-                    $block = true;
-                }
+                // Block element check
             }
         }
 
@@ -191,9 +178,6 @@ class Html extends Renderer
             $inserts = count($this->deltas['ops']);
 
             $i = 0;
-
-            $list = false;
-            $list_item = 0;
 
             foreach ($this->deltas['ops'] as $k => $insert) {
 
@@ -228,48 +212,7 @@ class Html extends Renderer
                                 'close' => '</' . $tag . '>'
                             );
                         } else {
-                            if ($tag[1] === 'li') {
-                                if ($list === false) {
-                                    $list = true;
-                                    $list_item = 0;
-                                }
-
-                                if ($list_item === 0) {
-                                    $this->content[$i-1]['tags'][] = array(
-                                        'open' => '<' . $tag[0] . '>',
-                                        'close' => null
-                                    );
-                                }
-                            }
-                            $this->content[$i-1]['tags'][] = array(
-                                'open' => '<' . $tag[1] . '>',
-                                'close' => '</' . $tag[1] . '>'
-                            );
-
-                            // Remove previous closing tag if exists
-                            if($i > 1) {
-                                $previous_tags = $this->content[$i - 2]['tags'];
-                                $new_previous_tags = array();
-                                foreach ($previous_tags as $previous_tag_item) {
-                                    if (array_key_exists('close', $previous_tag_item) === true &&
-                                        $previous_tag_item['close'] !== '</' . $tag[0] . '>'
-                                    ) {
-                                        $new_previous_tags = $previous_tag_item;
-                                    }
-                                }
-
-                                $this->content[$i - 2]['tags'] = $new_previous_tags;
-                            }
-
-                            // Add closing tag to list, removed if we loop again
-                            $this->content[$i]['tags'][] = array(
-                                'open' => null,
-                                'close' => '</' . $tag[0] . '>'
-                            );
-
-                            if ($list === true) {
-                                $list_item++;
-                            }
+                            // Complex replacement
                         }
                     }
                 }
