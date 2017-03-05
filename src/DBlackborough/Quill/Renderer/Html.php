@@ -107,6 +107,7 @@ class Html extends Renderer
 
         }
         $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['container'] . '><' . $this->options['container'] . '>', $subject);
+        $subject = preg_replace("/[\n]{1}/", "<" . $this->options['newline'] . " />\n", $subject);
 
         return array(
             'tags' => $tags,
