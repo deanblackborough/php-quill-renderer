@@ -40,29 +40,39 @@ class Html extends Renderer
     {
         return array(
             'attributes' => array(
-                'bold' => 'strong',
-                'italic' => 'em',
-                'underline' => 'u',
-                'strike' => 's',
-                'list' => array(
-                    'bullet' => array('ul', 'li'),
-                    'ordered' => array('ol', 'li')
+                'bold' => array(
+                    'tag' => 'strong'
+                ),
+                'italic' => array(
+                    'tag' => 'em'
+                ),
+                'underline' => array(
+                    'tag' => 'u'
+                ),
+                'strike' => array(
+                    'tag' => 's'
+                ),
+                'link' => array(
+                    'tag' => 'a',
+                    'attributes' => array(
+                        'href' => null
+                    )
                 )
             ),
-            'container' => 'p',
+            'block' => 'p',
             'newline' => 'br'
         );
     }
 
     /**
-     * Get the HTML attribute tag(s) that corresponds to the Quill attribute
+     * Get the tag(s) and attributes/values that have been defined for the quill attribute.
      *
      * @param string $attribute
      * @param string $value
      *
-     * @return string|null
+     * @return array|false
      */
-    protected function getAttributeTag($attribute, $value)
+    protected function getTagAndAttributes($attribute, $value)
     {
         switch ($attribute)
         {
@@ -73,19 +83,21 @@ class Html extends Renderer
                 return $this->options['attributes'][$attribute];
                 break;
 
-            case 'list':
-                return $this->options['attributes']['list'][$value];
+            case 'link':
+                $result = $this->options['attributes'][$attribute];
+                $result['attributes']['href'] = $value;
+                return $result;
                 break;
 
             default:
                 // Do nothing, valid already set to false
-                return null;
+                return false;
                 break;
         }
     }
 
     /**
-     * Convert new lines into containers and newlines
+     * Convert new lines into blocks and newlines
      *
      * @param string $subject
      * @param integer $i Content array index
@@ -98,15 +110,16 @@ class Html extends Renderer
         if (preg_match("/[\n]{2,} */", $subject) === true) {
             $tags[] = array(
                 'open' => null,
-                'close' => '</' . $this->options['container'] . '>'
+                'close' => '</' . $this->options['block'] . '>'
             );
             $tags[] = array(
-                'open' => '<' . $this->options['container'] . '>',
+                'open' => '<' . $this->options['block'] . '>',
                 'close' => null,
             );
 
         }
-        $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['container'] . '><' . $this->options['container'] . '>', $subject);
+        $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['block'] . '><' . $this->options['block'] . '>', $subject);
+        $subject = preg_replace("/[\n]{1}/", "<" . $this->options['newline'] . " />\n", $subject);
 
         return array(
             'tags' => $tags,
@@ -116,7 +129,7 @@ class Html extends Renderer
 
     /**
      * Check to see if the last content item is a block element, if it isn't add the default block element
-     * defined by the container option
+     * defined by the block option
      */
     protected function lastItemBlockElement()
     {
@@ -126,12 +139,7 @@ class Html extends Renderer
 
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
-                /**
-                 * @todo This should check the tags defined in list options, not ul and ol directly
-                 */
-                if ($assigned_tag['close'] === '</ol>' || $assigned_tag['close'] === '</ul>') {
-                    $block = true;
-                }
+                // Block element check
             }
         }
 
@@ -142,14 +150,14 @@ class Html extends Renderer
             }
             $this->content[$last_item]['tags'][] = array(
                 'open' => null,
-                'close' => '</' . $this->options['container'] . '>',
+                'close' => '</' . $this->options['block'] . '>',
             );
         }
     }
 
     /**
      * Check to see if the first content item is a block element, if it isn't add the default block element
-     * defined by the container option
+     * defined by the block option
      */
     protected function firstItemBlockElement()
     {
@@ -158,18 +166,13 @@ class Html extends Renderer
 
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
-                /**
-                 * @todo This should check the tags defined in list options, not ul and ol directly
-                 */
-                if ($assigned_tag['open'] === '<ol>' || $assigned_tag['open'] === '<ul>') {
-                    $block = true;
-                }
+                // Block element check
             }
         }
 
         if ($block === false) {
             $this->content[0]['tags'][] = array(
-                'open' => '<' . $this->options['container'] . '>',
+                'open' => '<' . $this->options['block'] . '>',
                 'close' => null
             );
             foreach ($assigned_tags as $assigned_tag) {
@@ -191,9 +194,6 @@ class Html extends Renderer
 
             $i = 0;
 
-            $list = false;
-            $list_item = 0;
-
             foreach ($this->deltas['ops'] as $k => $insert) {
 
                 $this->content[$i] = array(
@@ -207,8 +207,8 @@ class Html extends Renderer
                 if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
                     foreach ($insert['attributes'] as $attribute => $value) {
                         if ($this->isAttributeValid($attribute, $value) === true) {
-                            $tag = $this->getAttributeTag($attribute, $value);
-                            if ($tag !== null) {
+                            $tag = $this->getTagAndAttributes($attribute, $value);
+                            if ($tag !== false) {
                                 $tags[] = $tag;
                             }
                         }
@@ -221,55 +221,19 @@ class Html extends Renderer
 
                 if ($has_tags === true) {
                     foreach ($tags as $tag) {
-                        if (is_array($tag) === false) {
-                            $this->content[$i]['tags'][] = array(
-                                'open' => '<' . $tag . '>',
-                                'close' => '</' . $tag . '>'
-                            );
-                        } else {
-                            if ($tag[1] === 'li') {
-                                if ($list === false) {
-                                    $list = true;
-                                    $list_item = 0;
-                                }
-
-                                if ($list_item === 0) {
-                                    $this->content[$i-1]['tags'][] = array(
-                                        'open' => '<' . $tag[0] . '>',
-                                        'close' => null
-                                    );
-                                }
-                            }
-                            $this->content[$i-1]['tags'][] = array(
-                                'open' => '<' . $tag[1] . '>',
-                                'close' => '</' . $tag[1] . '>'
-                            );
-
-                            // Remove previous closing tag if exists
-                            if($i > 1) {
-                                $previous_tags = $this->content[$i - 2]['tags'];
-                                $new_previous_tags = array();
-                                foreach ($previous_tags as $previous_tag_item) {
-                                    if (array_key_exists('close', $previous_tag_item) === true &&
-                                        $previous_tag_item['close'] !== '</' . $tag[0] . '>'
-                                    ) {
-                                        $new_previous_tags = $previous_tag_item;
-                                    }
-                                }
-
-                                $this->content[$i - 2]['tags'] = $new_previous_tags;
-                            }
-
-                            // Add closing tag to list, removed if we loop again
-                            $this->content[$i]['tags'][] = array(
-                                'open' => null,
-                                'close' => '</' . $tag[0] . '>'
-                            );
-
-                            if ($list === true) {
-                                $list_item++;
+                        $open = '<' . $tag['tag'];
+                        if (array_key_exists('attributes', $tag) === true) {
+                            $open .= ' ';
+                            foreach ($tag['attributes'] as $attribute => $value) {
+                                $open .= $attribute . '="' . $value . '"';
                             }
                         }
+                        $open .= '>';
+
+                        $this->content[$i]['tags'][] = array(
+                            'open' => $open,
+                            'close' => '</' . $tag['tag'] . '>',
+                        );
                     }
                 }
 
@@ -284,17 +248,14 @@ class Html extends Renderer
                 }
 
                 if ($k === ($inserts-1)) {
-                    $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . ' />');
+                    $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . " />\n");
                 }
 
                 $i++;
             }
 
             if (count($this->content) > 0) {
-
-                // Check to see if first item a block element, if not add container tag
                 $this->firstItemBlockElement();
-
                 $this->LastItemBlockElement();
             }
         }

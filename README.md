@@ -42,6 +42,7 @@ Bold | `<strong>`
 Italic | `<em>`
 Underline | `<u>`
 Strike | `<s>`
+Link | `<a>`
 
 ## Planned features
 
