@@ -35,9 +35,9 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 
-    public function testContainerAttributeOptionSet()
+    public function testBlockAttributeOptionSet()
     {
-        $this->assertTrue($this->renderer->setOption('container', 'div'), __METHOD__ . ' failed');
+        $this->assertTrue($this->renderer->setOption('block', 'div'), __METHOD__ . ' failed');
     }
 
     public function testDivAAroundOneInsert()
@@ -45,7 +45,7 @@ final class ContainerTest extends \PHPUnit_Framework_TestCase
         $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
         $expected = '<div>Lorem ipsum dolor sit amet</div>';
         $this->renderer->load($deltas);
-        $this->renderer->setOption('container', 'div');
+        $this->renderer->setOption('block', 'div');
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 }

@@ -90,14 +90,6 @@ abstract class Renderer
                     $valid = true;
                 }
                 break;
-            case 'list':
-                if (array_key_exists('attributes', $this->options) === true &&
-                    array_key_exists('list', $this->options['attributes']) === true &&
-                    array_key_exists($value, $this->options['attributes']['list']) === true) {
-
-                    $valid = true;
-                }
-                break;
             case 'link':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
@@ -171,7 +163,7 @@ abstract class Renderer
             array_key_exists($option, $this->options['attributes']) === true
         ) {
 
-            $this->options['attributes'][$option] = $value;
+            $this->options['attributes'][$option]['tag'] = $value;
             return true;
         } else {
             return false;
