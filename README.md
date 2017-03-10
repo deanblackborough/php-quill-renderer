@@ -40,12 +40,15 @@ Quill Attribute | HTML Tag
 --- | --- 
 Bold | `<strong>`
 Italic | `<em>`
-Underline | `<u>`
-Strike | `<s>`
 Link | `<a>`
+Strike | `<s>`
+Script:Sub | `<sub>`
+Script:Super | `<sup>`
+Underline | `<u>`
 
-## Planned features
+## Planned features in possible order
 
 * Lists (Bullets and Ordered)
-* Links
+* Formatting
 * External images
+* Remaining toolbar options

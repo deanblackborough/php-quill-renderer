@@ -46,18 +46,26 @@ class Html extends Renderer
                 'italic' => array(
                     'tag' => 'em'
                 ),
-                'underline' => array(
-                    'tag' => 'u'
-                ),
-                'strike' => array(
-                    'tag' => 's'
-                ),
                 'link' => array(
                     'tag' => 'a',
                     'attributes' => array(
                         'href' => null
                     )
-                )
+                ),
+                'script' => array(
+                    'sub' => array(
+                        'tag' => 'sub'
+                    ),
+                    'super' => array(
+                        'tag' => 'sup'
+                    )
+                ),
+                'strike' => array(
+                    'tag' => 's'
+                ),
+                'underline' => array(
+                    'tag' => 'u'
+                ),
             ),
             'block' => 'p',
             'newline' => 'br'
@@ -81,6 +89,10 @@ class Html extends Renderer
             case 'underline':
             case 'strike':
                 return $this->options['attributes'][$attribute];
+                break;
+
+            case 'script':
+                return $this->options['attributes'][$attribute][$value];
                 break;
 
             case 'link':
