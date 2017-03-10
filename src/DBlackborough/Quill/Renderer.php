@@ -90,6 +90,14 @@ abstract class Renderer
                     $valid = true;
                 }
                 break;
+            case 'script':
+                if (array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    in_array($value, array('sub', 'super')) === true) {
+
+                    $valid = true;
+                }
+                break;
             case 'link':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
@@ -160,8 +168,7 @@ abstract class Renderer
     public function setAttributeOption($option, $value)
     {
         if (array_key_exists('attributes', $this->options) === true &&
-            array_key_exists($option, $this->options['attributes']) === true
-        ) {
+            array_key_exists($option, $this->options['attributes']) === true) {
 
             $this->options['attributes'][$option]['tag'] = $value;
             return true;

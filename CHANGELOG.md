@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+# v0.40.0 - 2017-03-10 
+
+* Added support for sub and super script.
+
 # v0.30.0 - 2017-03-06
 
 * Added support for links. [Feature]
