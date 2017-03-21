@@ -43,6 +43,29 @@ class Html extends Renderer
                 'bold' => array(
                     'tag' => 'strong'
                 ),
+                'header' => array(
+                    '1' => array(
+                        'tag' => 'h1'
+                    ),
+                    '2' => array(
+                        'tag' => 'h2'
+                    ),
+                    '3' => array(
+                        'tag' => 'h3'
+                    ),
+                    '4' => array(
+                        'tag' => 'h4'
+                    ),
+                    '5' => array(
+                        'tag' => 'h5'
+                    ),
+                    '6' => array(
+                        'tag' => 'h6'
+                    ),
+                    '7' => array(
+                        'tag' => 'h7'
+                    )
+                ),
                 'italic' => array(
                     'tag' => 'em'
                 ),
@@ -86,11 +109,12 @@ class Html extends Renderer
         {
             case 'bold':
             case 'italic':
-            case 'underline':
             case 'strike':
+            case 'underline':
                 return $this->options['attributes'][$attribute];
                 break;
 
+            case 'header':
             case 'script':
                 return $this->options['attributes'][$attribute][$value];
                 break;
@@ -152,6 +176,9 @@ class Html extends Renderer
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
                 // Block element check
+                if (in_array($assigned_tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7')) === true) {
+                    $block = true;
+                }
             }
         }
 
@@ -196,7 +223,7 @@ class Html extends Renderer
     /**
      * Loop through the deltas and generate the contents array
      *
-     * @return string
+     * @return void
      */
     protected function parseDeltas()
     {
@@ -233,6 +260,9 @@ class Html extends Renderer
 
                 if ($has_tags === true) {
                     foreach ($tags as $tag) {
+
+                        $assign_tag_to_current_element = $this->assignTagCurrentElement($tag['tag']);
+
                         $open = '<' . $tag['tag'];
                         if (array_key_exists('attributes', $tag) === true) {
                             $open .= ' ';
@@ -242,7 +272,13 @@ class Html extends Renderer
                         }
                         $open .= '>';
 
-                        $this->content[$i]['tags'][] = array(
+                        if ($assign_tag_to_current_element === true) {
+                            $tag_counter = $i;
+                        } else {
+                            $tag_counter = $i - 1;
+                        }
+
+                        $this->content[$tag_counter]['tags'][] = array(
                             'open' => $open,
                             'close' => '</' . $tag['tag'] . '>',
                         );
@@ -265,14 +301,55 @@ class Html extends Renderer
 
                 $i++;
             }
-
-            if (count($this->content) > 0) {
-                $this->firstItemBlockElement();
-                $this->LastItemBlockElement();
-            }
         }
 
         $this->content_valid = true;
+    }
+
+    /**
+     * Do we need to assign th tags to the current element or the previous?
+     *
+     * @param string $tag
+     *
+     * @return boolean
+     */
+    protected function assignTagCurrentElement($tag)
+    {
+        if (in_array($tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7')) === false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Check whether block elements are valid for first and last elements in array, must open with a
+     * block element and close with one
+     *
+     * @return void
+     */
+    protected function lastAndFirstElementsBlocks()
+    {
+        if (count($this->content) > 0) {
+            //$this->firstItemBlockElement();
+            $this->LastItemBlockElement();
+        }
+    }
+
+    /**
+     * Remove empty elements from the contents array, occurs when a tag is assigned to any earlier element
+     *
+     * @return void
+     */
+    protected function removeEmptyElements()
+    {
+        $existing_content = $this->content;
+        $this->content = array();
+        foreach ($existing_content as $content) {
+            if (strlen($content['content']) !== 0) {
+                $this->content[] = $content;
+            }
+        }
     }
 
     /**
@@ -283,6 +360,16 @@ class Html extends Renderer
     public function render()
     {
         $this->parseDeltas();
+
+        var_dump($this->content);
+
+        $this->removeEmptyElements();
+
+        var_dump($this->content);
+
+        $this->lastAndFirstElementsBlocks();
+
+        var_dump($this->content);
 
         if ($this->content_valid === true) {
             foreach ($this->content as $content) {
