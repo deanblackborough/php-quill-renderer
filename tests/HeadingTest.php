@@ -29,11 +29,27 @@ final class HeadingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
     }
 
-    /*public function testSingleHeadingH2()
+    public function testSingleHeadingH2()
     {
         $deltas = '{"ops":[{"insert":"Heading 2"},{"attributes":{"header":2},"insert":"\n"}]}';
         $expected = "<h2>Heading 2</h2>";
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
-    }*/
+    }
+
+    public function testHeadingThenText()
+    {
+        $deltas = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n"}]}';
+        $expected = "<h2>This is a heading</h2><p>Now some normal text.</p>";
+        $this->renderer->load($deltas);
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
+    }
+
+    public function testHeadingTextThenHeading()
+    {
+        $deltas = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n"},{"attributes":{"header":1},"insert":"\n"},{"insert":"Now another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
+        $expected = "<h2>This is a heading</h2><p>Now some normal text.</p><h1>Now another heading</h1>";
+        $this->renderer->load($deltas);
+        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
+    }
 }

@@ -176,8 +176,9 @@ class Html extends Renderer
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
                 // Block element check
-                if (in_array($assigned_tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7')) === true) {
+                if (in_array($assigned_tag['close'], array('</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</h7>')) === true) {
                     $block = true;
+                    continue;
                 }
             }
         }
@@ -206,6 +207,10 @@ class Html extends Renderer
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
                 // Block element check
+                if (in_array($assigned_tag['open'], array('<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>')) === true) {
+                    $block = true;
+                    continue;
+                }
             }
         }
 
@@ -331,7 +336,7 @@ class Html extends Renderer
     protected function lastAndFirstElementsBlocks()
     {
         if (count($this->content) > 0) {
-            //$this->firstItemBlockElement();
+            $this->firstItemBlockElement();
             $this->LastItemBlockElement();
         }
     }
@@ -361,15 +366,9 @@ class Html extends Renderer
     {
         $this->parseDeltas();
 
-        var_dump($this->content);
-
         $this->removeEmptyElements();
 
-        var_dump($this->content);
-
         $this->lastAndFirstElementsBlocks();
-
-        var_dump($this->content);
 
         if ($this->content_valid === true) {
             foreach ($this->content as $content) {
