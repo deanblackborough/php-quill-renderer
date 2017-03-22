@@ -136,10 +136,10 @@ class Html extends Renderer
      * Convert new lines into blocks and newlines
      *
      * @param string $subject
-     * @param integer $i Content array index
+     *
      * @return array Two indexes, subject and tags
      */
-    protected function convertNewlines($subject, $i)
+    protected function convertNewlines($subject)
     {
         $tags = array();
 
@@ -164,10 +164,9 @@ class Html extends Renderer
     }
 
     /**
-     * Check to see if the last content item is a block element, if it isn't add the default block element
-     * defined by the block option
+     * Check to see if the last item in the content array is a closed block element
      */
-    protected function lastItemBlockElement()
+    protected function LastItemClosed()
     {
         $last_item = count($this->content) - 1;
         $assigned_tags = $this->content[$last_item]['tags'];
@@ -176,7 +175,7 @@ class Html extends Renderer
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
                 // Block element check
-                if (in_array($assigned_tag['close'], array('</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</h7>')) === true) {
+                if (in_array($assigned_tag['close'], array('</p>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</h7>')) === true) {
                     $block = true;
                     continue;
                 }
@@ -226,7 +225,136 @@ class Html extends Renderer
     }
 
     /**
-     * Loop through the deltas and generate the contents array
+     * Split the inserts if a newline is found and generate a new insert
+     *
+     * @return void
+     */
+    protected function splitDeltas()
+    {
+        $deltas = $this->deltas['ops'];
+        $this->deltas = array();
+
+        foreach ($deltas as $delta) {
+
+            if (array_key_exists('insert', $delta) === true && array_key_exists('attributes', $delta) === false &&
+                preg_match("/[\n]{1}/", $delta['insert']) !== 0) {
+
+                foreach (explode("\n", $delta['insert']) as $insert) {
+                    if (strlen(trim($insert)) > 0) {
+                        $this->deltas[] = array('insert' => $insert);
+                    }
+                }
+            } else {
+                $this->deltas[] = $delta;
+            }
+        }
+
+    }
+
+    /**
+     * Assign the relevant HTML tags based upon the defined quill attribute
+     *
+     * @return void
+     */
+    protected function assignTags()
+    {
+        $i = 0;
+
+        foreach ($this->deltas as $insert) {
+
+            $this->content[$i] = array(
+                'content' => null,
+                'tags' => array()
+            );
+
+            $tags = array();
+            $has_tags = false;
+
+            if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
+                foreach ($insert['attributes'] as $attribute => $value) {
+                    if ($this->isAttributeValid($attribute, $value) === true) {
+                        $tag = $this->getTagAndAttributes($attribute, $value);
+                        if ($tag !== false) {
+                            $tags[] = $tag;
+                        }
+                    }
+                }
+            }
+
+            if (count($tags) > 0) {
+                $has_tags = true; // Set bool so we don't need to check array size again
+            }
+
+            if ($has_tags === true) {
+                foreach ($tags as $tag) {
+
+                    $assign_tag_to_current_element = $this->assignTagCurrentElement($tag['tag']);
+
+                    $open = '<' . $tag['tag'];
+                    if (array_key_exists('attributes', $tag) === true) {
+                        $open .= ' ';
+                        foreach ($tag['attributes'] as $attribute => $value) {
+                            $open .= $attribute . '="' . $value . '"';
+                        }
+                    }
+                    $open .= '>';
+
+                    if ($assign_tag_to_current_element === true) {
+                        $tag_counter = $i;
+                    } else {
+                        $tag_counter = $i - 1;
+                    }
+
+                    $this->content[$tag_counter]['tags'][] = array(
+                        'open' => $open,
+                        'close' => '</' . $tag['tag'] . '>',
+                    );
+                }
+            }
+
+            if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
+                $this->content[$i]['content'] = $insert['insert'];
+            }
+
+            $i++;
+        }
+    }
+
+    /**
+     * Assign paragraph tags
+     *
+     * @return void
+     */
+    protected function assignParagraphs()
+    {
+        $open_paragraph = false;
+
+        foreach ($this->content as $i => $content) {
+
+            if (count($content['tags']) === 0 && $open_paragraph === false) {
+                $open_paragraph = true;
+
+                $content['tags'][] = array(
+                    'open' => '<' . $this->options['block'] . '>',
+                    'close' => null
+                );
+
+                $this->content[$i]['tags'] = $content['tags'];
+            }
+
+            /*if (count($content['tags']) === 0 && $open_paragraph === true) {
+                $open_paragraph = false;
+
+                $this->content[$i]['tags'][] = array(
+                    'open' => null,
+                    'close' => '</' . $this->options['block'] . '>'
+                );
+            }*/
+        }
+    }
+
+    /**
+     * Loops through the deltas object and generate the contents array
      *
      * @return void
      */
@@ -234,81 +362,16 @@ class Html extends Renderer
     {
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
 
-            $inserts = count($this->deltas['ops']);
+            $this->splitDeltas();
 
-            $i = 0;
+            $this->assignTags();
 
-            foreach ($this->deltas['ops'] as $k => $insert) {
+            $this->removeEmptyElements();
 
-                $this->content[$i] = array(
-                    'content' => null,
-                    'tags' => array()
-                );
+            $this->assignParagraphs();
 
-                $tags = array();
-                $has_tags = false;
-
-                if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
-                    foreach ($insert['attributes'] as $attribute => $value) {
-                        if ($this->isAttributeValid($attribute, $value) === true) {
-                            $tag = $this->getTagAndAttributes($attribute, $value);
-                            if ($tag !== false) {
-                                $tags[] = $tag;
-                            }
-                        }
-                    }
-                }
-
-                if (count($tags) > 0) {
-                    $has_tags = true; // Set bool so we don't need to check array size again
-                }
-
-                if ($has_tags === true) {
-                    foreach ($tags as $tag) {
-
-                        $assign_tag_to_current_element = $this->assignTagCurrentElement($tag['tag']);
-
-                        $open = '<' . $tag['tag'];
-                        if (array_key_exists('attributes', $tag) === true) {
-                            $open .= ' ';
-                            foreach ($tag['attributes'] as $attribute => $value) {
-                                $open .= $attribute . '="' . $value . '"';
-                            }
-                        }
-                        $open .= '>';
-
-                        if ($assign_tag_to_current_element === true) {
-                            $tag_counter = $i;
-                        } else {
-                            $tag_counter = $i - 1;
-                        }
-
-                        $this->content[$tag_counter]['tags'][] = array(
-                            'open' => $open,
-                            'close' => '</' . $tag['tag'] . '>',
-                        );
-                    }
-                }
-
-                if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
-                    $content = $this->convertNewlines($insert['insert'], $i);
-                    if (count($content['tags']) > 0) {
-                        foreach($content['tags'] as $tag) {
-                            $this->content[$i]['tags'][] = $tag;
-                        }
-                    }
-                    $this->content[$i]['content'] = $content['subject'];
-                }
-
-                if ($k === ($inserts-1)) {
-                    $this->content[$i]['content'] = rtrim($this->content[$i]['content'], '<' . $this->options['newline'] . " />\n");
-                }
-
-                $i++;
-            }
+            $this->content_valid = true;
         }
-
-        $this->content_valid = true;
     }
 
     /**
@@ -324,20 +387,6 @@ class Html extends Renderer
             return true;
         } else {
             return false;
-        }
-    }
-
-    /**
-     * Check whether block elements are valid for first and last elements in array, must open with a
-     * block element and close with one
-     *
-     * @return void
-     */
-    protected function lastAndFirstElementsBlocks()
-    {
-        if (count($this->content) > 0) {
-            $this->firstItemBlockElement();
-            $this->LastItemBlockElement();
         }
     }
 
@@ -366,9 +415,7 @@ class Html extends Renderer
     {
         $this->parseDeltas();
 
-        $this->removeEmptyElements();
-
-        $this->lastAndFirstElementsBlocks();
+        $this->LastItemClosed();
 
         if ($this->content_valid === true) {
             foreach ($this->content as $content) {

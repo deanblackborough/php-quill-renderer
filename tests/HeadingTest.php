@@ -47,7 +47,7 @@ final class HeadingTest extends \PHPUnit_Framework_TestCase
 
     public function testHeadingTextThenHeading()
     {
-        $deltas = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n"},{"attributes":{"header":1},"insert":"\n"},{"insert":"Now another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
+        $deltas = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n\nNow another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
         $expected = "<h2>This is a heading</h2><p>Now some normal text.</p><h1>Now another heading</h1>";
         $this->renderer->load($deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
