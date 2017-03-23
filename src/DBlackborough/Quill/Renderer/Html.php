@@ -90,8 +90,7 @@ class Html extends Renderer
                     'tag' => 'u'
                 ),
             ),
-            'block' => 'p',
-            'newline' => 'br'
+            'block' => 'p'
         );
     }
 
@@ -133,40 +132,11 @@ class Html extends Renderer
     }
 
     /**
-     * Convert new lines into blocks and newlines
-     *
-     * @param string $subject
-     *
-     * @return array Two indexes, subject and tags
-     */
-    protected function convertNewlines($subject)
-    {
-        $tags = array();
-
-        if (preg_match("/[\n]{2,} */", $subject) === true) {
-            $tags[] = array(
-                'open' => null,
-                'close' => '</' . $this->options['block'] . '>'
-            );
-            $tags[] = array(
-                'open' => '<' . $this->options['block'] . '>',
-                'close' => null,
-            );
-
-        }
-        $subject = preg_replace("/[\n]{2,} */", '</' . $this->options['block'] . '><' . $this->options['block'] . '>', $subject);
-        $subject = preg_replace("/[\n]{1}/", "<" . $this->options['newline'] . " />\n", $subject);
-
-        return array(
-            'tags' => $tags,
-            'subject' => $subject
-        );
-    }
-
-    /**
      * Check to see if the last item in the content array is a closed block element
+     *
+     * @return void
      */
-    protected function LastItemClosed()
+    protected function lastItemClosed()
     {
         $last_item = count($this->content) - 1;
         $assigned_tags = $this->content[$last_item]['tags'];
@@ -225,7 +195,7 @@ class Html extends Renderer
     }
 
     /**
-     * Split the inserts if a newline is found and generate a new insert
+     * Split the inserts if multiple newlines are found and generate a new insert
      *
      * @return void
      */
@@ -235,20 +205,21 @@ class Html extends Renderer
         $this->deltas = array();
 
         foreach ($deltas as $delta) {
-
             if (array_key_exists('insert', $delta) === true && array_key_exists('attributes', $delta) === false &&
-                preg_match("/[\n]{1}/", $delta['insert']) !== 0) {
+                preg_match("/[\n]{2}/", $delta['insert']) !== 0) {
 
-                foreach (explode("\n", $delta['insert']) as $insert) {
-                    if (strlen(trim($insert)) > 0) {
-                        $this->deltas[] = array('insert' => $insert);
+                foreach (explode("\n\n", $delta['insert']) as $match) {
+                    if (strlen(trim($match)) > 0) {
+                        $this->deltas[] = array('insert' => str_replace("\n", '', $match));
                     }
                 }
             } else {
+                if (array_key_exists('insert', $delta) === true) {
+                    $delta['insert'] = str_replace("\n", '', $delta['insert']);
+                }
                 $this->deltas[] = $delta;
             }
         }
-
     }
 
     /**
@@ -321,13 +292,14 @@ class Html extends Renderer
     }
 
     /**
-     * Assign paragraph tags
+     * Open paragraphs
      *
      * @return void
      */
-    protected function assignParagraphs()
+    protected function openParagraphs()
     {
         $open_paragraph = false;
+        $opened_at = null;
 
         foreach ($this->content as $i => $content) {
 
@@ -336,20 +308,11 @@ class Html extends Renderer
 
                 $content['tags'][] = array(
                     'open' => '<' . $this->options['block'] . '>',
-                    'close' => null
+                    'close' => null,
                 );
 
                 $this->content[$i]['tags'] = $content['tags'];
             }
-
-            /*if (count($content['tags']) === 0 && $open_paragraph === true) {
-                $open_paragraph = false;
-
-                $this->content[$i]['tags'][] = array(
-                    'open' => null,
-                    'close' => '</' . $this->options['block'] . '>'
-                );
-            }*/
         }
     }
 
@@ -368,7 +331,11 @@ class Html extends Renderer
 
             $this->removeEmptyElements();
 
-            $this->assignParagraphs();
+            $this->openParagraphs();
+
+            $this->closeOpenParagraphs();
+
+            $this->lastItemClosed();
 
             $this->content_valid = true;
         }
@@ -407,6 +374,41 @@ class Html extends Renderer
     }
 
     /**
+     * Check to see if there are any open paragraphs followed by a block element
+     *
+     * @return void
+     */
+    protected function closeOpenParagraphs()
+    {
+        $open_paragraph = false;
+        $opened_at = null;
+
+        foreach ($this->content as $i => $content) {
+            if (array_key_exists('tags', $content) === true && count($content['tags']) === 1 &&
+                $content['tags'][0]['open'] === '<p>' && $content['tags'][0]['close'] === null) {
+
+                $open_paragraph = true;
+                $opened_at = $i;
+            }
+
+            if ($open_paragraph === true && $i !== $opened_at) {
+                if (array_key_exists('tags', $content) === true) {
+                    foreach ($content['tags'] as $tags) {
+                        $block_elements = array('<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>');
+                        if (in_array($tags['open'], $block_elements) === true) {
+                            $open_paragraph = false;
+                            $this->content[$i-1]['tags'][] = array(
+                                'open' => null,
+                                'close' => '</' . $this->options['block'] . '>'
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Generate the final HTML from the contents array
      *
      * @return string
@@ -414,8 +416,6 @@ class Html extends Renderer
     public function render()
     {
         $this->parseDeltas();
-
-        $this->LastItemClosed();
 
         if ($this->content_valid === true) {
             foreach ($this->content as $content) {

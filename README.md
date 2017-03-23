@@ -24,15 +24,13 @@ alternatively include the classes in src/ in your library.
 * Return html ```echo $renderer->render();```
 
 ## Options
-The html tag to use for the `bold`, `italic`, `strike` and `underline` attributes can be set along with the tags to 
-use for the `container` and `newline`.
+The HTML tag to use for Quill attributes can be set along with the HTML tags for the container.
  
 ### Default options
 
 Separator | HTML Tag
 --- | --- 
 Container | `<p>`
-Newline | `<br />`
 
 #### Default attribute options
 
@@ -45,10 +43,12 @@ Strike | `<s>`
 Script:Sub | `<sub>`
 Script:Super | `<sup>`
 Underline | `<u>`
+Header | `<h[n]>`
 
 ## Planned features in possible order
 
 * Lists (Bullets and Ordered)
 * Formatting
+* Improved newline and paragraph support
 * External images
 * Remaining toolbar options
