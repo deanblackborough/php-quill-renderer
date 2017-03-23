@@ -3,9 +3,14 @@
 
 Full changelog for PHP Quill Renderer
 
+# v0.50.0 - 2017-03-23 
+
+* Added support for setting headings. [Feature]
+* Had to remove newline support, needs to be reworked. [Regression]
+
 # v0.40.0 - 2017-03-10 
 
-* Added support for sub and super script.
+* Added support for sub and super script. [Feature]
 
 # v0.30.0 - 2017-03-06
 

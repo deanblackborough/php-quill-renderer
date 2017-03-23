@@ -90,6 +90,14 @@ abstract class Renderer
                     $valid = true;
                 }
                 break;
+            case 'header':
+                if (array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    ($value > 0 && $value < 8)) {
+
+                    $valid = true;
+                }
+                break;
             case 'script':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
