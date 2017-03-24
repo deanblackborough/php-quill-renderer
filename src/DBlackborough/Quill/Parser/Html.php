@@ -18,28 +18,393 @@ class Html extends Parser
      *
      * @param array @options Options data array, if empty default options are used
      */
-    public function __construct(array $deltas = array())
+    public function __construct(array $options = array())
     {
-
+        parent::__construct($options);
     }
 
     /**
-     * Parse the deltas and create an array suitable for the HTML renderer
-     *
-     * @return void
-     */
-    public function parse()
-    {
-
-    }
-
-    /**
-     * Return the content array
+     * Default options for HTML renderer, all options can be overridden, either by setting options in the
+     * constructor or by using the setOption and setAttributeOption methods
      *
      * @return array
      */
+    protected function defaultOptions()
+    {
+        return array(
+            'attributes' => array(
+                'bold' => array(
+                    'tag' => 'strong'
+                ),
+                'header' => array(
+                    '1' => array(
+                        'tag' => 'h1'
+                    ),
+                    '2' => array(
+                        'tag' => 'h2'
+                    ),
+                    '3' => array(
+                        'tag' => 'h3'
+                    ),
+                    '4' => array(
+                        'tag' => 'h4'
+                    ),
+                    '5' => array(
+                        'tag' => 'h5'
+                    ),
+                    '6' => array(
+                        'tag' => 'h6'
+                    ),
+                    '7' => array(
+                        'tag' => 'h7'
+                    )
+                ),
+                'italic' => array(
+                    'tag' => 'em'
+                ),
+                'link' => array(
+                    'tag' => 'a',
+                    'attributes' => array(
+                        'href' => null
+                    )
+                ),
+                'script' => array(
+                    'sub' => array(
+                        'tag' => 'sub'
+                    ),
+                    'super' => array(
+                        'tag' => 'sup'
+                    )
+                ),
+                'strike' => array(
+                    'tag' => 's'
+                ),
+                'underline' => array(
+                    'tag' => 'u'
+                ),
+            ),
+            'block' => 'p'
+        );
+    }
+
+    /**
+     * Get the tag(s) and attributes/values that have been defined for the quill attribute.
+     *
+     * @param string $attribute
+     * @param string $value
+     *
+     * @return array|false
+     */
+    private function getTagAndAttributes($attribute, $value)
+    {
+        switch ($attribute)
+        {
+            case 'bold':
+            case 'italic':
+            case 'strike':
+            case 'underline':
+                return $this->options['attributes'][$attribute];
+                break;
+
+            case 'header':
+            case 'script':
+                return $this->options['attributes'][$attribute][$value];
+                break;
+
+            case 'link':
+                $result = $this->options['attributes'][$attribute];
+                $result['attributes']['href'] = $value;
+                return $result;
+                break;
+
+            default:
+                // Do nothing, valid already set to false
+                return false;
+                break;
+        }
+    }
+
+    /**
+     * Check to see if the last item in the content array is a closed block element
+     *
+     * @return void
+     */
+    private function lastItemClosed()
+    {
+        $last_item = count($this->content) - 1;
+        $assigned_tags = $this->content[$last_item]['tags'];
+        $block = false;
+
+        if (count($assigned_tags) > 0) {
+            foreach ($assigned_tags as $assigned_tag) {
+                // Block element check
+                if (in_array($assigned_tag['close'], array('</p>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</h7>')) === true) {
+                    $block = true;
+                    continue;
+                }
+            }
+        }
+
+        if ($block === false) {
+            $this->content[$last_item]['tags'] = array();
+            foreach ($assigned_tags as $assigned_tag) {
+                $this->content[$last_item]['tags'][] = $assigned_tag;
+            }
+            $this->content[$last_item]['tags'][] = array(
+                'open' => null,
+                'close' => '</' . $this->options['block'] . '>',
+            );
+        }
+    }
+
+    /**
+     * Check to see if the first content item is a block element, if it isn't add the default block element
+     * defined by the block option
+     */
+    private function firstItemBlockElement()
+    {
+        $assigned_tags = $this->content[0]['tags'];
+        $block = false;
+
+        if (count($assigned_tags) > 0) {
+            foreach ($assigned_tags as $assigned_tag) {
+                // Block element check
+                if (in_array($assigned_tag['open'], array('<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>')) === true) {
+                    $block = true;
+                    continue;
+                }
+            }
+        }
+
+        if ($block === false) {
+            $this->content[0]['tags'][] = array(
+                'open' => '<' . $this->options['block'] . '>',
+                'close' => null
+            );
+            foreach ($assigned_tags as $assigned_tag) {
+                $this->content[0]['tags'][] = $assigned_tag;
+            }
+        }
+    }
+
+    /**
+     * Split the inserts if multiple newlines are found and generate a new insert
+     *
+     * @return void
+     */
+    private function splitDeltas()
+    {
+        $deltas = $this->deltas['ops'];
+        $this->deltas = array();
+
+        foreach ($deltas as $delta) {
+            if (array_key_exists('insert', $delta) === true && array_key_exists('attributes', $delta) === false &&
+                preg_match("/[\n]{2}/", $delta['insert']) !== 0) {
+
+                foreach (explode("\n\n", $delta['insert']) as $match) {
+                    if (strlen(trim($match)) > 0) {
+                        $this->deltas[] = array('insert' => str_replace("\n", '', $match));
+                    }
+                }
+            } else {
+                if (array_key_exists('insert', $delta) === true) {
+                    $delta['insert'] = str_replace("\n", '', $delta['insert']);
+                }
+                $this->deltas[] = $delta;
+            }
+        }
+    }
+
+    /**
+     * Assign the relevant HTML tags based upon the defined quill attribute
+     *
+     * @return void
+     */
+    private function assignTags()
+    {
+        $i = 0;
+
+        foreach ($this->deltas as $insert) {
+
+            $this->content[$i] = array(
+                'content' => null,
+                'tags' => array()
+            );
+
+            $tags = array();
+            $has_tags = false;
+
+            if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
+                foreach ($insert['attributes'] as $attribute => $value) {
+                    if ($this->isAttributeValid($attribute, $value) === true) {
+                        $tag = $this->getTagAndAttributes($attribute, $value);
+                        if ($tag !== false) {
+                            $tags[] = $tag;
+                        }
+                    }
+                }
+            }
+
+            if (count($tags) > 0) {
+                $has_tags = true; // Set bool so we don't need to check array size again
+            }
+
+            if ($has_tags === true) {
+                foreach ($tags as $tag) {
+
+                    $assign_tag_to_current_element = $this->assignTagCurrentElement($tag['tag']);
+
+                    $open = '<' . $tag['tag'];
+                    if (array_key_exists('attributes', $tag) === true) {
+                        $open .= ' ';
+                        foreach ($tag['attributes'] as $attribute => $value) {
+                            $open .= $attribute . '="' . $value . '"';
+                        }
+                    }
+                    $open .= '>';
+
+                    if ($assign_tag_to_current_element === true) {
+                        $tag_counter = $i;
+                    } else {
+                        $tag_counter = $i - 1;
+                    }
+
+                    $this->content[$tag_counter]['tags'][] = array(
+                        'open' => $open,
+                        'close' => '</' . $tag['tag'] . '>',
+                    );
+                }
+            }
+
+            if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
+                $this->content[$i]['content'] = $insert['insert'];
+            }
+
+            $i++;
+        }
+    }
+
+    /**
+     * Open paragraphs
+     *
+     * @return void
+     */
+    private function openParagraphs()
+    {
+        $open_paragraph = false;
+        $opened_at = null;
+
+        foreach ($this->content as $i => $content) {
+
+            if (count($content['tags']) === 0 && $open_paragraph === false) {
+                $open_paragraph = true;
+
+                $content['tags'][] = array(
+                    'open' => '<' . $this->options['block'] . '>',
+                    'close' => null,
+                );
+
+                $this->content[$i]['tags'] = $content['tags'];
+            }
+        }
+    }
+
+    /**
+     * Loops through the deltas object and generate the contents array
+     *
+     * @return boolean
+     */
+    public function parse()
+    {
+        if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
+
+            $this->splitDeltas();
+
+            $this->assignTags();
+
+            $this->removeEmptyElements();
+
+            $this->openParagraphs();
+
+            $this->closeOpenParagraphs();
+
+            $this->lastItemClosed();
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function content()
     {
+        return $this->content;
+    }
 
+    /**
+     * Do we need to assign th tags to the current element or the previous?
+     *
+     * @param string $tag
+     *
+     * @return boolean
+     */
+    private function assignTagCurrentElement($tag)
+    {
+        if (in_array($tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7')) === false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Remove empty elements from the contents array, occurs when a tag is assigned to any earlier element
+     *
+     * @return void
+     */
+    private function removeEmptyElements()
+    {
+        $existing_content = $this->content;
+        $this->content = array();
+        foreach ($existing_content as $content) {
+            if (strlen($content['content']) !== 0) {
+                $this->content[] = $content;
+            }
+        }
+    }
+
+    /**
+     * Check to see if there are any open paragraphs followed by a block element
+     *
+     * @return void
+     */
+    private function closeOpenParagraphs()
+    {
+        $open_paragraph = false;
+        $opened_at = null;
+
+        foreach ($this->content as $i => $content) {
+            if (array_key_exists('tags', $content) === true && count($content['tags']) === 1 &&
+                $content['tags'][0]['open'] === '<p>' && $content['tags'][0]['close'] === null) {
+
+                $open_paragraph = true;
+                $opened_at = $i;
+            }
+
+            if ($open_paragraph === true && $i !== $opened_at) {
+                if (array_key_exists('tags', $content) === true) {
+                    foreach ($content['tags'] as $tags) {
+                        $block_elements = array('<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>');
+                        if (in_array($tags['open'], $block_elements) === true) {
+                            $open_paragraph = false;
+                            $this->content[$i-1]['tags'][] = array(
+                                'open' => null,
+                                'close' => '</' . $this->options['block'] . '>'
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 }
