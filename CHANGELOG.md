@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+# v0.60.0 
+
+* Simplified usage of renderer.
+
 # v0.50.0 - 2017-03-23 
 
 * Added support for setting headings. [Feature]
