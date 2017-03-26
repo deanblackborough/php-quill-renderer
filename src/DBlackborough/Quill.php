@@ -50,7 +50,9 @@ class Quill
             throw new \Exception('Failed to load deltas json');
         }
 
-        $this->parser->parse();
+        if ($this->parser->parse() !== true) {
+            throw new \Exception('Failed to parse delta');
+        }
     }
 
     /**

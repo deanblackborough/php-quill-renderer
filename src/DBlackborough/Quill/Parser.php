@@ -199,7 +199,7 @@ abstract class Parser
     /**
      * Loop through the deltas and generate the contents array
      *
-     * @return string
+     * @return boolean
      */
     abstract protected function parse();
 

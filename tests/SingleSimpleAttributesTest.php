@@ -1,17 +1,20 @@
 <?php
 
+require_once __DIR__ . '../../src/DBlackborough/Quill.php';
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Parser.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Parser/Html.php';
 
 /**
  * Test single attribute replacements
  */
-final class SingleSimpleAttributesTest extends \PHPUnit_Framework_TestCase
+final class SingleSimpleAttributesTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \DBlackborough\Quill\Renderer
+     * @var \DBlackborough\Quill
      */
-    private $renderer;
+    private $quill;
 
     private $bold_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"bold":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $italic_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"italic":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
@@ -21,29 +24,74 @@ final class SingleSimpleAttributesTest extends \PHPUnit_Framework_TestCase
     private $subscript_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"sub"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.\n"}]}';
     private $superscript_deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"super"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.\n"}]}';
 
-    public function setUp()
+    public function testValidDetailsBold()
     {
-        $this->renderer = new \DBlackborough\Quill\Renderer\Html();
+        try {
+            $quill = new \DBlackborough\Quill($this->bold_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
-    public function testBoldDeltasValid()
+    public function testValidDetailsItalic()
     {
-        $this->assertTrue($this->renderer->load($this->bold_deltas), __METHOD__ . ' failed');
+        try {
+            $quill = new \DBlackborough\Quill($this->italic_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
-    public function testItalicDeltasValid()
+    public function testValidDetailsLink()
     {
-        $this->assertTrue($this->renderer->load($this->italic_deltas), __METHOD__ . ' failed');
+        try {
+            $quill = new \DBlackborough\Quill($this->link_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
-    public function testStrikeDeltasValid()
+    public function testValidDetailsStrike()
     {
-        $this->assertTrue($this->renderer->load($this->strike_deltas), __METHOD__ . ' failed');
+        try {
+            $quill = new \DBlackborough\Quill($this->strike_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
-    public function testUnderlineDeltasValid()
+    public function testValidDetailsSubscript()
     {
-        $this->assertTrue($this->renderer->load($this->underline_deltas), __METHOD__ . ' failed');
+        try {
+            $quill = new \DBlackborough\Quill($this->subscript_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    public function testValidDetailsSuperscript()
+    {
+        try {
+            $quill = new \DBlackborough\Quill($this->superscript_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /*public function testUnderlineDeltasValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill($this->underline_deltas, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     public function testBoldBecomesStrong()
@@ -93,5 +141,5 @@ final class SingleSimpleAttributesTest extends \PHPUnit_Framework_TestCase
         $expected = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
         $this->renderer->load($this->superscript_deltas);
         $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
-    }
+    }*/
 }
