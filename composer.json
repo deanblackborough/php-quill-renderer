@@ -7,7 +7,7 @@
         }
     },
     "homepage": "https://github.com/deanblackborough/php-quill-renderer",
-    "keywords": [ "quill", "renderer", "html"],
+    "keywords": [ "quill", "quilljs", "renderer", "delta", "parse", "html"],
     "authors": [
         {
             "name": "Dean Blackborough",

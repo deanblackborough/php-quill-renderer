@@ -3,34 +3,37 @@
 
 Full changelog for PHP Quill Renderer
 
-# v0.60.0 
+## v0.60.0 - 2017-03-27
 
-* Simplified usage of renderer.
+* I simplified the usage of renderer ready for additional output formats, instantiate Quill class to use renderer and then simply call render().
+* I have finally moved to PHPUnit 6.
 
-# v0.50.0 - 2017-03-23 
+**Note:** _The Quill class does not expose the ability to override options, that will be added in the future._ 
 
-* Added support for setting headings. [Feature]
-* Had to remove newline support, needs to be reworked. [Regression]
+## v0.50.0 - 2017-03-23 
 
-# v0.40.0 - 2017-03-10 
+* I added support for headings. [Feature]
+* I have had to remove all newline support, I need to rework my logic. [Regression]
 
-* Added support for sub and super script. [Feature]
+## v0.40.0 - 2017-03-10 
 
-# v0.30.0 - 2017-03-06
+* I have added support for sub and super script. [Feature]
 
-* Added support for links. [Feature]
-* Refactoring, simplified how attributes are replaced.
-* Additional tests.
+## v0.30.0 - 2017-03-06
+
+* I have added support for links. [Feature]
+* I have been busy refactoring, I have simplified how attributes are replaced.
+* I have added additional tests.
 
 ## v0.20.1 - 2017-03-02
 
-* Updated the README, example incorrect.
-* Updated all method documentation.
+* I have updated the README, example incorrect.
+* I have updated all method documentation.
 
 ### v0.20 - 2017-02-26
 
 I got most of the way through adding basic support for lists and then stumbled on a problem, I need to rework 
- how new lines are handled and tidy up the code, needs to become aware of block elements.
+ how newlines are handled and tidy up the code, the code needs to become aware of block elements.
 
 * Reworked rendering code.
 * Added base class so additional rendering class can be developed, for example a markdown renderer.
