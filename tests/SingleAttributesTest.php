@@ -19,7 +19,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     private $deltas_superscript = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"super"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.\n"}]}';
     private $deltas_underline = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"underline":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
 
-    public function testValidDetailsBold()
+    public function testValidDeltasBold()
     {
         try {
             $quill = new \DBlackborough\Quill($this->deltas_bold, 'HTML');
@@ -29,7 +29,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testValidDetailsItalic()
+    public function testValidDeltastalic()
     {
         try {
             $quill = new \DBlackborough\Quill($this->deltas_italic, 'HTML');
@@ -39,7 +39,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testValidDetailsLink()
+    public function testValidDeltasLink()
     {
         try {
             $quill = new \DBlackborough\Quill($this->deltas_link, 'HTML');
@@ -49,7 +49,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testValidDetailsStrike()
+    public function testValidDeltasStrike()
     {
         try {
             $quill = new \DBlackborough\Quill($this->deltas_strike, 'HTML');
@@ -59,7 +59,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testValidDetailsSubscript()
+    public function testValidDeltasSubscript()
     {
         try {
             $quill = new \DBlackborough\Quill($this->deltas_subscript, 'HTML');
@@ -69,7 +69,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testValidDetailsSuperscript()
+    public function testValidDeltasSuperscript()
     {
         try {
             $quill = new \DBlackborough\Quill($this->deltas_superscript, 'HTML');
@@ -87,7 +87,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
             $quill = new \DBlackborough\Quill($this->deltas_bold);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__ . ' failure');
         }
     }
 
@@ -99,7 +99,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
             $quill = new \DBlackborough\Quill($this->deltas_italic);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__ . ' failure');
         }
     }
 
@@ -123,7 +123,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
             $quill = new \DBlackborough\Quill($this->deltas_strike);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__ .  ' failure');
         }
     }
 
@@ -147,7 +147,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
             $quill = new \DBlackborough\Quill($this->deltas_subscript);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__ .  ' failure');
         }
     }
 
@@ -159,7 +159,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
             $quill = new \DBlackborough\Quill($this->deltas_superscript);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__ .  ' failure');
         }
     }
 }
