@@ -19,9 +19,14 @@ The easiest way to use the renderer is with composer. ```composer require deanbl
 alternatively include the classes in src/ in your library.
  
 ## Usage
-* Instantiate the renderer, either use the default options or pass in your custom options ```$renderer = new \DBlackborough\Quill\Renderer\Html();```
-* Load the json ```$renderer->load($json);```. Returns TRUE|FALSE
-* Return html ```echo $renderer->render();```
+```
+try {
+    $quill = new \DBlackborough\Quill($deltas, 'HTML');
+    echo $quill->render();
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
+```
 
 ## Options
 The HTML tag to use for Quill attributes can be set along with the HTML tags for the container.

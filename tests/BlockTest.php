@@ -1,51 +1,41 @@
 <?php
 
+require_once __DIR__ . '../../src/DBlackborough/Quill.php';
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
 require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Parser.php';
+require_once __DIR__ . '../../src/DBlackborough/Quill/Parser/Html.php';
 
-final class ContainerTest extends \PHPUnit_Framework_TestCase
+final class BlockTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var \DBlackborough\Quill\Renderer
-     */
-    private $renderer;
+    private $deltas_simple_string = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
+    private $deltas_missing_quote = '{"ops":[{"insert":"Lorem ipsum dolor sit amet}]}';
 
-    public function setUp()
+    public function testValidDeltasSimpleString()
     {
-        $this->renderer = new \DBlackborough\Quill\Renderer\Html();
+        try {
+            $quill = new \DBlackborough\Quill($this->deltas_simple_string, 'HTML');
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
-    public function testDeltasInValid()
+    public function testInvalidDeltasCaught()
     {
-        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet}]}';
-        $this->assertFalse($this->renderer->load($deltas), __METHOD__ . ' failed');
+        try {
+            $quill = new \DBlackborough\Quill($this->deltas_missing_quote, 'HTML');
+            $this->fail(__METHOD__ . ' failure');
+        } catch (\Exception $e) {
+            $this->assertTrue(true);
+        }
     }
 
-    public function testDeltasValid()
+    public function testOutputSimpleString()
     {
-        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
-        $this->assertTrue($this->renderer->load($deltas), __METHOD__ . ' failed');
-    }
-
-    public function testParagraphAroundOneInsert()
-    {
-        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
         $expected = '<p>Lorem ipsum dolor sit amet</p>';
-        $this->renderer->load($deltas);
-        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
-    }
 
-    public function testBlockAttributeOptionSet()
-    {
-        $this->assertTrue($this->renderer->setOption('block', 'div'), __METHOD__ . ' failed');
-    }
-
-    public function testDivAAroundOneInsert()
-    {
-        $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
-        $expected = '<div>Lorem ipsum dolor sit amet</div>';
-        $this->renderer->load($deltas);
-        $this->renderer->setOption('block', 'div');
-        $this->assertEquals($expected, $this->renderer->render(), __METHOD__ . ' failed');
+        $quill = new \DBlackborough\Quill($this->deltas_simple_string);
+        $this->assertEquals($expected, $quill->render());
     }
 }
