@@ -3,6 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
+## v0.60.1 - 2017-04-12
+
+* HTML parser no longer checks against HTML tags directly (h1, h2 etc), uses tag type. [Bugfix]
+* Added `assign` index to options array, no longer need to check HTML tag directly. [Bugfix]
+* Removed redundant code.
+
 ## v0.60.0 - 2017-03-27
 
 * I simplified the usage of renderer ready for additional output formats, instantiate Quill class to use renderer and then simply call render().

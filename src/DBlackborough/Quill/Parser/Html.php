@@ -34,56 +34,80 @@ class Html extends Parser
         return array(
             'attributes' => array(
                 'bold' => array(
-                    'tag' => 'strong'
+                    'tag' => 'strong',
+                    'type' => 'inline',
                 ),
                 'header' => array(
                     '1' => array(
-                        'tag' => 'h1'
+                        'tag' => 'h1',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     ),
                     '2' => array(
-                        'tag' => 'h2'
+                        'tag' => 'h2',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     ),
                     '3' => array(
-                        'tag' => 'h3'
+                        'tag' => 'h3',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     ),
                     '4' => array(
-                        'tag' => 'h4'
+                        'tag' => 'h4',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     ),
                     '5' => array(
-                        'tag' => 'h5'
+                        'tag' => 'h5',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     ),
                     '6' => array(
-                        'tag' => 'h6'
+                        'tag' => 'h6',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     ),
                     '7' => array(
-                        'tag' => 'h7'
+                        'tag' => 'h7',
+                        'type' => 'block',
+                        'assign' => 'previous'
                     )
                 ),
                 'italic' => array(
-                    'tag' => 'em'
+                    'tag' => 'em',
+                    'type' => 'inline'
                 ),
                 'link' => array(
                     'tag' => 'a',
+                    'type' => 'inline',
                     'attributes' => array(
                         'href' => null
                     )
                 ),
                 'script' => array(
                     'sub' => array(
+                        'type' => 'inline',
                         'tag' => 'sub'
                     ),
                     'super' => array(
+                        'type' => 'inline',
                         'tag' => 'sup'
                     )
                 ),
                 'strike' => array(
-                    'tag' => 's'
+                    'tag' => 's',
+                    'type' => 'inline'
                 ),
                 'underline' => array(
-                    'tag' => 'u'
+                    'tag' => 'u',
+                    'type' => 'inline'
                 ),
             ),
-            'block' => 'p'
+            'block' => array(
+                'tag' => 'p',
+                'type' => 'block'
+            )
         );
     }
 
@@ -138,7 +162,7 @@ class Html extends Parser
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
                 // Block element check
-                if (in_array($assigned_tag['close'], array('</p>', '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>', '</h7>')) === true) {
+                if ($assigned_tag['close'] !== null && $assigned_tag['type'] === 'block') {
                     $block = true;
                     continue;
                 }
@@ -152,38 +176,9 @@ class Html extends Parser
             }
             $this->content[$last_item]['tags'][] = array(
                 'open' => null,
-                'close' => '</' . $this->options['block'] . '>',
+                'close' => '</' . $this->options['block']['tag'] . '>',
+                'type' => 'block'
             );
-        }
-    }
-
-    /**
-     * Check to see if the first content item is a block element, if it isn't add the default block element
-     * defined by the block option
-     */
-    private function firstItemBlockElement()
-    {
-        $assigned_tags = $this->content[0]['tags'];
-        $block = false;
-
-        if (count($assigned_tags) > 0) {
-            foreach ($assigned_tags as $assigned_tag) {
-                // Block element check
-                if (in_array($assigned_tag['open'], array('<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>')) === true) {
-                    $block = true;
-                    continue;
-                }
-            }
-        }
-
-        if ($block === false) {
-            $this->content[0]['tags'][] = array(
-                'open' => '<' . $this->options['block'] . '>',
-                'close' => null
-            );
-            foreach ($assigned_tags as $assigned_tag) {
-                $this->content[0]['tags'][] = $assigned_tag;
-            }
         }
     }
 
@@ -251,8 +246,11 @@ class Html extends Parser
 
             if ($has_tags === true) {
                 foreach ($tags as $tag) {
-
-                    $assign_tag_to_current_element = $this->assignTagCurrentElement($tag['tag']);
+                    if (array_key_exists('assign', $tag) === false) {
+                        $assign_tag_to_current_element = true;
+                    } else {
+                        $assign_tag_to_current_element = false;
+                    }
 
                     $open = '<' . $tag['tag'];
                     if (array_key_exists('attributes', $tag) === true) {
@@ -272,6 +270,7 @@ class Html extends Parser
                     $this->content[$tag_counter]['tags'][] = array(
                         'open' => $open,
                         'close' => '</' . $tag['tag'] . '>',
+                        'type' => $tag['type']
                     );
                 }
             }
@@ -300,8 +299,9 @@ class Html extends Parser
                 $open_paragraph = true;
 
                 $content['tags'][] = array(
-                    'open' => '<' . $this->options['block'] . '>',
+                    'open' => '<' . $this->options['block']['tag'] . '>',
                     'close' => null,
+                    'type' => 'block'
                 );
 
                 $this->content[$i]['tags'] = $content['tags'];
@@ -342,22 +342,6 @@ class Html extends Parser
     }
 
     /**
-     * Do we need to assign th tags to the current element or the previous?
-     *
-     * @param string $tag
-     *
-     * @return boolean
-     */
-    private function assignTagCurrentElement($tag)
-    {
-        if (in_array($tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7')) === false) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Remove empty elements from the contents array, occurs when a tag is assigned to any earlier element
      *
      * @return void
@@ -394,12 +378,12 @@ class Html extends Parser
             if ($open_paragraph === true && $i !== $opened_at) {
                 if (array_key_exists('tags', $content) === true) {
                     foreach ($content['tags'] as $tags) {
-                        $block_elements = array('<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>');
-                        if (in_array($tags['open'], $block_elements) === true) {
+                        if ($tags['type'] == 'block') {
                             $open_paragraph = false;
                             $this->content[$i-1]['tags'][] = array(
                                 'open' => null,
-                                'close' => '</' . $this->options['block'] . '>'
+                                'close' => '</' . $this->options['block']['tag'] . '>',
+                                'type' => 'block'
                             );
                         }
                     }
