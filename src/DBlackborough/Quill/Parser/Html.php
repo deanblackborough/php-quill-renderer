@@ -16,98 +16,103 @@ class Html extends Parser
     /**
      * Renderer constructor.
      *
-     * @param array @options Options data array, if empty default options are used
+     * @param array $options Options data array, if empty default options are used
+     * @param string $block_element
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = array(), $block_element = null)
     {
-        parent::__construct($options);
+        parent::__construct($options, $block_element);
     }
 
     /**
-     * Default options for HTML renderer, all options can be overridden, either by setting options in the
-     * constructor or by using the setOption and setAttributeOption methods
+     * Default block element attribute
+     */
+    protected function defaultBlockElementOption()
+    {
+        return array(
+            'tag' => 'p',
+            'type' => 'block'
+        );
+    }
+
+    /**
+     * Default attribute options for the HTML renderer/parser
      *
      * @return array
      */
-    protected function defaultOptions()
+    protected function defaultAttributeOptions()
     {
         return array(
-            'attributes' => array(
-                'bold' => array(
-                    'tag' => 'strong',
-                    'type' => 'inline',
-                ),
-                'header' => array(
-                    '1' => array(
-                        'tag' => 'h1',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    ),
-                    '2' => array(
-                        'tag' => 'h2',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    ),
-                    '3' => array(
-                        'tag' => 'h3',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    ),
-                    '4' => array(
-                        'tag' => 'h4',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    ),
-                    '5' => array(
-                        'tag' => 'h5',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    ),
-                    '6' => array(
-                        'tag' => 'h6',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    ),
-                    '7' => array(
-                        'tag' => 'h7',
-                        'type' => 'block',
-                        'assign' => 'previous'
-                    )
-                ),
-                'italic' => array(
-                    'tag' => 'em',
-                    'type' => 'inline'
-                ),
-                'link' => array(
-                    'tag' => 'a',
-                    'type' => 'inline',
-                    'attributes' => array(
-                        'href' => null
-                    )
-                ),
-                'script' => array(
-                    'sub' => array(
-                        'type' => 'inline',
-                        'tag' => 'sub'
-                    ),
-                    'super' => array(
-                        'type' => 'inline',
-                        'tag' => 'sup'
-                    )
-                ),
-                'strike' => array(
-                    'tag' => 's',
-                    'type' => 'inline'
-                ),
-                'underline' => array(
-                    'tag' => 'u',
-                    'type' => 'inline'
-                ),
+            'bold' => array(
+                'tag' => 'strong',
+                'type' => 'inline',
             ),
-            'block' => array(
-                'tag' => 'p',
-                'type' => 'block'
-            )
+            'header' => array(
+                '1' => array(
+                    'tag' => 'h1',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                ),
+                '2' => array(
+                    'tag' => 'h2',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                ),
+                '3' => array(
+                    'tag' => 'h3',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                ),
+                '4' => array(
+                    'tag' => 'h4',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                ),
+                '5' => array(
+                    'tag' => 'h5',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                ),
+                '6' => array(
+                    'tag' => 'h6',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                ),
+                '7' => array(
+                    'tag' => 'h7',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                )
+            ),
+            'italic' => array(
+                'tag' => 'em',
+                'type' => 'inline'
+            ),
+            'link' => array(
+                'tag' => 'a',
+                'type' => 'inline',
+                'attributes' => array(
+                    'href' => null
+                )
+            ),
+            'script' => array(
+                'sub' => array(
+                    'type' => 'inline',
+                    'tag' => 'sub'
+                ),
+                'super' => array(
+                    'type' => 'inline',
+                    'tag' => 'sup'
+                )
+            ),
+            'strike' => array(
+                'tag' => 's',
+                'type' => 'inline'
+            ),
+            'underline' => array(
+                'tag' => 'u',
+                'type' => 'inline'
+            ),
         );
     }
 
@@ -390,5 +395,42 @@ class Html extends Parser
                 }
             }
         }
+    }
+
+    /**
+     * Set all the attribute options for the parser/renderer
+     *
+     * @param array $options
+     *
+     * @return void
+     */
+    public function setAttributeOptions(array $options)
+    {
+        $this->options['attributes'] = $options;
+    }
+
+    /**
+     * Set the block element for the parser/renderer
+     *
+     * @param array $options Block element options
+     *
+     * @return void
+     */
+    public function setBlockOptions(array $options)
+    {
+        $this->options['block'] = $options;
+    }
+
+    /**
+     * Set a new attribute option
+     *
+     * @param string $option Attribute option to replace
+     * @param mixed $value New Attribute option value
+     *
+     * @return boolean
+     */
+    public function setAttributeOption($option, $value)
+    {
+        // TODO: Implement setAttributeOption() method.
     }
 }
