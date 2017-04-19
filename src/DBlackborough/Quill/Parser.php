@@ -40,25 +40,40 @@ abstract class Parser
     /**
      * Renderer constructor.
      *
-     * @param array @options Options data array, if empty default options are used
+     * @param array $options Options data array, if empty default options are used
+     * @param array $block_element Block element to use, if empty default is used
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = array(), $block_element = null)
     {
         $this->content = array();
 
         if (count($options) === 0) {
-            $options = $this->defaultOptions();
+            $options = $this->defaultAttributeOptions();
         }
 
-        $this->setOptions($options);
+        $this->setAttributeOptions($options);
+
+        $block_options = $this->defaultBlockElementOption();
+        if ($block_element !== null) {
+            $block_options['tag'] = $block_element;
+        }
+
+        $this->setBlockOptions($this->defaultBlockElementOption());
     }
 
     /**
-     * Set default options for renderer
+     * Set the default options for the parser/renderer
      *
      * @return array
      */
-    abstract protected function defaultOptions();
+    abstract protected function defaultAttributeOptions();
+
+    /**
+     * Set the default block element for the parser/renderer
+     *
+     * @return array
+     */
+    abstract protected function defaultBlockElementOption();
 
     /**
      * Check to see if the requested attribute is valid, needs to be a known attribute and have an option set
@@ -129,55 +144,31 @@ abstract class Parser
     }
 
     /**
-     * Set the options for the renderer
+     * Set all the attribute options for the parser/renderer
      *
      * @param array $options
      * @return \DBlackborough\Quill\Parser
      */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
-
-        return $this;
-    }
+    abstract public function setAttributeOptions(array $options);
 
     /**
-     * Set a new option value, replace existing option values
+     * Set the block element for the parser/renderer
      *
-     * @param string $option The Option to replace
-     * @param string $value The new value for the option
+     * @param array $options Block options
      *
      * @return boolean
      */
-    public function setOption($option, $value)
-    {
-        if (array_key_exists($option, $this->options) === true) {
-            $this->options[$option] = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
+    abstract public function setBlockOptions(array $options);
 
     /**
-     * Set a new attributes option, replace existing attribute option values
+     * Set a new attribute option
      *
      * @param string $option Attribute option to replace
-     * @param string $value New Attribute option value
+     * @param mixed $value New Attribute option value
      *
      * @return boolean
      */
-    public function setAttributeOption($option, $value)
-    {
-        if (array_key_exists('attributes', $this->options) === true &&
-            array_key_exists($option, $this->options['attributes']) === true) {
-
-            $this->options['attributes'][$option]['tag'] = $value;
-            return true;
-        } else {
-            return false;
-        }
-    }
+    abstract public function setAttributeOption($option, $value);
 
     /**
      * @param string $deltas JSON inserts string

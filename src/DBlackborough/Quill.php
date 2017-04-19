@@ -49,9 +49,23 @@ class Quill
         if ($this->parser->load($deltas) === false) {
             throw new \Exception('Failed to load deltas json');
         }
+    }
 
-        if ($this->parser->parse() !== true) {
-            throw new \Exception('Failed to parse delta');
+    /**
+     * Set a new attribute option
+     *
+     * @param string $option Attribute option to replace
+     * @param mixed $value New Attribute option value
+     *
+     * @return boolean
+     * @throws \Exception
+     */
+    public function setAttributeOption($option, $value)
+    {
+        if (is_a($this->parser, '\DBlackborough\Quill\Parser') === true) {
+            return $this->parser->setAttributeOption($option, $value);
+        } else {
+            throw new \Exception('Parser not instantiated, can only set options after instantiating object');
         }
     }
 
@@ -63,6 +77,10 @@ class Quill
      */
     public function render()
     {
+        if ($this->parser->parse() !== true) {
+            throw new \Exception('Failed to parse delta');
+        }
+
         switch ($this->format) {
             case 'HTML':
                 $this->renderer = new \DBlackborough\Quill\Renderer\Html($this->parser->content());

@@ -18,7 +18,7 @@ Created for use in [Dlayer](https://github.com/Dlayer/dlayer) but works as a sta
 The easiest way to use the renderer is with composer. ```composer require deanblackborough/php-quill-renderer```, 
 alternatively include the classes in src/ in your library.
  
-## Usage
+## Usage, using Quill API
 ```
 try {
     $quill = new \DBlackborough\Quill($deltas, 'HTML');
@@ -26,6 +26,16 @@ try {
 } catch (\Exception $e) {
     echo $e->getMessage();
 }
+```
+
+## Usage, direct
+```
+$parser = new \DBlackborough\Quill\Parser\Html();
+$parser->load($deltas);
+$parser->parse();
+
+$renderer = new \DBlackborough\Quill\Renderer\Html($parser->content());
+echo $renderer->render();
 ```
 
 ## Options
@@ -57,3 +67,5 @@ Header | `<h[n]>`
 * Improved newline and paragraph support
 * External images
 * Remaining toolbar options
+* Missing tests (options)
+* Markdown support
