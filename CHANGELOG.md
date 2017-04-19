@@ -3,6 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
+## v0.70.0 - 2017-04-19
+
+* Added the ability to set the HTML tag for the following Quill attributes, bold, italic, script, strike and underline. [Feature]
+* Minor rework to Quill class to allow options to be set, parse() was being called before the new option value was being set. 
+* Updated readme, now shows direct usage example.
+
 ## v0.60.1 - 2017-04-12
 
 * HTML parser no longer checks against HTML tags directly (h1, h2 etc), uses tag type. [Bugfix]

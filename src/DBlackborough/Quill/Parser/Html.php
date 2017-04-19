@@ -3,6 +3,7 @@
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Parser;
+use PHPUnit\Runner\Exception;
 
 /**
  * Parser for HTML, parses the deltas to generate a content array for  deltas into a html redy array
@@ -422,15 +423,61 @@ class Html extends Parser
     }
 
     /**
+     * Validate the option request and set the value
+     *
+     * @param string $option Attribute option to replace
+     * @param mixed $value New Attribute option value
+     *
+     * @return true
+     * @throws \Exception
+     */
+    private function validateAndSetAttributeOption($option, $value)
+    {
+        if (is_array($value) === true &&
+            array_key_exists('tag', $value) === true &&
+            array_key_exists('type', $value) === true &&
+            in_array($value['type'], array('inline', 'block')) === true) {
+
+            $this->options['attributes'][$option] = $value;
+
+            return true;
+        } else if (is_string($value) === true) {
+            $this->options['attributes'][$option]['tag'] = $value;
+
+            return true;
+        } else {
+            if (is_array($value) === true) {
+                throw new \Exception('setAttributeOption() value should be an array with two indexes, tag and type');
+            } else {
+                throw new \Exception('setAttributeOption() value should be an array with two indexes, tag and type');
+            }
+        }
+    }
+
+    /**
      * Set a new attribute option
      *
      * @param string $option Attribute option to replace
      * @param mixed $value New Attribute option value
      *
      * @return boolean
+     * @throws Exception
      */
     public function setAttributeOption($option, $value)
     {
-        // TODO: Implement setAttributeOption() method.
+        switch ($option) {
+            case 'bold':
+            case 'italic':
+            case 'script':
+            case 'strike':
+            case 'underline':
+                return $this->validateAndSetAttributeOption($option, $value);
+                break;
+            case 'header':
+            case 'link':
+                return false;
+                break;
+
+        }
     }
 }
