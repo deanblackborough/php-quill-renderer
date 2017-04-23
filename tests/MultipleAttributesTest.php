@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '../../src/DBlackborough/Quill.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Parser.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Parser/Html.php';
+require_once __DIR__ . '../../src/Render.php';
+require_once __DIR__ . '../../src/Renderer/Render.php';
+require_once __DIR__ . '../../src/Renderer/Html.php';
+require_once __DIR__ . '../../src/Parser/Parse.php';
+require_once __DIR__ . '../../src/Parser/Html.php';
 
 /**
  * Test multiple replacement
@@ -16,7 +16,7 @@ final class MultipleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasMultipleAttributes()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_multiple_attributes, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_multiple_attributes, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -27,7 +27,7 @@ final class MultipleAttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur nibh tempor augue lobortis, nec eleifend velit venenatis. Nullam fringilla dui eget lectus mattis tincidunt. Donec sollicitudin, lacus sed luctus ultricies, <s><em>quam sapien </em></s><s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim. <strong>Sed ac augue tincidunt,</strong> cursus urna a, tempus ipsum. Donec pretium fermentum erat a <u>elementum</u>. In est odio, mattis sed dignissim sed, porta ac nisl. Nunc et tellus imperdiet turpis placerat tristique nec quis justo. Aenean nisi libero, auctor a laoreet sed, fermentum vel massa. Etiam ultricies leo eget purus tempor dapibus. Integer ac sapien eros. Suspendisse convallis ex.</p>";
 
-        $quill = new \DBlackborough\Quill($this->deltas_multiple_attributes);
+        $quill = new \DBlackborough\Quill\Render($this->deltas_multiple_attributes);
         $this->assertEquals($expected, $quill->render());
     }
 }

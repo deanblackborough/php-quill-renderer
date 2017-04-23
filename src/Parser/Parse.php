@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill;
+namespace DBlackborough\Quill\Parser;
 
 /**
  * Quill parser, parses deltas json array and generates a content array for the renderer
@@ -9,7 +9,7 @@ namespace DBlackborough\Quill;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Parser
+abstract class Parse
 {
     /**
      * Delta inserts
@@ -147,7 +147,7 @@ abstract class Parser
      * Set all the attribute options for the parser/renderer
      *
      * @param array $options
-     * @return \DBlackborough\Quill\Parser
+     * @return \DBlackborough\Quill\Parse
      */
     abstract public function setAttributeOptions(array $options);
 

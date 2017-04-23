@@ -2,8 +2,7 @@
 
 namespace DBlackborough\Quill\Parser;
 
-use DBlackborough\Quill\Parser;
-use PHPUnit\Runner\Exception;
+use \Exception;
 
 /**
  * Parser for HTML, parses the deltas to generate a content array for  deltas into a html redy array
@@ -12,7 +11,7 @@ use PHPUnit\Runner\Exception;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Html extends Parser
+class Html extends Parse
 {
     /**
      * Renderer constructor.
@@ -461,7 +460,7 @@ class Html extends Parser
      * @param mixed $value New Attribute option value
      *
      * @return boolean
-     * @throws Exception
+     * @throws \Exception
      */
     public function setAttributeOption($option, $value)
     {

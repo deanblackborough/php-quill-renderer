@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough;
+namespace DBlackborough\Quill;
 
 /**
  * Parse Quill generated deltas to the requested format
@@ -9,15 +9,15 @@ namespace DBlackborough;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Quill
+class Render
 {
     /**
-     * @var \DBlackborough\Quill\Renderer
+     * @var \DBlackborough\Quill\Renderer\Render
      */
     private $renderer;
 
     /**
-     * @var \DBlackborough\Quill\Parser
+     * @var \DBlackborough\Quill\Parser\Parse
      */
     private $parser;
 
@@ -62,7 +62,7 @@ class Quill
      */
     public function setAttributeOption($option, $value)
     {
-        if (is_a($this->parser, '\DBlackborough\Quill\Parser') === true) {
+        if (is_a($this->parser, '\DBlackborough\Quill\Parser\Parse') === true) {
             return $this->parser->setAttributeOption($option, $value);
         } else {
             throw new \Exception('Parser not instantiated, can only set options after instantiating object');

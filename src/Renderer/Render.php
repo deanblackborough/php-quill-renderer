@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill;
+namespace DBlackborough\Quill\Renderer;
 
 /**
  * Quill renderer, iterates over the content data array and creates html
@@ -9,7 +9,7 @@ namespace DBlackborough\Quill;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Renderer
+abstract class Render
 {
     /**
      * @var array

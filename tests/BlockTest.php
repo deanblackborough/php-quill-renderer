@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '../../src/DBlackborough/Quill.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Parser.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Parser/Html.php';
+require_once __DIR__ . '../../src/Render.php';
+require_once __DIR__ . '../../src/Renderer/Render.php';
+require_once __DIR__ . '../../src/Renderer/Html.php';
+require_once __DIR__ . '../../src/Parser/Parse.php';
+require_once __DIR__ . '../../src/Parser/Html.php';
 
 final class BlockTest extends \PHPUnit\Framework\TestCase
 {
@@ -14,7 +14,7 @@ final class BlockTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasSimpleString()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_simple_string, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_simple_string, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -24,7 +24,7 @@ final class BlockTest extends \PHPUnit\Framework\TestCase
     public function testInvalidDeltasCaught()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_missing_quote, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_missing_quote, 'HTML');
             $this->fail(__METHOD__ . ' failure');
         } catch (\Exception $e) {
             $this->assertTrue(true);
@@ -35,7 +35,7 @@ final class BlockTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet</p>';
 
-        $quill = new \DBlackborough\Quill($this->deltas_simple_string);
+        $quill = new \DBlackborough\Quill\Render($this->deltas_simple_string);
         $this->assertEquals($expected, $quill->render());
     }
 }
