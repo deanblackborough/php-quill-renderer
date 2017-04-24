@@ -286,7 +286,6 @@ class Html extends Parse
                 if (is_array($insert['insert']) === false && strlen(trim($insert['insert'])) > 0) {
                     $this->content[$i]['content'] = $insert['insert'];
                 } else {
-                    var_dump($insert['insert']);
                     if (is_array($insert['insert']) === true &&
                         array_key_exists('image', $insert['insert']) === true) {
                         $this->content[$i]['content'] = [ 'image' => $insert['insert']['image'] ];
