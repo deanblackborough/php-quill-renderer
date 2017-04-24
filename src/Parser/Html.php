@@ -198,7 +198,9 @@ class Html extends Parse
         $this->deltas = array();
 
         foreach ($deltas as $delta) {
-            if (array_key_exists('insert', $delta) === true && array_key_exists('attributes', $delta) === false &&
+            if (array_key_exists('insert', $delta) === true &&
+                array_key_exists('attributes', $delta) === false &&
+                is_array($delta['insert']) === false &&
                 preg_match("/[\n]{2}/", $delta['insert']) !== 0) {
 
                 foreach (explode("\n\n", $delta['insert']) as $match) {
@@ -280,8 +282,16 @@ class Html extends Parse
                 }
             }
 
-            if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
-                $this->content[$i]['content'] = $insert['insert'];
+            if (array_key_exists('insert', $insert) === true) {
+                if (is_array($insert['insert']) === false && strlen(trim($insert['insert'])) > 0) {
+                    $this->content[$i]['content'] = $insert['insert'];
+                } else {
+                    var_dump($insert['insert']);
+                    if (is_array($insert['insert']) === true &&
+                        array_key_exists('image', $insert['insert']) === true) {
+                        $this->content[$i]['content'] = [ 'image' => $insert['insert']['image'] ];
+                    }
+                }
             }
 
             $i++;
@@ -356,7 +366,7 @@ class Html extends Parse
         $existing_content = $this->content;
         $this->content = array();
         foreach ($existing_content as $content) {
-            if (strlen($content['content']) !== 0) {
+            if (is_array($content['content']) === true || strlen($content['content']) !== 0) {
                 $this->content[] = $content;
             }
         }

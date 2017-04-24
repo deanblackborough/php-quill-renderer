@@ -9,6 +9,7 @@ Full changelog for PHP Quill Renderer
 * Added tests for setting attributes. [Tests]
 * Switched to PSR4
 * Minor change to API if using Quill (Render) class, after the PSR4 change I didn't like Quill/Quill.
+* Basic support for images (outputting the base64 directly via <img> src="")
 
 ## v0.70.0 - 2017-04-19
 

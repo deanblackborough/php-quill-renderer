@@ -44,7 +44,11 @@ class Html extends Render
                 }
             }
 
-            $this->html .= $content['content'];
+            if (is_array($content['content']) === false) {
+                $this->html .= $content['content'];
+            } else {
+                $this->html .= '<img src="' . $content['content']['image'] . '" />';
+            }
 
             foreach (array_reverse($content['tags']) as $tag) {
                 if (array_key_exists('close', $tag) === true && $tag['close'] !== null) {
