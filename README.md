@@ -21,7 +21,7 @@ alternatively include the classes in src/ in your library.
 ## Usage, using Quill API
 ```
 try {
-    $quill = new \DBlackborough\Quill($deltas, 'HTML');
+    $quill = new \DBlackborough\Quill\Render($deltas, 'HTML');
     echo $quill->render();
 } catch (\Exception $e) {
     echo $e->getMessage();
