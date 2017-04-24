@@ -2,8 +2,7 @@
 
 namespace DBlackborough\Quill\Parser;
 
-use DBlackborough\Quill\Parser;
-use PHPUnit\Runner\Exception;
+use \Exception;
 
 /**
  * Parser for HTML, parses the deltas to generate a content array for  deltas into a html redy array
@@ -12,7 +11,7 @@ use PHPUnit\Runner\Exception;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Html extends Parser
+class Html extends Parse
 {
     /**
      * Renderer constructor.
@@ -199,7 +198,9 @@ class Html extends Parser
         $this->deltas = array();
 
         foreach ($deltas as $delta) {
-            if (array_key_exists('insert', $delta) === true && array_key_exists('attributes', $delta) === false &&
+            if (array_key_exists('insert', $delta) === true &&
+                array_key_exists('attributes', $delta) === false &&
+                is_array($delta['insert']) === false &&
                 preg_match("/[\n]{2}/", $delta['insert']) !== 0) {
 
                 foreach (explode("\n\n", $delta['insert']) as $match) {
@@ -281,8 +282,15 @@ class Html extends Parser
                 }
             }
 
-            if (array_key_exists('insert', $insert) === true && strlen(trim($insert['insert'])) > 0) {
-                $this->content[$i]['content'] = $insert['insert'];
+            if (array_key_exists('insert', $insert) === true) {
+                if (is_array($insert['insert']) === false && strlen(trim($insert['insert'])) > 0) {
+                    $this->content[$i]['content'] = $insert['insert'];
+                } else {
+                    if (is_array($insert['insert']) === true &&
+                        array_key_exists('image', $insert['insert']) === true) {
+                        $this->content[$i]['content'] = [ 'image' => $insert['insert']['image'] ];
+                    }
+                }
             }
 
             $i++;
@@ -357,7 +365,7 @@ class Html extends Parser
         $existing_content = $this->content;
         $this->content = array();
         foreach ($existing_content as $content) {
-            if (strlen($content['content']) !== 0) {
+            if (is_array($content['content']) === true || strlen($content['content']) !== 0) {
                 $this->content[] = $content;
             }
         }
@@ -461,7 +469,7 @@ class Html extends Parser
      * @param mixed $value New Attribute option value
      *
      * @return boolean
-     * @throws Exception
+     * @throws \Exception
      */
     public function setAttributeOption($option, $value)
     {

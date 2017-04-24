@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '../../src/DBlackborough/Quill.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Renderer/Html.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Parser.php';
-require_once __DIR__ . '../../src/DBlackborough/Quill/Parser/Html.php';
+require_once __DIR__ . '../../src/Render.php';
+require_once __DIR__ . '../../src/Renderer/Render.php';
+require_once __DIR__ . '../../src/Renderer/Html.php';
+require_once __DIR__ . '../../src/Parser/Parse.php';
+require_once __DIR__ . '../../src/Parser/Html.php';
 
 /**
  * Test single attribute replacements
@@ -22,7 +22,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasBold()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_bold, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_bold, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -32,7 +32,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltastalic()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_italic, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_italic, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -42,7 +42,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasLink()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_link, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_link, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -52,7 +52,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasStrike()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_strike, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_strike, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -62,7 +62,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasSubscript()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_subscript, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_subscript, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -72,7 +72,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
     public function testValidDeltasSuperscript()
     {
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_superscript, 'HTML');
+            $quill = new \DBlackborough\Quill\Render($this->deltas_superscript, 'HTML');
             $this->assertTrue(true);
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -84,7 +84,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet <strong>sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_bold);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_bold);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -96,7 +96,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet <em>sollicitudin</em> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_italic);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_italic);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
@@ -108,10 +108,10 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_underline);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_underline);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__. ' failure');
         }
     }
 
@@ -120,7 +120,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_strike);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_strike);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ .  ' failure');
@@ -132,10 +132,10 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet, <a href="http://www.example.com">consectetur</a> adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. In vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. <a href="http://www.example.com">Etiam </a>sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. Aliquam erat eros, dignissim in quam id.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_link);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_link);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
-            $this->fail(__METHOD__, ' failure');
+            $this->fail(__METHOD__. ' failure');
         }
     }
 
@@ -144,7 +144,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit<sub>x</sub> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_subscript);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_subscript);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ .  ' failure');
@@ -156,7 +156,7 @@ final class SingleAttributesTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
 
         try {
-            $quill = new \DBlackborough\Quill($this->deltas_superscript);
+            $quill = new \DBlackborough\Quill\Render($this->deltas_superscript);
             $this->assertEquals($expected, $quill->render());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ .  ' failure');
