@@ -3,7 +3,7 @@
     "description": "Render quill insert deltas to HTML and soon markdown",
     "autoload": {
         "psr-4" : {
-            "DBlackborough\\Quill\\" : "src/DBlackborough/Quill"
+            "DBlackborough\\Quill\\" : "src/"
         }
     },
     "homepage": "https://github.com/deanblackborough/php-quill-renderer",

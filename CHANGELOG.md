@@ -3,7 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
-## v0.80.0 
+## v0.80.1 - 2017-04-26
+
+* Composer autoload definition updated.
+* Added warnings to readme.
+
+## v0.80.0 - 2017-04-25 
 
 * I'm now only testing against PHP 7+. [Tests]
 * Added tests for setting attributes. [Tests]

@@ -69,3 +69,17 @@ Image | `<img>`
 * Improved newline and paragraph support
 * Remaining toolbar options
 * Missing tests (options)
+
+## Warnings
+
+### Image support
+
+The image support is rudimentary; it isn't production ready, some work needs to be done to support 
+images. I can think of two solutions, pre-save of deltas, post the base64 and return a URI to replace the 
+base64, or, at render time, fetch/cache an image/URI by posting the base64, later down the line I may 
+explore one of these options.
+
+Why? 
+
+I'm using this package within Dlayer, my app has its own image handling and I will not be exposing 
+the image functionality of Quill.
