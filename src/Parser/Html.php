@@ -203,9 +203,15 @@ class Html extends Parse
                 is_array($delta['insert']) === false &&
                 preg_match("/[\n]{2}/", $delta['insert']) !== 0) {
 
-                foreach (explode("\n\n", $delta['insert']) as $match) {
+                $deltas = explode("\n\n", $delta['insert']);
+                $length = count($deltas);
+                foreach ($deltas as $index => $match) {
                     if (strlen(trim($match)) > 0) {
-                        $this->deltas[] = array('insert' => str_replace("\n", '', $match));
+                        $insert = str_replace("\n", '<br/>', $match);
+                        if($index !== $length - 1){
+                            $insert .= "<br/><br/>";
+                        }
+                        $this->deltas[] = array('insert' => $insert);
                     }
                 }
             } else {
