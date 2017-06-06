@@ -199,14 +199,17 @@ class Html extends Parse
 
         foreach ($deltas as $delta) {
             if (array_key_exists('insert', $delta) === true &&
-                array_key_exists('attributes', $delta) === false &&
+                //array_key_exists('attributes', $delta) === false && @todo Why did I add this?
                 is_array($delta['insert']) === false &&
-                preg_match("/[\n]{2}/", $delta['insert']) !== 0) {
+                preg_match("/[\n]{2,}/", $delta['insert']) !== 0) {
 
-                foreach (explode("\n\n", $delta['insert']) as $match) {
-                    if (strlen(trim($match)) > 0) {
-                        $this->deltas[] = array('insert' => str_replace("\n", '', $match));
-                    }
+                foreach (explode("\n\n", $delta['insert']) as $k => $match) {
+                    $new_delta = [
+                        'insert' => str_replace("\n", '', $match),
+                        'break' => true
+                    ];
+
+                    $this->deltas[] = $new_delta;
                 }
             } else {
                 if (array_key_exists('insert', $delta) === true) {
@@ -230,8 +233,12 @@ class Html extends Parse
 
             $this->content[$i] = array(
                 'content' => null,
-                'tags' => array()
+                'tags' => array(),
             );
+
+            if (array_key_exists('break', $insert) === true) {
+                $this->content[$i]['break'] = true;
+            }
 
             $tags = array();
             $has_tags = false;
@@ -324,7 +331,33 @@ class Html extends Parse
     }
 
     /**
+     * Convert breaks into new paragraphs
+     *
+     * @return void
+     */
+    private function convertBreaks()
+    {
+        foreach ($this->content as $i => $content) {
+            if (array_key_exists('break', $content) === true) {
+                foreach ($content['tags'] as $tag) {
+
+                    if (count($content['tags']) === 1) {
+                        if ($tag['open'] === null && $tag['close'] === '</' . $this->options['block']['tag'] . '>') {
+                            $this->content[$i]['tags'][0]['open'] = '<' . $this->options['block']['tag'] . '>';
+                        }
+                        if ($tag['open'] === '<' . $this->options['block']['tag'] . '>' && $tag['close'] === null) {
+                            $this->content[$i]['tags'][0]['close'] = '</' . $this->options['block']['tag'] . '>';
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Loops through the deltas object and generate the contents array
+     *
+     * @todo Not keen on the close and remove methods, need to go through logic and try to remove need for them
      *
      * @return boolean
      */
@@ -343,6 +376,8 @@ class Html extends Parse
             $this->closeOpenParagraphs();
 
             $this->lastItemClosed();
+
+            $this->convertBreaks();
 
             return true;
         } else {

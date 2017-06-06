@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## v0.90 - 2017-06-06
+
+* Added support for paragraph breaks, converts double newlines from quill insert into a new p tag, the
+ feature is not yet bulletproof, I need to take another look at my parser.
+
 ## v0.80.1 - 2017-04-26
 
 * Composer autoload definition updated.
