@@ -66,7 +66,6 @@ Image | `<img>`
 * Markdown support
 * Lists (Bullets and Ordered)
 * Formatting options (justification etc.)
-* Improved newline and paragraph support
 * Remaining toolbar options
 * Missing tests (options)
 
