@@ -9,6 +9,7 @@ require_once __DIR__ . '../../src/Parser/Html.php';
 final class BlockTest extends \PHPUnit\Framework\TestCase
 {
     private $deltas_simple_string = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
+    private $deltas_paragraph_split = '{"ops":[{"insert":"Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet."}]}';
     private $deltas_missing_quote = '{"ops":[{"insert":"Lorem ipsum dolor sit amet}]}';
 
     public function testValidDeltasSimpleString()
@@ -36,6 +37,14 @@ final class BlockTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet</p>';
 
         $quill = new \DBlackborough\Quill\Render($this->deltas_simple_string);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    public function testOutputParagraphSplit()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->deltas_paragraph_split);
         $this->assertEquals($expected, $quill->render());
     }
 }
