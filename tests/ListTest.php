@@ -6,7 +6,7 @@ require_once __DIR__ . '../../src/Renderer/Html.php';
 require_once __DIR__ . '../../src/Parser/Parse.php';
 require_once __DIR__ . '../../src/Parser/Html.php';
 
-final class LitTest extends \PHPUnit\Framework\TestCase
+final class ListTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleList()
     {
