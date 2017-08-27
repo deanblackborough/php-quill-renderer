@@ -95,6 +95,13 @@ class Html extends Parse
                     'href' => null
                 )
             ),
+            'list' => array(
+                'ordered' => array(
+                    'tag' => 'ol',
+                    'type' => 'block',
+                    'assign' => 'previous'
+                )
+            ),
             'script' => array(
                 'sub' => array(
                     'type' => 'inline',
@@ -136,6 +143,7 @@ class Html extends Parse
                 break;
 
             case 'header':
+            case 'list':
             case 'script':
                 return $this->options['attributes'][$attribute][$value];
                 break;
