@@ -97,9 +97,10 @@ class Html extends Parse
             ),
             'list' => array(
                 'ordered' => array(
-                    'tag' => 'ol',
+                    'tag' => 'li',
                     'type' => 'block',
-                    'assign' => 'previous'
+                    'assign' => 'previous',
+                    'parent_tag' => 'ol'
                 )
             ),
             'script' => array(
@@ -292,7 +293,9 @@ class Html extends Parse
                     $this->content[$tag_counter]['tags'][] = array(
                         'open' => $open,
                         'close' => '</' . $tag['tag'] . '>',
-                        'type' => $tag['type']
+                        'type' => $tag['type'],
+                        'parent_open' => null,
+                        'parent_close' => null
                     );
                 }
             }
