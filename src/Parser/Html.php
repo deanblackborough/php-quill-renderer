@@ -290,12 +290,19 @@ class Html extends Parse
                         $tag_counter = $i - 1;
                     }
 
+                    $parent_tags = null;
+                    if (array_key_exists('parent_tag', $tag) === true) {
+                        $parent_tags = array (
+                            'open' => '<' . $tag['parent_tag'] . '>',
+                            'close' => '</' . $tag['parent_tag'] . '>',
+                        );
+                    }
+
                     $this->content[$tag_counter]['tags'][] = array(
                         'open' => $open,
                         'close' => '</' . $tag['tag'] . '>',
                         'type' => $tag['type'],
-                        'parent_open' => null,
-                        'parent_close' => null
+                        'parent_tags' => $parent_tags
                     );
                 }
             }

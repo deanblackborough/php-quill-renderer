@@ -37,8 +37,15 @@ class Html extends Render
      */
     public function render()
     {
+        $open_parent = false;
+
         foreach ($this->content as $content) {
             foreach ($content['tags'] as $tag) {
+                if (array_key_exists('parent_tags', $tag) === true && $tag['parent_tags'] !== null &&
+                    array_key_exists('open', $tag['parent_tags']) && $tag['parent_tags']['open'] !== null) {
+                    $this->html .= $tag['parent_tags']['open'];
+                }
+
                 if (array_key_exists('open', $tag) === true && $tag['open'] !== null) {
                     $this->html .= $tag['open'];
                 }
@@ -53,6 +60,11 @@ class Html extends Render
             foreach (array_reverse($content['tags']) as $tag) {
                 if (array_key_exists('close', $tag) === true && $tag['close'] !== null) {
                     $this->html .= $tag['close'];
+                }
+
+                if (array_key_exists('parent_tags', $tag) === true && $tag['parent_tags'] !== null &&
+                    array_key_exists('close', $tag['parent_tags']) && $tag['parent_tags']['close'] !== null) {
+                    $this->html .= $tag['parent_tags']['close'];
                 }
             }
         }
