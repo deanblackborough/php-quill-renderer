@@ -397,6 +397,8 @@ class Html extends Parse
 
             $this->convertBreaks();
 
+            $this->removeRedundantParentTags();
+
             return true;
         } else {
             return false;
@@ -536,9 +538,21 @@ class Html extends Parse
                 break;
             case 'header':
             case 'link':
+            case 'list':
                 return false;
                 break;
 
         }
+    }
+
+    /**
+     * Remove any redundant parent tags. Using lists as an example, each LI will have open and close
+     * parent tags assigned to it.
+     *
+     * @return void
+     */
+    private function removeRedundantParentTags()
+    {
+        
     }
 }

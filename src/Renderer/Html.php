@@ -37,8 +37,6 @@ class Html extends Render
      */
     public function render()
     {
-        $open_parent = false;
-
         foreach ($this->content as $content) {
             foreach ($content['tags'] as $tag) {
                 if (array_key_exists('parent_tags', $tag) === true && $tag['parent_tags'] !== null &&
