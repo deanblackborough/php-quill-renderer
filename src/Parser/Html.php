@@ -101,6 +101,12 @@ class Html extends Parse
                     'type' => 'block',
                     'assign' => 'previous',
                     'parent_tag' => 'ol'
+                ),
+                'unordered' => array(
+                    'tag' => 'li',
+                    'type' => 'block',
+                    'assign' => 'previous',
+                    'parent_tag' => 'ul'
                 )
             ),
             'script' => array(
