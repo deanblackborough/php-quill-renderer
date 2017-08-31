@@ -107,14 +107,6 @@ abstract class Parse
                     $valid = true;
                 }
                 break;
-            case 'script':
-                if (array_key_exists('attributes', $this->options) === true &&
-                    array_key_exists($attribute, $this->options['attributes']) === true &&
-                    in_array($value, array('sub', 'super')) === true) {
-
-                    $valid = true;
-                }
-                break;
             case 'link':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
@@ -123,7 +115,22 @@ abstract class Parse
                     $valid = true;
                 }
                 break;
+            case 'list':
+                if (array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    in_array($value, array('ordered', 'unordered')) === true) {
 
+                    $valid = true;
+                }
+                break;
+            case 'script':
+                if (array_key_exists('attributes', $this->options) === true &&
+                    array_key_exists($attribute, $this->options['attributes']) === true &&
+                    in_array($value, array('sub', 'super')) === true) {
+
+                    $valid = true;
+                }
+                break;
 
             default:
                 // Do nothing, valid already set to false

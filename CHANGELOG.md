@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## 1.00.0 - 2017-08-31
+
+* Added support for ordered and unordered lists.
+* Updated README, notes on version 2.00.0
+
 ## v0.90 - 2017-06-06
 
 * Added support for paragraph breaks, converts double newlines from quill insert into a new p tag, the

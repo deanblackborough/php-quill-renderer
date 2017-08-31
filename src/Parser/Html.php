@@ -95,6 +95,20 @@ class Html extends Parse
                     'href' => null
                 )
             ),
+            'list' => array(
+                'ordered' => array(
+                    'tag' => 'li',
+                    'type' => 'block',
+                    'assign' => 'previous',
+                    'parent_tag' => 'ol'
+                ),
+                'unordered' => array(
+                    'tag' => 'li',
+                    'type' => 'block',
+                    'assign' => 'previous',
+                    'parent_tag' => 'ul'
+                )
+            ),
             'script' => array(
                 'sub' => array(
                     'type' => 'inline',
@@ -136,6 +150,7 @@ class Html extends Parse
                 break;
 
             case 'header':
+            case 'list':
             case 'script':
                 return $this->options['attributes'][$attribute][$value];
                 break;
@@ -281,10 +296,19 @@ class Html extends Parse
                         $tag_counter = $i - 1;
                     }
 
+                    $parent_tags = array('open' => null, 'close' => null);
+                    if (array_key_exists('parent_tag', $tag) === true) {
+                        $parent_tags = array (
+                            'open' => '<' . $tag['parent_tag'] . '>',
+                            'close' => '</' . $tag['parent_tag'] . '>',
+                        );
+                    }
+
                     $this->content[$tag_counter]['tags'][] = array(
                         'open' => $open,
                         'close' => '</' . $tag['tag'] . '>',
-                        'type' => $tag['type']
+                        'type' => $tag['type'],
+                        'parent_tags' => $parent_tags
                     );
                 }
             }
@@ -357,7 +381,8 @@ class Html extends Parse
     /**
      * Loops through the deltas object and generate the contents array
      *
-     * @todo Not keen on the close and remove methods, need to go through logic and try to remove need for them
+     * @todo Not keen on the close*() and remove*() methods, I need to go through the logic and try to
+     * remove the need for them by moving the logic into the assign tags function
      *
      * @return boolean
      */
@@ -378,6 +403,8 @@ class Html extends Parse
             $this->lastItemClosed();
 
             $this->convertBreaks();
+
+            $this->removeRedundantParentTags();
 
             return true;
         } else {
@@ -518,9 +545,43 @@ class Html extends Parse
                 break;
             case 'header':
             case 'link':
+            case 'list':
                 return false;
                 break;
 
+        }
+    }
+
+    /**
+     * Remove any redundant parent tags. Using lists as an example, each LI will have open and close
+     * parent tags assigned to it.
+     *
+     * @return void
+     */
+    private function removeRedundantParentTags()
+    {
+        $existing_content = $this->content;
+        $this->content = array();
+        foreach ($existing_content as $k => $content) {
+            if ($k !== 0 &&
+                array_key_exists('tags', $content) === true &&
+                count($content['tags']) === 1 &&
+                array_key_exists('parent_tags', $content['tags'][0]) === true) {
+                /**
+                 * Check the preview content item, if it has parent tags, remove the close and
+                 * remove the parent tag open from the current item before assigning back to the
+                 * new content array
+                 */
+                if (array_key_exists('tags', $this->content[($k-1)]) === true &&
+                    count($this->content[($k-1)]['tags']) === 1 &&
+                    array_key_exists('parent_tags', $this->content[($k-1)]['tags'][0]) === true) {
+
+                    $this->content[($k-1)]['tags'][0]['parent_tags']['close'] = null;
+                    $content['tags'][0]['parent_tags']['open'] = null;
+                }
+            }
+
+            $this->content[] = $content;
         }
     }
 }
