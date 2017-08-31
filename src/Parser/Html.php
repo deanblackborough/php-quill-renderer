@@ -290,7 +290,7 @@ class Html extends Parse
                         $tag_counter = $i - 1;
                     }
 
-                    $parent_tags = null;
+                    $parent_tags = array('open' => null, 'close' => null);
                     if (array_key_exists('parent_tag', $tag) === true) {
                         $parent_tags = array (
                             'open' => '<' . $tag['parent_tag'] . '>',
@@ -375,7 +375,8 @@ class Html extends Parse
     /**
      * Loops through the deltas object and generate the contents array
      *
-     * @todo Not keen on the close and remove methods, need to go through logic and try to remove need for them
+     * @todo Not keen on the close*() and remove*() methods, I need to go through the logic and try to
+     * remove the need for them by moving the logic into the assign tags function
      *
      * @return boolean
      */
@@ -553,6 +554,28 @@ class Html extends Parse
      */
     private function removeRedundantParentTags()
     {
-        
+        $existing_content = $this->content;
+        $this->content = array();
+        foreach ($existing_content as $k => $content) {
+            if ($k !== 0 &&
+                array_key_exists('tags', $content) === true &&
+                count($content['tags']) === 1 &&
+                array_key_exists('parent_tags', $content['tags'][0]) === true) {
+                /**
+                 * Check the preview content item, if it has parent tags, remove the close and
+                 * remove the parent tag open from the current item before assigning back to the
+                 * new content array
+                 */
+                if (array_key_exists('tags', $this->content[($k-1)]) === true &&
+                    count($this->content[($k-1)]['tags']) === 1 &&
+                    array_key_exists('parent_tags', $this->content[($k-1)]['tags'][0]) === true) {
+
+                    $this->content[($k-1)]['tags'][0]['parent_tags']['close'] = null;
+                    $content['tags'][0]['parent_tags']['open'] = null;
+                }
+            }
+
+            $this->content[] = $content;
+        }
     }
 }
