@@ -9,9 +9,11 @@
 
 ## Description
 
-Simple Quill delta insert renderer, currently it only supports the attributes listed below, I will add support for additional attributes as I need them in Dlayer.
+Quill deltas renderer, converts deltas to HTML, the attributes supported by version 1.00.0 are listed below. 
+Version 2.00.0 is in development, I'm working on support for additional Quill attributes, markdown support and a 
+full rewrite of the parser, version 2.00.0 will only support PHP7+. 
 
-Created for use in [Dlayer](https://github.com/Dlayer/dlayer) but works as a stand-alone tool.
+Created for use within [Dlayer](https://github.com/Dlayer/dlayer) but works as a stand-alone tool.
 
 ## Installation
  
@@ -60,14 +62,15 @@ Script:Super | `<sup>`
 Underline | `<u>`
 Header | `<h[n]>`
 Image | `<img>`
+List | `<ul>` `<ol>`
 
-## Planned features
 
+* Parser logic rework
 * Markdown support
-* Lists (Bullets and Ordered)
 * Formatting options (justification etc.)
-* Remaining toolbar options
-* Missing tests (options)
+* Remaining Quill toolbar options
+* Full options management
+* Tests
 
 ## Warnings
 
