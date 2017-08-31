@@ -64,6 +64,7 @@ Header | `<h[n]>`
 Image | `<img>`
 List | `<ul>` `<ol>`
 
+## Planned features for version 2.00.0
 
 * Parser logic rework
 * Markdown support
