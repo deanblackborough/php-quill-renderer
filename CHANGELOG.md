@@ -3,6 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
+## 1.01.0 - 2017-09-04
+
+* Attribute incorrect for bullet list (Credit: Carlos https://github.com/sald19) [Bugfix]
+* Only testing against 7.1 going forward.
+* Added credits section to README.
+
 ## 1.00.0 - 2017-08-31
 
 * Added support for ordered and unordered lists.
