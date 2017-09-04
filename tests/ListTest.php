@@ -17,9 +17,9 @@ final class ListTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $quill->render());
     }
 
-    public function testSimpleUnorderedList()
+    public function testSimpleBulletList()
     {
-        $delta = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"unordered"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"unordered"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"unordered"},"insert":"\n"}]}';
+        $delta = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
         $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>';
 
         $quill = new \DBlackborough\Quill\Render($delta);

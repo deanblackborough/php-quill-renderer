@@ -118,7 +118,7 @@ abstract class Parse
             case 'list':
                 if (array_key_exists('attributes', $this->options) === true &&
                     array_key_exists($attribute, $this->options['attributes']) === true &&
-                    in_array($value, array('ordered', 'unordered')) === true) {
+                    in_array($value, array('ordered', 'bullet')) === true) {
 
                     $valid = true;
                 }
