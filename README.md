@@ -64,6 +64,10 @@ Header | `<h[n]>`
 Image | `<img>`
 List | `<ul>` `<ol>`
 
+## Credits
+
+carlos https://github.com/sald19 [Bugfix] v1.01.0
+
 ## Planned features for version 2.00.0
 
 * Parser logic rework
