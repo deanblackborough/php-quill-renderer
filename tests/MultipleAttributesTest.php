@@ -30,4 +30,40 @@ final class MultipleAttributesTest extends \PHPUnit\Framework\TestCase
         $quill = new \DBlackborough\Quill\Render($this->deltas_multiple_attributes);
         $this->assertEquals($expected, $quill->render());
     }
+
+    /**
+     * Test for bug report #30
+     */
+    public function testParagraphThenList()
+    {
+        $deltas = '{
+            "ops": [{
+            "insert": "normal text here\nbullet 1"
+            }, {
+                    "attributes": {
+                        "list": "bullet"
+                },
+                "insert": "\n"
+            }, {
+                    "insert": "bullet 2"
+            }, {
+                    "attributes": {
+                        "list": "bullet"
+                },
+                "insert": "\n"
+            }, {
+                    "insert": "bullet3"
+            }, {
+                    "attributes": {
+                        "list": "bullet"
+                },
+                "insert": "\n"
+            }]
+        }';
+
+        $expected = "[HTML HERE]";
+
+        $quill = new \DBlackborough\Quill\Render($deltas);
+        $this->assertEquals($expected, $quill->render());
+    }
 }
