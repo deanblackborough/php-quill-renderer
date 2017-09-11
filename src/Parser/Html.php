@@ -102,7 +102,7 @@ class Html extends Parse
                     'assign' => 'previous',
                     'parent_tag' => 'ol'
                 ),
-                'unordered' => array(
+                'bullet' => array(
                     'tag' => 'li',
                     'type' => 'block',
                     'assign' => 'previous',
