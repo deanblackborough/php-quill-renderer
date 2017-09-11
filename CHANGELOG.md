@@ -3,6 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
+## 1.01.1 - 2017-09-11
+
+* If a list follows text the generated HTML is invalid. [Bugfix] (Credit: Carlos https://github.com/sald19 
+for finding bug)
+* Switched to preg_split, code was looking for two or more newlines but ever only splitting on two.
+* Moved newline replacement to last possible step.
+
 ## 1.01.0 - 2017-09-04
 
 * Attribute incorrect for bullet list (Credit: Carlos https://github.com/sald19) [Bugfix]
