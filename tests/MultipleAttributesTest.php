@@ -30,4 +30,17 @@ final class MultipleAttributesTest extends \PHPUnit\Framework\TestCase
         $quill = new \DBlackborough\Quill\Render($this->deltas_multiple_attributes);
         $this->assertEquals($expected, $quill->render());
     }
+
+    /**
+     * Test for bug report #30
+     */
+    public function testParagraphThenList()
+    {
+        $deltas = '{"ops":[{"insert":"This is a single line of text.\nBullet 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Bullet 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Bullet 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
+
+        $expected = '<p>This is a single line of text.</p><ul><li>Bullet 1</li><li>Bullet 2</li><li>Bullet 3</li></ul>';
+
+        $quill = new \DBlackborough\Quill\Render($deltas);
+        $this->assertEquals($expected, $quill->render());
+    }
 }

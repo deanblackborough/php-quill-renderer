@@ -209,16 +209,15 @@ class Html extends Parse
      */
     private function splitDeltas()
     {
-        $deltas = $this->deltas['ops'];
+        $deltas = $this->deltas;
         $this->deltas = array();
 
-        foreach ($deltas as $delta) {
+        foreach ($deltas as $k => $delta) {
             if (array_key_exists('insert', $delta) === true &&
-                //array_key_exists('attributes', $delta) === false && @todo Why did I add this?
                 is_array($delta['insert']) === false &&
                 preg_match("/[\n]{2,}/", $delta['insert']) !== 0) {
 
-                foreach (explode("\n\n", $delta['insert']) as $k => $match) {
+                foreach (preg_split("/[\n]{2,}/", $delta['insert']) as $match) {
                     $new_delta = [
                         'insert' => str_replace("\n", '', $match),
                         'break' => true
@@ -227,9 +226,38 @@ class Html extends Parse
                     $this->deltas[] = $new_delta;
                 }
             } else {
-                if (array_key_exists('insert', $delta) === true) {
-                    $delta['insert'] = str_replace("\n", '', $delta['insert']);
+                $this->deltas[] = $delta;
+            }
+        }
+    }
+
+    /**
+     * List hack
+     *
+     * Looks to see if the next item is the start of a list, if this item contains a new line we need
+     * to split it.
+     */
+    private function listHack()
+    {
+        $deltas = $this->deltas['ops'];
+        $this->deltas = array();
+
+        foreach ($deltas as $k => $delta) {
+            if (array_key_exists('insert', $delta) === true &&
+                is_array($delta['insert']) === false &&
+                preg_match("/[\n]{1}/", $delta['insert']) !== 0 &&
+                array_key_exists(($k+1), $deltas) === true &&
+                array_key_exists('attributes', $deltas[($k+1)]) === true &&
+                array_key_exists('list', $deltas[($k+1)]['attributes']) === true) {
+
+                foreach (preg_split("/[\n]{1}/", $delta['insert']) as $match) {
+                    $new_delta = [
+                        'insert' => $match
+                    ];
+
+                    $this->deltas[] = $new_delta;
                 }
+            } else {
                 $this->deltas[] = $delta;
             }
         }
@@ -389,6 +417,8 @@ class Html extends Parse
     public function parse()
     {
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
+
+            $this->listHack();
 
             $this->splitDeltas();
 
