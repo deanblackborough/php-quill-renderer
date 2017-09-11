@@ -67,6 +67,6 @@ class Html extends Render
             }
         }
 
-        return $this->html;
+        return str_replace("\n", '', $this->html);
     }
 }
