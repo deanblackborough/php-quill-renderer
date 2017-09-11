@@ -11,7 +11,7 @@ require_once __DIR__ . '../../src/Parser/Html.php';
  */
 final class MultipleAttributesTest extends \PHPUnit\Framework\TestCase
 {
-    /*private $deltas_multiple_attributes = '{"ops":[{"insert":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur nibh tempor augue lobortis, nec eleifend velit venenatis. Nullam fringilla dui eget lectus mattis tincidunt. \nDonec sollicitudin, lacus sed luctus ultricies, "},{"attributes":{"strike":true,"italic":true},"insert":"quam sapien "},{"attributes":{"strike":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim. "},{"attributes":{"bold":true},"insert":"Sed ac augue tincidunt,"},{"insert":" cursus urna a, tempus ipsum. Donec pretium fermentum erat a "},{"attributes":{"underline":true},"insert":"elementum"},{"insert":". In est odio, mattis sed dignissim sed, porta ac nisl. Nunc et tellus imperdiet turpis placerat tristique nec quis justo. Aenean nisi libero, auctor a laoreet sed, fermentum vel massa. Etiam ultricies leo eget purus tempor dapibus. Integer ac sapien eros. Suspendisse convallis ex."}]}';
+    private $deltas_multiple_attributes = '{"ops":[{"insert":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur nibh tempor augue lobortis, nec eleifend velit venenatis. Nullam fringilla dui eget lectus mattis tincidunt. \nDonec sollicitudin, lacus sed luctus ultricies, "},{"attributes":{"strike":true,"italic":true},"insert":"quam sapien "},{"attributes":{"strike":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim. "},{"attributes":{"bold":true},"insert":"Sed ac augue tincidunt,"},{"insert":" cursus urna a, tempus ipsum. Donec pretium fermentum erat a "},{"attributes":{"underline":true},"insert":"elementum"},{"insert":". In est odio, mattis sed dignissim sed, porta ac nisl. Nunc et tellus imperdiet turpis placerat tristique nec quis justo. Aenean nisi libero, auctor a laoreet sed, fermentum vel massa. Etiam ultricies leo eget purus tempor dapibus. Integer ac sapien eros. Suspendisse convallis ex."}]}';
 
     public function testValidDeltasMultipleAttributes()
     {
@@ -29,39 +29,16 @@ final class MultipleAttributesTest extends \PHPUnit\Framework\TestCase
 
         $quill = new \DBlackborough\Quill\Render($this->deltas_multiple_attributes);
         $this->assertEquals($expected, $quill->render());
-    }*/
+    }
 
     /**
      * Test for bug report #30
      */
     public function testParagraphThenList()
     {
-        $deltas = '{
-            "ops": [{
-            "insert": "normal text here\nbullet 1"
-            }, {
-                    "attributes": {
-                        "list": "bullet"
-                },
-                "insert": "\n"
-            }, {
-                    "insert": "bullet 2"
-            }, {
-                    "attributes": {
-                        "list": "bullet"
-                },
-                "insert": "\n"
-            }, {
-                    "insert": "bullet3"
-            }, {
-                    "attributes": {
-                        "list": "bullet"
-                },
-                "insert": "\n"
-            }]
-        }';
+        $deltas = '{"ops":[{"insert":"This is a single line of text.\nBullet 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Bullet 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Bullet 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
 
-        $expected = '<p>normal text here</p><ul><li>bullet 1</li><li>bullet 2</li><li>bullet3</li></ul>';
+        $expected = '<p>This is a single line of text.</p><ul><li>Bullet 1</li><li>Bullet 2</li><li>Bullet 3</li></ul>';
 
         $quill = new \DBlackborough\Quill\Render($deltas);
         $this->assertEquals($expected, $quill->render());
