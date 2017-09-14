@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.00.0 - [Date]
+
+* Switched to PHP 7.1 only.
+* Updated library code, strict types etc.
+
 ## 1.01.1 - 2017-09-11
 
 * If a list follows text the generated HTML is invalid. [Bugfix] (Credit: Carlos https://github.com/sald19 

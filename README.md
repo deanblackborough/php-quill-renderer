@@ -1,19 +1,21 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/deanblackborough/php-quill-renderer.svg?style=flat-square)](https://packagist.org/packages/deanblackborough/php-quill-renderer)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dlayer/dlayer/blob/master/LICENSE)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-7.1-8892BF.svg)](https://php.net/)
 [![Build Status](https://travis-ci.org/deanblackborough/php-quill-renderer.svg?branch=master)](https://travis-ci.org/deanblackborough/php-quill-renderer)
 
 # PHP Quill Renderer
 
-*Render quill insert deltas to HTML.*
+*Render quill insert deltas to HTML and Markdown.*
 
 ## Description
 
-Quill deltas renderer, converts deltas to HTML, the attributes supported by version 1.00.0 are listed below. 
+Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below. 
 Version 2.00.0 is in development, I'm working on support for additional Quill attributes, markdown support and a 
-full rewrite of the parser, version 2.00.0 will only support PHP7+. 
+full rewrite of the parser, version 2.00.0 will only support PHP7.1+.
 
-Created for use within [Dlayer](https://github.com/Dlayer/dlayer) but works as a stand-alone tool.
+## PHP 5.6
+
+Use version 1.01.1 if you need PHP 5.6 support.
 
 ## Installation
  
