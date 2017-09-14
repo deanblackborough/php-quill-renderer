@@ -3,7 +3,7 @@
 
 Full changelog for PHP Quill Renderer
 
-## 2.00.0 - [Date]
+## 2.00.0 - 2017-09-14
 
 * Switched to PHP 7.1 only.
 * Updated library code, strict types etc.

@@ -1,8 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill\Parser;
-
-use \Exception;
 
 /**
  * Parser for HTML, parses the deltas to generate a content array for  deltas into a html redy array
@@ -19,15 +18,17 @@ class Html extends Parse
      * @param array $options Options data array, if empty default options are used
      * @param string $block_element
      */
-    public function __construct(array $options = array(), $block_element = null)
+    public function __construct(array $options = array(), string $block_element = '')
     {
         parent::__construct($options, $block_element);
     }
 
     /**
      * Default block element attribute
+     *
+     * @return array
      */
-    protected function defaultBlockElementOption()
+    protected function defaultBlockElementOption() : array
     {
         return array(
             'tag' => 'p',
@@ -40,7 +41,7 @@ class Html extends Parse
      *
      * @return array
      */
-    protected function defaultAttributeOptions()
+    protected function defaultAttributeOptions() : array
     {
         return array(
             'bold' => array(
@@ -409,12 +410,9 @@ class Html extends Parse
     /**
      * Loops through the deltas object and generate the contents array
      *
-     * @todo Not keen on the close*() and remove*() methods, I need to go through the logic and try to
-     * remove the need for them by moving the logic into the assign tags function
-     *
      * @return boolean
      */
-    public function parse()
+    public function parse() : bool
     {
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
 
@@ -442,7 +440,7 @@ class Html extends Parse
         }
     }
 
-    public function content()
+    public function content() : array
     {
         return $this->content;
     }
@@ -457,7 +455,7 @@ class Html extends Parse
         $existing_content = $this->content;
         $this->content = array();
         foreach ($existing_content as $content) {
-            if (is_array($content['content']) === true || strlen($content['content']) !== 0) {
+            if ($content['content'] !== null && (is_array($content['content']) === true || strlen($content['content']) !== 0)) {
                 $this->content[] = $content;
             }
         }
@@ -528,10 +526,10 @@ class Html extends Parse
      * @param string $option Attribute option to replace
      * @param mixed $value New Attribute option value
      *
-     * @return true
+     * @return boolean
      * @throws \Exception
      */
-    private function validateAndSetAttributeOption($option, $value)
+    private function validateAndSetAttributeOption(string $option, $value) : bool
     {
         if (is_array($value) === true &&
             array_key_exists('tag', $value) === true &&
@@ -563,7 +561,7 @@ class Html extends Parse
      * @return boolean
      * @throws \Exception
      */
-    public function setAttributeOption($option, $value)
+    public function setAttributeOption(string $option, $value) : bool
     {
         switch ($option) {
             case 'bold':
@@ -576,6 +574,9 @@ class Html extends Parse
             case 'header':
             case 'link':
             case 'list':
+                return false;
+                break;
+            default:
                 return false;
                 break;
 

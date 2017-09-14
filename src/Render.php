@@ -62,7 +62,7 @@ class Render
      * @return boolean
      * @throws \Exception
      */
-    public function setAttributeOption(string $option, $value)
+    public function setAttributeOption(string $option, $value) : bool
     {
         if (is_a($this->parser, '\DBlackborough\Quill\Parser\Parse') === true) {
             return $this->parser->setAttributeOption($option, $value);
@@ -77,7 +77,7 @@ class Render
      * @return string
      * @throws \Exception
      */
-    public function render()
+    public function render() : string
     {
         if ($this->parser->parse() !== true) {
             throw new \Exception('Failed to parse delta');

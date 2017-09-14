@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill\Renderer;
 
@@ -35,7 +36,7 @@ class Html extends Render
      *
      * @return string
      */
-    public function render()
+    public function render() : string
     {
         foreach ($this->content as $content) {
             foreach ($content['tags'] as $tag) {

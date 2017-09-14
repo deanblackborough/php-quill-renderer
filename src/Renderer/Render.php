@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill\Renderer;
 
@@ -31,5 +32,5 @@ abstract class Render
      *
      * @return string
      */
-    abstract public function render();
+    abstract public function render() : string;
 }
