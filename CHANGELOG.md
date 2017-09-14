@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.00.1 - 2017-09-14
+
+* Removed ./idea/ from .gitignore, should be ignored globally, not locally.
+
 ## 2.00.0 - 2017-09-14
 
 * Switched to PHP 7.1 only.
