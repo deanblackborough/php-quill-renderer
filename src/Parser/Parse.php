@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill\Parser;
 
 /**
- * Quill parser, parses deltas json array and generates a content array for the renderer
+ * Quill parser, parses deltas json array and generates a content array to be used by the relevant renederer
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -41,9 +42,9 @@ abstract class Parse
      * Renderer constructor.
      *
      * @param array $options Options data array, if empty default options are used
-     * @param array $block_element Block element to use, if empty default is used
+     * @param string $block_element Block element to use, if empty default is used
      */
-    public function __construct(array $options = array(), $block_element = null)
+    public function __construct(array $options = array(), string $block_element = '')
     {
         $this->content = array();
 
@@ -54,7 +55,7 @@ abstract class Parse
         $this->setAttributeOptions($options);
 
         $block_options = $this->defaultBlockElementOption();
-        if ($block_element !== null) {
+        if ($block_element !== '') {
             $block_options['tag'] = $block_element;
         }
 
@@ -66,14 +67,14 @@ abstract class Parse
      *
      * @return array
      */
-    abstract protected function defaultAttributeOptions();
+    abstract protected function defaultAttributeOptions() : array;
 
     /**
      * Set the default block element for the parser/renderer
      *
      * @return array
      */
-    abstract protected function defaultBlockElementOption();
+    abstract protected function defaultBlockElementOption() : array;
 
     /**
      * Check to see if the requested attribute is valid, needs to be a known attribute and have an option set
@@ -83,7 +84,7 @@ abstract class Parse
      *
      * @return boolean
      */
-    protected function isAttributeValid($attribute, $value)
+    protected function isAttributeValid($attribute, $value) : bool
     {
         $valid = false;
 
@@ -145,7 +146,7 @@ abstract class Parse
      *
      * @return array
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
@@ -154,7 +155,6 @@ abstract class Parse
      * Set all the attribute options for the parser/renderer
      *
      * @param array $options
-     * @return \DBlackborough\Quill\Parse
      */
     abstract public function setAttributeOptions(array $options);
 
@@ -162,8 +162,6 @@ abstract class Parse
      * Set the block element for the parser/renderer
      *
      * @param array $options Block options
-     *
-     * @return boolean
      */
     abstract public function setBlockOptions(array $options);
 
@@ -175,14 +173,16 @@ abstract class Parse
      *
      * @return boolean
      */
-    abstract public function setAttributeOption($option, $value);
+    abstract public function setAttributeOption(string $option, $value) : bool;
 
     /**
+     * LOad the deltas, checks the json is valid
+     *
      * @param string $deltas JSON inserts string
      *
      * @return boolean
      */
-    public function load($deltas)
+    public function load(string $deltas) : bool
     {
         $this->deltas = json_decode($deltas, true);
 
@@ -199,12 +199,12 @@ abstract class Parse
      *
      * @return boolean
      */
-    abstract protected function parse();
+    abstract protected function parse() : bool;
 
     /**
      * Return the content array
      *
-     * @return string
+     * @return array
      */
-    abstract public function content();
+    abstract public function content() : array;
 }

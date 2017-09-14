@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill\Renderer;
 
 /**
- * Quill renderer, converts quill delta inserts into HTML
+ * Quill renderer, iterates over the generated content data array and creates valid HTML
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -35,7 +36,7 @@ class Html extends Render
      *
      * @return string
      */
-    public function render()
+    public function render() : string
     {
         foreach ($this->content as $content) {
             foreach ($content['tags'] as $tag) {

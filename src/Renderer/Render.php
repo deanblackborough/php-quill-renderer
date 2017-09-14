@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill\Renderer;
 
 /**
- * Quill renderer, iterates over the content data array and creates html
+ * Quill renderer, iterates over the generated content data array and creates the data in the relevant format
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -31,5 +32,5 @@ abstract class Render
      *
      * @return string
      */
-    abstract public function render();
+    abstract public function render() : string;
 }

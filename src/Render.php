@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace DBlackborough\Quill;
 
 /**
- * Parse Quill generated deltas to the requested format
+ * Parse Quill generated deltas into the requested format
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -30,14 +31,15 @@ class Render
      * Renderer constructor.
      *
      * @param string $deltas Deltas json string
+     * @param string $format Requested output format
      *
      * @throws \Exception
      */
-    public function __construct($deltas, $format='HTML')
+    public function __construct(string $deltas, string $format='HTML')
     {
         switch ($format) {
             case 'HTML':
-                $this->parser = new \DBlackborough\Quill\Parser\Html();
+                $this->parser = new Parser\Html();
                 break;
             default:
                 throw new \Exception('No renderer found for ' . $format);
@@ -60,7 +62,7 @@ class Render
      * @return boolean
      * @throws \Exception
      */
-    public function setAttributeOption($option, $value)
+    public function setAttributeOption(string $option, $value) : bool
     {
         if (is_a($this->parser, '\DBlackborough\Quill\Parser\Parse') === true) {
             return $this->parser->setAttributeOption($option, $value);
@@ -75,7 +77,7 @@ class Render
      * @return string
      * @throws \Exception
      */
-    public function render()
+    public function render() : string
     {
         if ($this->parser->parse() !== true) {
             throw new \Exception('Failed to parse delta');
@@ -83,7 +85,7 @@ class Render
 
         switch ($this->format) {
             case 'HTML':
-                $this->renderer = new \DBlackborough\Quill\Renderer\Html($this->parser->content());
+                $this->renderer = new Renderer\Html($this->parser->content());
                 break;
             default:
                 throw new \Exception('No parser found for ' . $this->format);
