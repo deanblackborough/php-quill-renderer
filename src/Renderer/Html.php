@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Renderer;
 
 /**
- * Quill renderer, converts quill delta inserts into HTML
+ * Quill renderer, iterates over the generated content data array and creates valid HTML
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough

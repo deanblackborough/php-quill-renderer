@@ -440,6 +440,11 @@ class Html extends Parse
         }
     }
 
+    /**
+     * Return the generated content array
+     * 
+     * @return array
+     */
     public function content() : array
     {
         return $this->content;

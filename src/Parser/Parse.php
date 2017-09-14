@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 /**
- * Quill parser, parses deltas json array and generates a content array for the renderer
+ * Quill parser, parses deltas json array and generates a content array to be used by the relevant renederer
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -176,6 +176,8 @@ abstract class Parse
     abstract public function setAttributeOption(string $option, $value) : bool;
 
     /**
+     * LOad the deltas, checks the json is valid
+     *
      * @param string $deltas JSON inserts string
      *
      * @return boolean
