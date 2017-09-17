@@ -11,6 +11,14 @@ require_once __DIR__ . '../../../src/Parser/Html.php';
  */
 final class AttributesTest extends \PHPUnit\Framework\TestCase
 {
+    private $delta_bold = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"bold":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $delta_italic = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"italic":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $delta_link = '{"ops":[{"insert":"Lorem ipsum dolor sit amet, "},{"attributes":{"link":"http://www.example.com"},"insert":"consectetur"},{"insert":" adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. \nIn vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. "},{"attributes":{"link":"http://www.example.com"},"insert":"Etiam "},{"insert":"sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. Aliquam erat eros, dignissim in quam id.\n"}]}';
+    private $delta_strike = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"strike":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $delta_subscript = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"sub"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas."}]}';
+    private $delta_superscript = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"super"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas."}]}';
+    private $delta_underline = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"underline":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+
     private $delta_h1 = '{"ops":[{"insert":"Heading 1"},{"attributes":{"header":1},"insert":"\n"}]}';
     private $delta_h2 = '{"ops":[{"insert":"Heading 2"},{"attributes":{"header":2},"insert":"\n"}]}';
     private $delta_h3 = '{"ops":[{"insert":"Heading 3"},{"attributes":{"header":3},"insert":"\n"}]}';
@@ -21,6 +29,174 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
 
     private $delta_list_ordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_list_bullet = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testBoldValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_bold, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testItalicValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_italic, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testLinkValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_link, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testStrikeValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_strike, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testSubscriptValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_subscript, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testSuperscriptValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_superscript, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testUnderlineValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_underline, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test bold attribute
+     */
+    public function testBold()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet <strong>sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_bold);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test italic attribute
+     */
+    public function testItalic()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet <em>sollicitudin</em> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_italic);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test link attribute
+     */
+    public function testLink()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet, <a href="http://www.example.com">consectetur</a> adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. In vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. <a href="http://www.example.com">Etiam </a>sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. Aliquam erat eros, dignissim in quam id.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_link);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test italic attribute
+     */
+    public function testStrike()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_strike);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test subscript attribute
+     */
+    public function testSubscript()
+    {
+        $expected = '<p>Lorem ipsum dolor sit<sub>x</sub> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_subscript);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test superscript attribute
+     */
+    public function testSuperscriptItalic()
+    {
+        $expected = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_superscript);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test underline attribute
+     */
+    public function testUnderline()
+    {
+        $expected = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_underline);
+        $this->assertEquals($expected, $quill->render());
+    }
 
     /**
      * Test to ensure delta is valid json
