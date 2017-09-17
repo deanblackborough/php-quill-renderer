@@ -19,6 +19,9 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     private $delta_h6 = '{"ops":[{"insert":"Heading 6"},{"attributes":{"header":6},"insert":"\n"}]}';
     private $delta_h7 = '{"ops":[{"insert":"Heading 7"},{"attributes":{"header":7},"insert":"\n"}]}';
 
+    private $delta_list_ordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
+    private $delta_list_bullet = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
+
     /**
      * Test to ensure delta is valid json
      */
@@ -184,6 +187,54 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
         $expected = "<h7>Heading 7</h7>";
 
         $quill = new \DBlackborough\Quill\Render($this->delta_h7);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testListOrderedValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_list_ordered, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test to ensure delta is valid json
+     */
+    public function testListBulletValid()
+    {
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_list_bullet, 'HTML');
+            $this->assertTrue(true); // Testing no exception thrown
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
+    }
+
+    /**
+     * Test an ordered list
+     */
+    public function testListOrdered()
+    {
+        $expected = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_list_ordered);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test a bullet list
+     */
+    public function testListBullet()
+    {
+        $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_list_bullet);
         $this->assertEquals($expected, $quill->render());
     }
 }
