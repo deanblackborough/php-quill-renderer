@@ -76,8 +76,6 @@ carlos https://github.com/sald19 [Bugfix] v1.01.0
 * Markdown support
 * Formatting options (justification etc.)
 * Remaining Quill toolbar options
-* Full options management
-* Tests
 
 ## Warnings
 

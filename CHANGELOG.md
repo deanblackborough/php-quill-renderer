@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.01.0 - 2017-09-17
+
+* Organised tests by renderer type prior to markdown development.
+* Removed settings tests, settings are being stripped, don't make any sense, better option is to create a new renderer.
+
 ## 2.00.1 - 2017-09-14
 
 * Removed ./idea/ from .gitignore, should be ignored globally, not locally.
