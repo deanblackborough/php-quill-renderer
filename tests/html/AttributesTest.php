@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '../../src/Render.php';
-require_once __DIR__ . '../../src/Renderer/Render.php';
-require_once __DIR__ . '../../src/Renderer/Html.php';
-require_once __DIR__ . '../../src/Parser/Parse.php';
-require_once __DIR__ . '../../src/Parser/Html.php';
+require_once __DIR__ . '../../../src/Render.php';
+require_once __DIR__ . '../../../src/Renderer/Render.php';
+require_once __DIR__ . '../../../src/Renderer/Html.php';
+require_once __DIR__ . '../../../src/Parser/Parse.php';
+require_once __DIR__ . '../../../src/Parser/Html.php';
 
 /**
  * Base test, tests basic Quill functionality, no attributes just simple deltas
