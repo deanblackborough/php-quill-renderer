@@ -5,13 +5,12 @@
 
 # PHP Quill Renderer
 
-*Render quill insert deltas to HTML and Markdown.*
+*Render quill insert deltas to HTML and soon Markdown.*
 
 ## Description
 
-Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below. 
-Version 2.00.0 is in development, I'm working on support for additional Quill attributes, markdown support and a 
-full rewrite of the parser, version 2.00.0 will only support PHP7.1+.
+Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below.
+I'm working on support for the remaining attributes and additional parsers (markdown etc.)
 
 ## PHP 5.6
 
@@ -42,18 +41,29 @@ $renderer = new \DBlackborough\Quill\Renderer\Html($parser->content());
 echo $renderer->render();
 ```
 
-## Options
-The HTML tag to use for Quill attributes can be set along with the HTML tags for the container.
- 
-### Default options
+## Quill attributes
 
-Separator | HTML Tag
+Attribute | Support
 --- | --- 
-Container | `<p>`
+Bold | Yes
+Italic | Yes
+Link | Yes
+Strike | Yes
+Script:Sub | Yes
+Script:Super | Yes
+Underline | Yes
+Header | Yes
+Image | Yes
+List | Yes
+Indent/Outdent | Not yet
+Text direction | Not yet
+Color | Not yet
+Font | Not yet
+Text align | Not yet
+Block quote | Not yet
+Code block | Not yet
 
-#### Default attribute options
-
-Quill Attribute | HTML Tag
+Attribute | HTML Tag
 --- | --- 
 Bold | `<strong>`
 Italic | `<em>`
@@ -69,13 +79,6 @@ List | `<ul>` `<ol>`
 ## Credits
 
 carlos https://github.com/sald19 [Bugfix] v1.01.0
-
-## Planned features for version 2.00.0
-
-* Parser logic rework
-* Markdown support
-* Formatting options (justification etc.)
-* Remaining Quill toolbar options
 
 ## Warnings
 
