@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 /**
- * Quill parser, parses deltas json array and generates a content array to be used by the relevant renederer
+ * Quill parser, parses deltas json array and generates a content array to be used by the relevant renderer
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -48,18 +48,9 @@ abstract class Parse
     {
         $this->content = array();
 
-        if (count($options) === 0) {
-            $options = $this->defaultAttributeOptions();
-        }
+        $this->options['attributes'] = $this->attributeOptions();;
 
-        $this->setAttributeOptions($options);
-
-        $block_options = $this->defaultBlockElementOption();
-        if ($block_element !== '') {
-            $block_options['tag'] = $block_element;
-        }
-
-        $this->setBlockOptions($this->defaultBlockElementOption());
+        $this->options['block'] = $this->breakAttributeOptions();
     }
 
     /**
@@ -67,14 +58,14 @@ abstract class Parse
      *
      * @return array
      */
-    abstract protected function defaultAttributeOptions() : array;
+    abstract protected function attributeOptions() : array;
 
     /**
      * Set the default block element for the parser/renderer
      *
      * @return array
      */
-    abstract protected function defaultBlockElementOption() : array;
+    abstract protected function breakAttributeOptions() : array;
 
     /**
      * Check to see if the requested attribute is valid, needs to be a known attribute and have an option set
@@ -140,40 +131,6 @@ abstract class Parse
 
         return $valid;
     }
-
-    /**
-     * Get the currently defined options
-     *
-     * @return array
-     */
-    public function getOptions() : array
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set all the attribute options for the parser/renderer
-     *
-     * @param array $options
-     */
-    abstract public function setAttributeOptions(array $options);
-
-    /**
-     * Set the block element for the parser/renderer
-     *
-     * @param array $options Block options
-     */
-    abstract public function setBlockOptions(array $options);
-
-    /**
-     * Set a new attribute option
-     *
-     * @param string $option Attribute option to replace
-     * @param mixed $value New Attribute option value
-     *
-     * @return boolean
-     */
-    abstract public function setAttributeOption(string $option, $value) : bool;
 
     /**
      * LOad the deltas, checks the json is valid

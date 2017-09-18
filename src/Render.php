@@ -54,24 +54,6 @@ class Render
     }
 
     /**
-     * Set a new attribute option
-     *
-     * @param string $option Attribute option to replace
-     * @param mixed $value New Attribute option value
-     *
-     * @return boolean
-     * @throws \Exception
-     */
-    public function setAttributeOption(string $option, $value) : bool
-    {
-        if (is_a($this->parser, '\DBlackborough\Quill\Parser\Parse') === true) {
-            return $this->parser->setAttributeOption($option, $value);
-        } else {
-            throw new \Exception('Parser not instantiated, can only set options after instantiating object');
-        }
-    }
-
-    /**
      * Pass content array to renderer and return output
      *
      * @return string

@@ -24,11 +24,11 @@ class Html extends Parse
     }
 
     /**
-     * Default block element attribute
+     * Break attribute options
      *
      * @return array
      */
-    protected function defaultBlockElementOption() : array
+    protected function breakAttributeOptions() : array
     {
         return array(
             'tag' => 'p',
@@ -37,11 +37,11 @@ class Html extends Parse
     }
 
     /**
-     * Default attribute options for the HTML renderer/parser
+     * Attribute options, HTML tag to map to each attribute
      *
      * @return array
      */
-    protected function defaultAttributeOptions() : array
+    protected function attributeOptions() : array
     {
         return array(
             'bold' => array(
@@ -174,7 +174,7 @@ class Html extends Parse
      *
      * @return void
      */
-    private function lastItemClosed()
+    private function checkLastItemClosed()
     {
         $last_item = count($this->content) - 1;
         $assigned_tags = $this->content[$last_item]['tags'];
@@ -208,7 +208,7 @@ class Html extends Parse
      *
      * @return void
      */
-    private function splitDeltas()
+    private function convertMultipleNewlines()
     {
         $deltas = $this->deltas;
         $this->deltas = array();
@@ -238,7 +238,7 @@ class Html extends Parse
      * Looks to see if the next item is the start of a list, if this item contains a new line we need
      * to split it.
      */
-    private function listHack()
+    private function localLists()
     {
         $deltas = $this->deltas['ops'];
         $this->deltas = array();
@@ -269,7 +269,7 @@ class Html extends Parse
      *
      * @return void
      */
-    private function assignTags()
+    private function assignHtmlTags()
     {
         $i = 0;
 
@@ -388,7 +388,7 @@ class Html extends Parse
      *
      * @return void
      */
-    private function convertBreaks()
+    private function convertNewlines()
     {
         foreach ($this->content as $i => $content) {
             if (array_key_exists('break', $content) === true) {
@@ -416,21 +416,21 @@ class Html extends Parse
     {
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
 
-            $this->listHack();
+            $this->localLists();
 
-            $this->splitDeltas();
+            $this->convertMultipleNewlines();
 
-            $this->assignTags();
+            $this->assignHtmlTags();
 
-            $this->removeEmptyElements();
+            $this->removeEmptyContentElements();
 
             $this->openParagraphs();
 
-            $this->closeOpenParagraphs();
+            $this->closeParagraphs();
 
-            $this->lastItemClosed();
+            $this->checkLastItemClosed();
 
-            $this->convertBreaks();
+            $this->convertNewlines();
 
             $this->removeRedundantParentTags();
 
@@ -455,7 +455,7 @@ class Html extends Parse
      *
      * @return void
      */
-    private function removeEmptyElements()
+    private function removeEmptyContentElements()
     {
         $existing_content = $this->content;
         $this->content = array();
@@ -471,7 +471,7 @@ class Html extends Parse
      *
      * @return void
      */
-    private function closeOpenParagraphs()
+    private function closeParagraphs()
     {
         $open_paragraph = false;
         $opened_at = null;
@@ -499,30 +499,6 @@ class Html extends Parse
                 }
             }
         }
-    }
-
-    /**
-     * Set all the attribute options for the parser/renderer
-     *
-     * @param array $options
-     *
-     * @return void
-     */
-    public function setAttributeOptions(array $options)
-    {
-        $this->options['attributes'] = $options;
-    }
-
-    /**
-     * Set the block element for the parser/renderer
-     *
-     * @param array $options Block element options
-     *
-     * @return void
-     */
-    public function setBlockOptions(array $options)
-    {
-        $this->options['block'] = $options;
     }
 
     /**
@@ -554,37 +530,6 @@ class Html extends Parse
             } else {
                 throw new \Exception('setAttributeOption() value should be an array with two indexes, tag and type');
             }
-        }
-    }
-
-    /**
-     * Set a new attribute option
-     *
-     * @param string $option Attribute option to replace
-     * @param mixed $value New Attribute option value
-     *
-     * @return boolean
-     * @throws \Exception
-     */
-    public function setAttributeOption(string $option, $value) : bool
-    {
-        switch ($option) {
-            case 'bold':
-            case 'italic':
-            case 'script':
-            case 'strike':
-            case 'underline':
-                return $this->validateAndSetAttributeOption($option, $value);
-                break;
-            case 'header':
-            case 'link':
-            case 'list':
-                return false;
-                break;
-            default:
-                return false;
-                break;
-
         }
     }
 

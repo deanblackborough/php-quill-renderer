@@ -3,6 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.02.0 - 2017-09-18
+
+* Removed settings code, new parser/renderer should be created to change options.
+* Refactoring, updated method names to better match the containing logic.
+* Updated README, Quill attribute support.
+
 ## 2.01.0 - 2017-09-17
 
 * Organised tests by renderer type prior to markdown development.
