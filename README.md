@@ -41,27 +41,29 @@ $renderer = new \DBlackborough\Quill\Renderer\Html($parser->content());
 echo $renderer->render();
 ```
 
-## Quill attributes
+## Quill attributes support
 
-Attribute | Support
---- | --- 
-Bold | Yes
-Italic | Yes
-Link | Yes
-Strike | Yes
-Script:Sub | Yes
-Script:Super | Yes
-Underline | Yes
-Header | Yes
-Image | Yes
-List | Yes
-Indent/Outdent | Not yet
-Text direction | Not yet
-Color | Not yet
-Font | Not yet
-Text align | Not yet
-Block quote | Not yet
-Code block | Not yet
+Attribute | v1+ | v2+
+--- | --- | ---
+Bold | Yes | Yes
+Italic | Yes | Yes
+Link | Yes | Yes
+Strike | Yes | Yes
+Script:Sub | Yes | Yes
+Script:Super | Yes | Yes
+Underline | Yes | Yes
+Header | Yes | Yes
+Image | Yes | Yes
+List | Yes | Yes
+Indent/Outdent | Not yet | No*
+Text direction | Not yet | No*
+Color | Not yet | No*
+Font | Not yet | No*
+Text align | Not yet | No*
+Block quote | Not yet | No*
+Code block | Not yet | No*
+
+(*) Attribute support may be back ported to v1.
 
 Attribute | HTML Tag
 --- | --- 
