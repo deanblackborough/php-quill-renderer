@@ -14,13 +14,10 @@ class Html extends Parse
 {
     /**
      * Renderer constructor.
-     *
-     * @param array $options Options data array, if empty default options are used
-     * @param string $block_element
      */
-    public function __construct(array $options = array(), string $block_element = '')
+    public function __construct()
     {
-        parent::__construct($options, $block_element);
+        parent::__construct();
     }
 
     /**
@@ -365,7 +362,6 @@ class Html extends Parse
     private function openParagraphs()
     {
         $open_paragraph = false;
-        $opened_at = null;
 
         foreach ($this->content as $i => $content) {
 
@@ -497,38 +493,6 @@ class Html extends Parse
                         }
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * Validate the option request and set the value
-     *
-     * @param string $option Attribute option to replace
-     * @param mixed $value New Attribute option value
-     *
-     * @return boolean
-     * @throws \Exception
-     */
-    private function validateAndSetAttributeOption(string $option, $value) : bool
-    {
-        if (is_array($value) === true &&
-            array_key_exists('tag', $value) === true &&
-            array_key_exists('type', $value) === true &&
-            in_array($value['type'], array('inline', 'block')) === true) {
-
-            $this->options['attributes'][$option] = $value;
-
-            return true;
-        } else if (is_string($value) === true) {
-            $this->options['attributes'][$option]['tag'] = $value;
-
-            return true;
-        } else {
-            if (is_array($value) === true) {
-                throw new \Exception('setAttributeOption() value should be an array with two indexes, tag and type');
-            } else {
-                throw new \Exception('setAttributeOption() value should be an array with two indexes, tag and type');
             }
         }
     }

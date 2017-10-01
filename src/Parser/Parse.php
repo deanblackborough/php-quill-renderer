@@ -40,11 +40,8 @@ abstract class Parse
 
     /**
      * Renderer constructor.
-     *
-     * @param array $options Options data array, if empty default options are used
-     * @param string $block_element Block element to use, if empty default is used
      */
-    public function __construct(array $options = array(), string $block_element = '')
+    public function __construct()
     {
         $this->content = array();
 
