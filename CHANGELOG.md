@@ -3,6 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.02.1 - 2017-10-01
+
+* Updated attribute support table in README.
+* Removed redundant settings method. 
+* Removed redundant construct params.
+* Removed commented out code 
+
 ## 2.02.0 - 2017-09-18
 
 * Removed settings code, new parser/renderer should be created to change options.
