@@ -13,6 +13,7 @@ final class BaseTest extends \PHPUnit\Framework\TestCase
 {
     private $delta = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
     private $delta_new_paragraph = '{"ops":[{"insert":"Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet."}]}';
+    private $delta_three_paragraphs = '{"ops":[{"insert":"This is a single entry that \n\nshould create three paragraphs \n\nof HTML.\n"}]}';
     private $delta_invalid_no_final_quote = '{"ops":[{"insert":"Lorem ipsum dolor sit amet}]}';
 
     /**
@@ -60,6 +61,17 @@ final class BaseTest extends \PHPUnit\Framework\TestCase
         $expected = '<p>Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet.</p>';
 
         $quill = new \DBlackborough\Quill\Render($this->delta_new_paragraph);
+        $this->assertEquals($expected, $quill->render());
+    }
+
+    /**
+     * Test to ensure three paragraphs are created
+     */
+    public function testThreeParagraphs()
+    {
+        $expected = '<p>This is a single entry that</p><p>should create three paragraphs</p><p>of HTML.</p>';
+
+        $quill = new \DBlackborough\Quill\Render($this->delta_three_paragraphs);
         $this->assertEquals($expected, $quill->render());
     }
 }
