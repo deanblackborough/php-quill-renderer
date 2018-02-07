@@ -37,7 +37,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_bold, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded()); // Testing no exception thrown
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -50,7 +50,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_italic, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -63,7 +63,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_link, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -76,7 +76,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_strike, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -89,7 +89,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_subscript, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -102,7 +102,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_superscript, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -115,7 +115,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_underline, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -128,8 +128,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet <strong>sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_bold);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_bold);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -139,8 +143,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet <em>sollicitudin</em> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_italic);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_italic);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -150,8 +158,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet, <a href="http://www.example.com">consectetur</a> adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. In vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. <a href="http://www.example.com">Etiam </a>sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. Aliquam erat eros, dignissim in quam id.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_link);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_link);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -161,8 +173,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_strike);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_strike);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -172,8 +188,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit<sub>x</sub> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_subscript);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_subscript);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -183,8 +203,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_superscript);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_superscript);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -194,8 +218,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_underline);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_underline);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure');
+        }
     }
 
     /**
@@ -205,7 +233,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h1, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -218,7 +246,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h2, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -231,7 +259,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h3, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -244,7 +272,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h4, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -257,7 +285,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h5, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -270,7 +298,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h6, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -283,7 +311,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h7, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -296,8 +324,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h1>Heading 1</h1>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h1);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h1);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -307,8 +339,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h2>Heading 2</h2>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h2);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h2);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -318,8 +354,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h3>Heading 3</h3>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h3);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h3);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -329,8 +369,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h4>Heading 4</h4>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h4);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h4);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -340,8 +384,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h5>Heading 5</h5>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h5);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h5);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -351,8 +399,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h6>Heading 6</h6>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h6);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h6);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -362,8 +414,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h7>Heading 7</h7>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_h7);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_h7);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -373,7 +429,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_list_ordered, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -386,7 +442,7 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_list_bullet, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -399,8 +455,12 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_list_ordered);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_list_ordered);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -410,7 +470,11 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_list_bullet);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_list_bullet);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 }

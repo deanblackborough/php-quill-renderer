@@ -26,7 +26,7 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_multiple_attributes, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -39,7 +39,7 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_paragraph_then_list, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -52,7 +52,7 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -65,7 +65,7 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text_then_heading, 'HTML');
-            $this->assertTrue(true); // Testing no exception thrown
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -78,8 +78,12 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed efficitur nibh tempor augue lobortis, nec eleifend velit venenatis. Nullam fringilla dui eget lectus mattis tincidunt. Donec sollicitudin, lacus sed luctus ultricies, <s><em>quam sapien </em></s><s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim. <strong>Sed ac augue tincidunt,</strong> cursus urna a, tempus ipsum. Donec pretium fermentum erat a <u>elementum</u>. In est odio, mattis sed dignissim sed, porta ac nisl. Nunc et tellus imperdiet turpis placerat tristique nec quis justo. Aenean nisi libero, auctor a laoreet sed, fermentum vel massa. Etiam ultricies leo eget purus tempor dapibus. Integer ac sapien eros. Suspendisse convallis ex.</p>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_multiple_attributes);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_multiple_attributes);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -89,8 +93,12 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>This is a single line of text.</p><ul><li>Bullet 1</li><li>Bullet 2</li><li>Bullet 3</li></ul>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_paragraph_then_list);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_paragraph_then_list);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -100,8 +108,12 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h2>This is a heading</h2><p>Now some normal text.</p>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -111,7 +123,11 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<h2>This is a heading</h2><p>Now some normal text.</p><h1>Now another heading</h1>";
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text_then_heading);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text_then_heading);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 }

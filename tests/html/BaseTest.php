@@ -23,7 +23,7 @@ final class BaseTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta, 'HTML');
-            $this->assertTrue(true); // Only testing no exception
+            $this->assertTrue($quill->parserLoaded());
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
@@ -49,8 +49,12 @@ final class BaseTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -60,8 +64,12 @@ final class BaseTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_new_paragraph);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_new_paragraph);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 
     /**
@@ -71,7 +79,11 @@ final class BaseTest extends \PHPUnit\Framework\TestCase
     {
         $expected = '<p>This is a single entry that</p><p>should create three paragraphs</p><p>of HTML.</p>';
 
-        $quill = new \DBlackborough\Quill\Render($this->delta_three_paragraphs);
-        $this->assertEquals($expected, $quill->render());
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_three_paragraphs);
+            $this->assertEquals($expected, $quill->render());
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 }
