@@ -217,7 +217,7 @@ class Html extends Parse
 
                 foreach (preg_split("/[\n]{2,}/", $delta['insert']) as $match) {
                     $new_delta = [
-                        'insert' => str_replace("\n", '', $match),
+                        'insert' => trim(str_replace("\n", '', $match)),
                         'break' => true
                     ];
 
@@ -388,16 +388,21 @@ class Html extends Parse
     {
         foreach ($this->content as $i => $content) {
             if (array_key_exists('break', $content) === true) {
-                foreach ($content['tags'] as $tag) {
 
-                    if (count($content['tags']) === 1) {
-                        if ($tag['open'] === null && $tag['close'] === '</' . $this->options['block']['tag'] . '>') {
-                            $this->content[$i]['tags'][0]['open'] = '<' . $this->options['block']['tag'] . '>';
-                        }
-                        if ($tag['open'] === '<' . $this->options['block']['tag'] . '>' && $tag['close'] === null) {
-                            $this->content[$i]['tags'][0]['close'] = '</' . $this->options['block']['tag'] . '>';
+                if (count($content['tags']) !== 0) {
+                    foreach ($content['tags'] as $tag) {
+                        if (count($content['tags']) === 1) {
+                            if ($tag['open'] === null && $tag['close'] === '</' . $this->options['block']['tag'] . '>') {
+                                $this->content[$i]['tags'][0]['open'] = '<' . $this->options['block']['tag'] . '>';
+                            }
+                            if ($tag['open'] === '<' . $this->options['block']['tag'] . '>' && $tag['close'] === null) {
+                                $this->content[$i]['tags'][0]['close'] = '</' . $this->options['block']['tag'] . '>';
+                            }
                         }
                     }
+                } else {
+                    $this->content[$i]['tags'][0]['open'] = '<' . $this->options['block']['tag'] . '>';
+                    $this->content[$i]['tags'][0]['close'] = '</' . $this->options['block']['tag'] . '>';
                 }
             }
         }
