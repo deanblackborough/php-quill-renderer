@@ -10,13 +10,14 @@ $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet, consectetur adipiscing
 $deltas = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n\nNow another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
 $deltas = '{"ops":[{"insert":"Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet."}]}';
 $deltas = '{"ops":[{"insert":"This is a single entry that \n\nshould create three paragraphs \n\nof HTML.\n"}]}';
+$deltas = '{"ops":[{"insert":"This is a three "},{"attributes":{"bold":true},"insert":"paragraph"},{"insert":" test\n\nthe "},{"attributes":{"strike":true},"insert":"difference"},{"insert":" being this time we \n\nare "},{"attributes":{"underline":true},"insert":"going to add"},{"insert":" attributes.\n"}]}';
 
-try {
+/*try {
     $quill = new \DBlackborough\Quill\Render($deltas, 'HTML');
     echo $quill->render();
 } catch (\Exception $e) {
     echo $e->getMessage();
-}
+}*/
 
 $parser = new \DBlackborough\Quill\Parser\Html();
 $parser->load($deltas);

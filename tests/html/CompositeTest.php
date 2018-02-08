@@ -140,11 +140,11 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     {
         $expected = "<p>This is a three <strong>paragraph</strong> test</p><p>the <s>difference</s> being this time we </p><p>are <u>going to add</u> attributes.</p>";
 
-        //try {
+        try {
             $quill = new \DBlackborough\Quill\Render($this->delta_paragraphs_with_attributes);
             $this->assertEquals($expected, $quill->render());
-        //} catch (Exception $e) {
-//            $this->fail(__METHOD__ . ' failure');
-//        }
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . ' failure');
+        }
     }
 }
