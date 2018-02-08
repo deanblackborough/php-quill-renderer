@@ -452,6 +452,16 @@ class Html extends Parse
     }
 
     /**
+     * Return the deltas array
+     *
+     * @return array
+     */
+    public function deltas() : array
+    {
+        return $this->deltas;
+    }
+
+    /**
      * Remove empty elements from the contents array, occurs when a tag is assigned to any earlier element
      *
      * @return void

@@ -23,5 +23,9 @@ $parser = new \DBlackborough\Quill\Parser\Html();
 $parser->load($deltas);
 $parser->parse();
 
+var_dump($parser->deltas());
+
+var_dump($parser->content());
+
 $renderer = new \DBlackborough\Quill\Renderer\Html($parser->content());
 echo $renderer->render();
