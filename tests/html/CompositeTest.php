@@ -19,6 +19,8 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
 
     private $delta_heading_then_text_then_heading = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n\nNow another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
 
+    private $delta_paragraphs_with_attributes = '{"ops":[{"insert":"This is a three "},{"attributes":{"bold":true},"insert":"paragraph"},{"insert":" test\n\nthe "},{"attributes":{"strike":true},"insert":"difference"},{"insert":" being this time we \n\nare "},{"attributes":{"underline":true},"insert":"going to add"},{"insert":" attributes.\n"}]}';
+
     /**
      * Test to ensure delta is valid json
      */
@@ -129,5 +131,20 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
         } catch (Exception $e) {
             $this->fail(__METHOD__ . ' failure');
         }
+    }
+
+    /**
+     * Test multiple paragraphs each with attributes
+     */
+    public function testMultipleParagraphsWithAttributes()
+    {
+        $expected = "<p>This is a three <strong>paragraph</strong> test</p><p>the <s>difference</s> being this time we </p><p>are <u>going to add</u> attributes.</p>";
+
+        //try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_paragraphs_with_attributes);
+            $this->assertEquals($expected, $quill->render());
+        //} catch (Exception $e) {
+//            $this->fail(__METHOD__ . ' failure');
+//        }
     }
 }
