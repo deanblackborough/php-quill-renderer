@@ -126,14 +126,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testBold()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit amet <strong>sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_bold);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -141,14 +144,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testItalic()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit amet <em>sollicitudin</em> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_italic);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -156,14 +162,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testLink()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit amet, <a href="http://www.example.com">consectetur</a> adipiscing elit. In sed efficitur enim. Suspendisse mattis purus id odio varius suscipit. Nunc posuere fermentum blandit. In vitae eros nec mauris dignissim porttitor. Morbi a tempus tellus. Mauris quis velit sapien. <a href="http://www.example.com">Etiam </a>sit amet enim venenatis, eleifend lectus ac, ultricies orci. Sed tristique laoreet mi nec imperdiet. Vivamus non dui diam. Aliquam erat eros, dignissim in quam id.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_link);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -171,14 +180,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testStrike()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_strike);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -186,14 +198,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testSubscript()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit<sub>x</sub> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_subscript);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -201,14 +216,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testSuperscriptItalic()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_superscript);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -216,14 +234,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnderline()
     {
+        $result = null;
         $expected = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_underline);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -322,14 +343,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading1()
     {
+        $result = null;
         $expected = "<h1>Heading 1</h1>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h1);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -337,14 +361,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading2()
     {
+        $result = null;
         $expected = "<h2>Heading 2</h2>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h2);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -352,14 +379,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading3()
     {
+        $result = null;
         $expected = "<h3>Heading 3</h3>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h3);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -367,14 +397,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading4()
     {
+        $result = null;
         $expected = "<h4>Heading 4</h4>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h4);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -382,14 +415,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading5()
     {
+        $result = null;
         $expected = "<h5>Heading 5</h5>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h5);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -397,14 +433,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading6()
     {
+        $result = null;
         $expected = "<h6>Heading 6</h6>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h6);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -412,14 +451,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testHeading7()
     {
+        $result = null;
         $expected = "<h7>Heading 7</h7>";
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_h7);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -453,14 +495,17 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testListOrdered()
     {
+        $result = null;
         $expected = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_list_ordered);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 
     /**
@@ -468,13 +513,16 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testListBullet()
     {
+        $result = null;
         $expected = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>';
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_list_bullet);
-            $this->assertEquals($expected, $quill->render());
+            $result = $quill->render();
         } catch (Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
     }
 }
