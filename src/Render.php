@@ -54,6 +54,20 @@ class Render
     }
 
     /**
+     * Check to see if a parser has been instantiated
+     *
+     * @return boolean
+     */
+    public function parserLoaded() : bool
+    {
+        if ($this->parser !== null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Pass content array to renderer and return output
      *
      * @return string
