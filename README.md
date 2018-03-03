@@ -13,6 +13,13 @@
 Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below.
 I'm working on support for the remaining attributes and additional parsers (markdown etc.)
 
+## Version 3.0 in the works
+
+I've had trouble getting the testMultipleParagraphsWithAttributes test to pass, I've tried a few times over the last 
+couple of weeks to get the test to pass without adding anymore hacks, I failed. 
+
+The core code isn't flexible enough, I've mapped out a more flexible design for version 3.0.
+
 ## PHP 5.6
 
 Use version 1.01.1 if you need PHP 5.6 support.
