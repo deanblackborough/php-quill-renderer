@@ -3,6 +3,18 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.03.0 - 2018-03-03
+
+* Updated composer.json, added suggest for PHP7.2.
+* Removed /example folder and updated .gitignore.
+* Added deltas() method to Parser/HTML.php.
+* Added parserLoaded() method to Render.php
+* Reworked tests.
+* Added additional paragraph tests.
+
+Note: The CompositeTest::testMultipleParagraphsWithAttributes test fails, this will pass in version 3.0.
+
+
 ## 2.02.1 - 2017-10-01
 
 * Updated attribute support table in README.
