@@ -20,6 +20,10 @@ couple of weeks to get the test to pass without adding anymore hacks, I failed.
 
 The core code isn't flexible enough, I've mapped out a more flexible design for version 3.0.
 
+## Version 3.0 timeline (Added 15/04/2018)
+
+I'm hoping to have the first release for 3.0 out within the next two to three weeks, as with any timeline, it is a guide, life can and does find a way to get in the way :)
+
 ## PHP 5.6
 
 Use version 1.01.1 if you need PHP 5.6 support.
