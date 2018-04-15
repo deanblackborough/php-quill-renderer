@@ -30,6 +30,26 @@ final class AttributesTest extends \PHPUnit\Framework\TestCase
     private $delta_list_ordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_list_bullet = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
 
+    private $delta_null_insert = '{"ops":[{"insert":"Heading 1"},{"insert":null},{"attributes":{"header":1},"insert":"\n"}]}';
+
+    /**
+     * Test to ensure null insert skipped
+     */
+    public function testNullInsert()
+    {
+        $result = null;
+        $expected = "<h1>Heading 1</h1>";
+
+        try {
+            $quill = new \DBlackborough\Quill\Render($this->delta_null_insert);
+            $result = $quill->render();
+        } catch (Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
+    }
+
     /**
      * Test to ensure delta is valid json
      */
