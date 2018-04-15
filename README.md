@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/deanblackborough/php-quill-renderer.svg?style=flat-square)](https://packagist.org/packages/deanblackborough/php-quill-renderer)
 ![Packagist](https://img.shields.io/packagist/dt/deanblackborough/php-quill-renderer.svg)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dlayer/dlayer/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE)
 [![Minimum PHP Version](https://img.shields.io/badge/php->=7.1-8892BF.svg)](https://php.net/)
 [![Build Status](https://travis-ci.org/deanblackborough/php-quill-renderer.svg?branch=master)](https://travis-ci.org/deanblackborough/php-quill-renderer)
 
@@ -55,27 +55,28 @@ echo $renderer->render();
 
 ## Quill attributes support
 
-Attribute | v1+ | v2+
---- | --- | ---
-Bold | Yes | Yes
-Italic | Yes | Yes
-Link | Yes | Yes
-Strike | Yes | Yes
-Script:Sub | Yes | Yes
-Script:Super | Yes | Yes
-Underline | Yes | Yes
-Header | Yes | Yes
-Image | Yes | Yes
-List | Yes | Yes
-Indent/Outdent | Not yet | No*
-Text direction | Not yet | No*
-Color | Not yet | No*
-Font | Not yet | No*
-Text align | Not yet | No*
-Block quote | Not yet | No*
-Code block | Not yet | No*
+Attribute | v1+ | v2+ | v3+
+--- | --- | --- | ---
+Bold | Yes | Yes | In Development
+Italic | Yes | Yes | In Development
+Link | Yes | Yes | In Development
+Strike | Yes | Yes | In Development
+Script:Sub | Yes | Yes | In Development
+Script:Super | Yes | Yes | In Development
+Underline | Yes | Yes | In Development
+Header | Yes | Yes | In Development
+Image | Yes | Yes | In Development
+List | Yes | Yes | In Development
+Indent/Outdent | No| No | In Development
+Text direction | No | No | In Development
+Color | No | No | In Development
+Font | No | No | In Development
+Text align | No | No | In Development
+Block quote | No | No | In Development
+Code block | No | No | In Development
 
-(*) Attribute support may be back ported to v1.
+Development on v3 has begun, I'm unlikely to add new features to v1/v2, just bug fixes as bugs 
+are discovered.
 
 Attribute | HTML Tag
 --- | --- 
@@ -93,6 +94,7 @@ List | `<ul>` `<ol>`
 ## Credits
 
 carlos https://github.com/sald19 [Bugfix] v1.01.0
+pdiveris https://github.com/pdiveris [Issue #43] - Null inserts
 
 ## Warnings
 

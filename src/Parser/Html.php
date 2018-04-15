@@ -237,7 +237,7 @@ class Html extends Parse
      */
     private function localLists()
     {
-        $deltas = $this->deltas['ops'];
+        $deltas = $this->deltas;
         $this->deltas = array();
 
         foreach ($deltas as $k => $delta) {
@@ -417,6 +417,8 @@ class Html extends Parse
     {
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
 
+            $this->removeNullDeltas();
+
             $this->localLists();
 
             $this->convertMultipleNewlines();
@@ -473,6 +475,24 @@ class Html extends Parse
         foreach ($existing_content as $content) {
             if ($content['content'] !== null && (is_array($content['content']) === true || strlen($content['content']) !== 0)) {
                 $this->content[] = $content;
+            }
+        }
+    }
+
+    /**
+     * Remove null deltas
+     *
+     * @return void
+     */
+    private function removeNullDeltas()
+    {
+        $deltas = $this->deltas['ops'];
+        $this->deltas = array();
+
+        foreach ($deltas as $k => $delta) {
+            if (array_key_exists('insert', $delta) === true &&
+                $delta['insert'] !== null) {
+                $this->deltas[] = $delta;
             }
         }
     }
