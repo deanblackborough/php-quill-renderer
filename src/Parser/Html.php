@@ -19,7 +19,7 @@ class Html extends Parse
     {
         parent::__construct();
     }
-
+    
     /**
      * Break attribute options
      *
@@ -32,7 +32,7 @@ class Html extends Parse
             'type' => 'block'
         );
     }
-
+    
     /**
      * Attribute options, HTML tag to map to each attribute
      *
@@ -127,7 +127,7 @@ class Html extends Parse
             ),
         );
     }
-
+    
     /**
      * Get the tag(s) and attributes/values that have been defined for the quill attribute.
      *
@@ -146,26 +146,26 @@ class Html extends Parse
             case 'underline':
                 return $this->options['attributes'][$attribute];
                 break;
-
+            
             case 'header':
             case 'list':
             case 'script':
                 return $this->options['attributes'][$attribute][$value];
                 break;
-
+            
             case 'link':
                 $result = $this->options['attributes'][$attribute];
                 $result['attributes']['href'] = $value;
                 return $result;
                 break;
-
+            
             default:
                 // Do nothing, valid already set to false
                 return false;
                 break;
         }
     }
-
+    
     /**
      * Check to see if the last item in the content array is a closed block element
      *
@@ -176,7 +176,7 @@ class Html extends Parse
         $last_item = count($this->content) - 1;
         $assigned_tags = $this->content[$last_item]['tags'];
         $block = false;
-
+        
         if (count($assigned_tags) > 0) {
             foreach ($assigned_tags as $assigned_tag) {
                 // Block element check
@@ -186,7 +186,7 @@ class Html extends Parse
                 }
             }
         }
-
+        
         if ($block === false) {
             $this->content[$last_item]['tags'] = array();
             foreach ($assigned_tags as $assigned_tag) {
@@ -199,7 +199,7 @@ class Html extends Parse
             );
         }
     }
-
+    
     /**
      * Split the inserts if multiple newlines are found and generate a new insert
      *
@@ -209,18 +209,19 @@ class Html extends Parse
     {
         $deltas = $this->deltas;
         $this->deltas = array();
-
+        
         foreach ($deltas as $k => $delta) {
             if (array_key_exists('insert', $delta) === true &&
                 is_array($delta['insert']) === false &&
+                ! (null ===  $delta['insert']) &&
                 preg_match("/[\n]{2,}/", $delta['insert']) !== 0) {
-
+                
                 foreach (preg_split("/[\n]{2,}/", $delta['insert']) as $match) {
                     $new_delta = [
                         'insert' => trim(str_replace("\n", '', $match)),
                         'break' => true
                     ];
-
+                    
                     $this->deltas[] = $new_delta;
                 }
             } else {
@@ -228,7 +229,7 @@ class Html extends Parse
             }
         }
     }
-
+    
     /**
      * List hack
      *
@@ -239,20 +240,21 @@ class Html extends Parse
     {
         $deltas = $this->deltas['ops'];
         $this->deltas = array();
-
+        
         foreach ($deltas as $k => $delta) {
             if (array_key_exists('insert', $delta) === true &&
                 is_array($delta['insert']) === false &&
+                ! (null ===  $delta['insert']) &&
                 preg_match("/[\n]{1}/", $delta['insert']) !== 0 &&
                 array_key_exists(($k+1), $deltas) === true &&
                 array_key_exists('attributes', $deltas[($k+1)]) === true &&
                 array_key_exists('list', $deltas[($k+1)]['attributes']) === true) {
-
+                
                 foreach (preg_split("/[\n]{1}/", $delta['insert']) as $match) {
                     $new_delta = [
                         'insert' => $match
                     ];
-
+                    
                     $this->deltas[] = $new_delta;
                 }
             } else {
@@ -260,7 +262,7 @@ class Html extends Parse
             }
         }
     }
-
+    
     /**
      * Assign the relevant HTML tags based upon the defined quill attribute
      *
@@ -269,21 +271,21 @@ class Html extends Parse
     private function assignHtmlTags()
     {
         $i = 0;
-
+        
         foreach ($this->deltas as $insert) {
-
+            
             $this->content[$i] = array(
                 'content' => null,
                 'tags' => array(),
             );
-
+            
             if (array_key_exists('break', $insert) === true) {
                 $this->content[$i]['break'] = true;
             }
-
+            
             $tags = array();
             $has_tags = false;
-
+            
             if (array_key_exists('attributes', $insert) === true && is_array($insert['attributes']) === true) {
                 foreach ($insert['attributes'] as $attribute => $value) {
                     if ($this->isAttributeValid($attribute, $value) === true) {
@@ -294,11 +296,11 @@ class Html extends Parse
                     }
                 }
             }
-
+            
             if (count($tags) > 0) {
                 $has_tags = true; // Set bool so we don't need to check array size again
             }
-
+            
             if ($has_tags === true) {
                 foreach ($tags as $tag) {
                     if (array_key_exists('assign', $tag) === false) {
@@ -306,7 +308,7 @@ class Html extends Parse
                     } else {
                         $assign_tag_to_current_element = false;
                     }
-
+                    
                     $open = '<' . $tag['tag'];
                     if (array_key_exists('attributes', $tag) === true) {
                         $open .= ' ';
@@ -315,13 +317,13 @@ class Html extends Parse
                         }
                     }
                     $open .= '>';
-
+                    
                     if ($assign_tag_to_current_element === true) {
                         $tag_counter = $i;
                     } else {
                         $tag_counter = $i - 1;
                     }
-
+                    
                     $parent_tags = array('open' => null, 'close' => null);
                     if (array_key_exists('parent_tag', $tag) === true) {
                         $parent_tags = array (
@@ -329,7 +331,7 @@ class Html extends Parse
                             'close' => '</' . $tag['parent_tag'] . '>',
                         );
                     }
-
+                    
                     $this->content[$tag_counter]['tags'][] = array(
                         'open' => $open,
                         'close' => '</' . $tag['tag'] . '>',
@@ -338,9 +340,9 @@ class Html extends Parse
                     );
                 }
             }
-
+            
             if (array_key_exists('insert', $insert) === true) {
-                if (is_array($insert['insert']) === false && strlen(trim($insert['insert'])) > 0) {
+                if (is_array($insert['insert']) === false && (!null === $insert['insert']) && strlen(trim($insert['insert'])) > 0) {
                     $this->content[$i]['content'] = $insert['insert'];
                 } else {
                     if (is_array($insert['insert']) === true &&
@@ -349,11 +351,11 @@ class Html extends Parse
                     }
                 }
             }
-
+            
             $i++;
         }
     }
-
+    
     /**
      * Open paragraphs
      *
@@ -362,23 +364,23 @@ class Html extends Parse
     private function openParagraphs()
     {
         $open_paragraph = false;
-
+        
         foreach ($this->content as $i => $content) {
-
+            
             if (count($content['tags']) === 0 && $open_paragraph === false) {
                 $open_paragraph = true;
-
+                
                 $content['tags'][] = array(
                     'open' => '<' . $this->options['block']['tag'] . '>',
                     'close' => null,
                     'type' => 'block'
                 );
-
+                
                 $this->content[$i]['tags'] = $content['tags'];
             }
         }
     }
-
+    
     /**
      * Convert breaks into new paragraphs
      *
@@ -388,7 +390,7 @@ class Html extends Parse
     {
         foreach ($this->content as $i => $content) {
             if (array_key_exists('break', $content) === true) {
-
+                
                 if (count($content['tags']) !== 0) {
                     foreach ($content['tags'] as $tag) {
                         if (count($content['tags']) === 1) {
@@ -407,7 +409,7 @@ class Html extends Parse
             }
         }
     }
-
+    
     /**
      * Loops through the deltas object and generate the contents array
      *
@@ -416,41 +418,41 @@ class Html extends Parse
     public function parse() : bool
     {
         if ($this->json_valid === true && array_key_exists('ops', $this->deltas) === true) {
-
+            
             $this->localLists();
-
+            
             $this->convertMultipleNewlines();
-
+            
             $this->assignHtmlTags();
-
+            
             $this->removeEmptyContentElements();
-
+            
             $this->openParagraphs();
-
+            
             $this->closeParagraphs();
-
+            
             $this->checkLastItemClosed();
-
+            
             $this->convertNewlines();
-
+            
             $this->removeRedundantParentTags();
-
+            
             return true;
         } else {
             return false;
         }
     }
-
+    
     /**
      * Return the generated content array
-     * 
+     *
      * @return array
      */
     public function content() : array
     {
         return $this->content;
     }
-
+    
     /**
      * Return the deltas array
      *
@@ -460,7 +462,7 @@ class Html extends Parse
     {
         return $this->deltas;
     }
-
+    
     /**
      * Remove empty elements from the contents array, occurs when a tag is assigned to any earlier element
      *
@@ -476,7 +478,7 @@ class Html extends Parse
             }
         }
     }
-
+    
     /**
      * Check to see if there are any open paragraphs followed by a block element
      *
@@ -486,15 +488,15 @@ class Html extends Parse
     {
         $open_paragraph = false;
         $opened_at = null;
-
+        
         foreach ($this->content as $i => $content) {
             if (array_key_exists('tags', $content) === true && count($content['tags']) === 1 &&
                 $content['tags'][0]['open'] === '<p>' && $content['tags'][0]['close'] === null) {
-
+                
                 $open_paragraph = true;
                 $opened_at = $i;
             }
-
+            
             if ($open_paragraph === true && $i !== $opened_at) {
                 if (array_key_exists('tags', $content) === true) {
                     foreach ($content['tags'] as $tags) {
@@ -511,7 +513,7 @@ class Html extends Parse
             }
         }
     }
-
+    
     /**
      * Remove any redundant parent tags. Using lists as an example, each LI will have open and close
      * parent tags assigned to it.
@@ -535,12 +537,12 @@ class Html extends Parse
                 if (array_key_exists('tags', $this->content[($k-1)]) === true &&
                     count($this->content[($k-1)]['tags']) === 1 &&
                     array_key_exists('parent_tags', $this->content[($k-1)]['tags'][0]) === true) {
-
+                    
                     $this->content[($k-1)]['tags'][0]['parent_tags']['close'] = null;
                     $content['tags'][0]['parent_tags']['open'] = null;
                 }
             }
-
+            
             $this->content[] = $content;
         }
     }
