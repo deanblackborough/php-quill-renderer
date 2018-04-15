@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## 2.03.1 - 2018-04-15
+
+* Minor bug fix and test thanks to pdiveris (https://github.com/pdiveris), deals with null inserts.
+* Updated README, feature list incorrect, added v3.0 and also added a message on v1/v2 development. 
+
 ## 2.03.0 - 2018-03-03
 
 * Updated composer.json, added suggest for PHP7.2.
@@ -13,7 +18,6 @@ Full changelog for PHP Quill Renderer
 * Added additional paragraph tests.
 
 Note: The CompositeTest::testMultipleParagraphsWithAttributes test fails, this will pass in version 3.0.
-
 
 ## 2.02.1 - 2017-10-01
 
