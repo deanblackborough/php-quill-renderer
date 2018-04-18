@@ -1,5 +1,7 @@
 <?php
 
+namespace DBlackborough\Quill\Tests\Attributes\Html;
+
 require __DIR__ . '../../../../vendor/autoload.php';
 
 use DBlackborough\Quill\Render as QuillRender;
@@ -29,6 +31,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 1
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader1()
     {
@@ -37,7 +40,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h1);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -48,6 +51,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 2
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader2()
     {
@@ -56,7 +60,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h2);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -67,6 +71,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 3
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader3()
     {
@@ -75,7 +80,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h3);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -86,6 +91,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 4
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader4()
     {
@@ -94,7 +100,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h4);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -105,6 +111,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 5
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader5()
     {
@@ -113,7 +120,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h5);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -124,6 +131,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 6
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader6()
     {
@@ -132,7 +140,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h6);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -143,6 +151,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
      * Header 7
      *
      * @return void
+     * @throws \Exception
      */
     public function testHeader7()
     {
@@ -151,7 +160,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_h7);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 

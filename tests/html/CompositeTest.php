@@ -47,32 +47,6 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test to ensure delta is valid json
-     */
-    public function testHeadingThenTextValid()
-    {
-        try {
-            $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text, 'HTML');
-            $this->assertTrue($quill->parserLoaded());
-        } catch (\Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
-        }
-    }
-
-    /**
-     * Test to ensure delta is valid json
-     */
-    public function testHeadingThenTextThenHeadingValid()
-    {
-        try {
-            $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text_then_heading, 'HTML');
-            $this->assertTrue($quill->parserLoaded());
-        } catch (\Exception $e) {
-            $this->fail(__METHOD__ . ' failure');
-        }
-    }
-
-    /**
      * Test a delta with multiple attributes
      */
     public function testMultipleAttributes()
@@ -100,42 +74,6 @@ final class CompositeTest extends \PHPUnit\Framework\TestCase
 
         try {
             $quill = new \DBlackborough\Quill\Render($this->delta_paragraph_then_list);
-            $result = $quill->render();
-        } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
-        }
-
-        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
-    }
-
-    /**
-     * Test a heading then plain text
-     */
-    public function testOutputHeadingThenText()
-    {
-        $result = null;
-        $expected = "<h2>This is a heading</h2><p>Now some normal text.</p>";
-
-        try {
-            $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text);
-            $result = $quill->render();
-        } catch (Exception $e) {
-            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
-        }
-
-        $this->assertEquals($expected, $result, __METHOD__ . ' $expected does not match $result');
-    }
-
-    /**
-     * Test a heading then text then another heading
-     */
-    public function testOutputHeadingTextThenHeading()
-    {
-        $result = null;
-        $expected = "<h2>This is a heading</h2><p>Now some normal text.</p><h1>Now another heading</h1>";
-
-        try {
-            $quill = new \DBlackborough\Quill\Render($this->delta_heading_then_text_then_heading);
             $result = $quill->render();
         } catch (Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());

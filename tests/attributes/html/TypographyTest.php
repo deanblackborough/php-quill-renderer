@@ -1,5 +1,7 @@
 <?php
 
+namespace DBlackborough\Quill\Tests\Attributes\Html;
+
 require __DIR__ . '../../../../vendor/autoload.php';
 
 use DBlackborough\Quill\Render as QuillRender;
@@ -28,6 +30,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
      * Test bold attribute
      *
      * @return void
+     * @throws \Exception
      */
     public function testBold()
     {
@@ -36,7 +39,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_bold);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -47,6 +50,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
      * Test italic attribute
      *
      * @return void
+     * @throws \Exception
      */
     public function testItalic()
     {
@@ -55,7 +59,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_italic);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -64,6 +68,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test italic attribute
+     * @throws \Exception
      */
     public function testStrike()
     {
@@ -72,7 +77,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_strike);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -83,6 +88,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
      * Test subscript attribute
      *
      * @return void
+     * @throws \Exception
      */
     public function testSubScript()
     {
@@ -91,7 +97,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_sub_script);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -102,6 +108,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
      * Test superscript attribute
      *
      * @return void
+     * @throws \Exception
      */
     public function testSuperScript()
     {
@@ -110,7 +117,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_super_script);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
@@ -121,6 +128,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
      * Test underline attribute
      *
      * @return void
+     * @throws \Exception
      */
     public function testUnderline()
     {
@@ -129,7 +137,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_underline);
             $result = $quill->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
