@@ -7,7 +7,7 @@ require __DIR__ . '../../../../vendor/autoload.php';
 use DBlackborough\Quill\Render as QuillRender;
 
 /**
- * HTML attributes tests
+ * Headers tests
  */
 final class HeaderTest extends \PHPUnit\Framework\TestCase
 {
