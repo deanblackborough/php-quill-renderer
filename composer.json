@@ -1,13 +1,13 @@
 {
     "name": "deanblackborough/php-quill-renderer",
-    "description": "Render quill insert deltas to HTML and soon markdown",
+    "description": "Render Quill insert deltas to HTML",
     "autoload": {
         "psr-4" : {
             "DBlackborough\\Quill\\" : "src/"
         }
     },
-    "homepage": "https://github.com/deanblackborough/php-quill-renderer",
-    "keywords": [ "quill", "quilljs", "renderer", "delta", "parse", "html"],
+    "homepage": "http://www.transmute-coffee.com/",
+    "keywords": [ "quill", "quilljs", "renderer", "delta", "parse", "html", "php"],
     "authors": [
         {
             "name": "Dean Blackborough",
@@ -15,13 +15,10 @@
         }
     ],
     "require": {
-        "php": "^7.1"
-    },
-    "suggest": {
         "php": "^7.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6"
+        "phpunit/phpunit": "^7"
     },
     "repositories": [
         {

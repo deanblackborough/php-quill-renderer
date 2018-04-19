@@ -1,37 +1,32 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/deanblackborough/php-quill-renderer.svg?style=flat-square)](https://packagist.org/packages/deanblackborough/php-quill-renderer)
 ![Packagist](https://img.shields.io/packagist/dt/deanblackborough/php-quill-renderer.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE)
-[![Minimum PHP Version](https://img.shields.io/badge/php->=7.1-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php->=7.2-8892BF.svg)](https://php.net/)
 [![Build Status](https://travis-ci.org/deanblackborough/php-quill-renderer.svg?branch=master)](https://travis-ci.org/deanblackborough/php-quill-renderer)
 
 # PHP Quill Renderer
 
-*Render quill insert deltas to HTML and soon Markdown.*
+*Render quill insert deltas to HTML, additional output formats will be added after the v3.00.0 release*
 
 ## Description
 
-Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below.
-I'm working on support for the remaining attributes and additional parsers (markdown etc.)
+Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below, the goal is 
+to support every Quill feature.
 
-## Version 3.0 in the works
+## Stability of master
 
-I've had trouble getting the testMultipleParagraphsWithAttributes test to pass, I've tried a few times over the last 
-couple of weeks to get the test to pass without adding anymore hacks, I failed. 
+I'm periodically merging the v3.00.0-alpha branch into master, master should be considered unstable until the 
+first alpha release of v3.00.0, from that point stability will be maintained.
 
-The core code isn't flexible enough, I've mapped out a more flexible design for version 3.0.
+## PHP < 7.2
 
-## Version 3.0 timeline (Added 15/04/2018)
-
-I'm hoping to have the first release for 3.0 out within the next two to three weeks, as with any timeline, it is a guide, life can and does find a way to get in the way :)
-
-## PHP 5.6
-
-Use version 1.01.1 if you need PHP 5.6 support.
+Please use version v1.01.1 or v2.03.1 if you are using an earlier version of PHP, versions 1 and 2 are not feature 
+complete with v3, v3 is a almost complete rewrite.
 
 ## Installation
  
 The easiest way to use the renderer is with composer. ```composer require deanblackborough/php-quill-renderer```, 
-alternatively include the classes in src/ in your library.
+alternatively include the classes in src/ in your library or app.
  
 ## Usage
 ```
@@ -75,9 +70,6 @@ Text align | No | No | In Development
 Block quote | No | No | In Development
 Code block | No | No | In Development
 
-Development on v3 has begun, I'm unlikely to add new features to v1/v2, just bug fixes as bugs 
-are discovered.
-
 Attribute | HTML Tag
 --- | --- 
 Bold | `<strong>`
@@ -93,19 +85,5 @@ List | `<ul>` `<ol>`
 
 ## Credits
 
-carlos https://github.com/sald19 [Bugfix] v1.01.0
-pdiveris https://github.com/pdiveris [Issue #43] - Null inserts
-
-## Warnings
-
-### Image support
-
-The image support is rudimentary; it isn't production ready, some work needs to be done to support 
-images. I can think of two solutions, pre-save of deltas, post the base64 and return a URI to replace the 
-base64, or, at render time, fetch/cache an image/URI by posting the base64, later down the line I may 
-explore one of these options.
-
-Why? 
-
-I'm using this package within Dlayer, my app has its own image handling and I will not be exposing 
-the image functionality of Quill.
+* carlos https://github.com/sald19 [Bugfix] v1.01.0
+* pdiveris https://github.com/pdiveris [Issue #43] v2.03.1 - Null inserts
