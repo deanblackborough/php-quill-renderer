@@ -7,7 +7,7 @@ require __DIR__ . '../../../../vendor/autoload.php';
 use DBlackborough\Quill\Render as QuillRender;
 
 /**
- * HTML attributes tests
+ * General attributes tests
  */
 final class TypographyTest extends \PHPUnit\Framework\TestCase
 {

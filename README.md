@@ -13,10 +13,15 @@
 Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below, the goal is 
 to support every Quill feature.
 
-## PHP 5.6 / PHP < 7.2
+## Stability of master
+
+I'm periodically merging the v3.00.0-alpha branch into master, master should be considered unstable until the 
+first alpha release of v3.00.0, from that point stability will be maintained.
+
+## PHP < 7.2
 
 Please use version v1.01.1 or v2.03.1 if you are using an earlier version of PHP, versions 1 and 2 are not feature 
-complete with v3, v3 was a complete rewrite.
+complete with v3, v3 is a almost complete rewrite.
 
 ## Installation
  
