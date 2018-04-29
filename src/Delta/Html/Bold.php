@@ -27,8 +27,13 @@ class Bold extends Delta
         $this->attributes = $attributes;
     }
 
-    function type(): ?string
+    /**
+     * Render the HTML for the specific Delta type
+     *
+     * @return string
+     */
+    public function render(): string
     {
-        return 'Bold';
+        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
     }
 }

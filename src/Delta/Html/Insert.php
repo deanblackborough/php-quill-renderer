@@ -27,8 +27,13 @@ class Insert extends Delta
         $this->attributes = $attributes;
     }
 
-    function type(): ?string
+    /**
+     * Render the HTML for the specific Delta type
+     *
+     * @return string
+     */
+    public function render(): string
     {
-        return null;
+        return $this->insert;
     }
 }

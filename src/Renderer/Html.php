@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Renderer;
 
 /**
- * Quill renderer, iterates over the generated content data array and creates valid HTML
+ * Quill renderer, iterates over the Deltas array from the parser calling the render method
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -22,52 +22,26 @@ class Html extends Render
     /**
      * Renderer constructor.
      *
-     * @param array $content Content data array
+     * @param array $deltas Delta objects array
      */
-    public function __construct(array $content)
+    public function __construct(array $deltas)
     {
         $this->html = null;
 
-        parent::__construct($content);
+        parent::__construct($deltas);
     }
 
     /**
-     * Generate the final HTML from the contents array
+     * Generate the final HTML, calls the render method on each object
      *
      * @return string
      */
     public function render() : string
     {
-        foreach ($this->content as $content) {
-            foreach ($content['tags'] as $tag) {
-                if (array_key_exists('parent_tags', $tag) === true && $tag['parent_tags'] !== null &&
-                    array_key_exists('open', $tag['parent_tags']) && $tag['parent_tags']['open'] !== null) {
-                    $this->html .= $tag['parent_tags']['open'];
-                }
-
-                if (array_key_exists('open', $tag) === true && $tag['open'] !== null) {
-                    $this->html .= $tag['open'];
-                }
-            }
-
-            if (is_array($content['content']) === false) {
-                $this->html .= $content['content'];
-            } else {
-                $this->html .= '<img src="' . $content['content']['image'] . '" />';
-            }
-
-            foreach (array_reverse($content['tags']) as $tag) {
-                if (array_key_exists('close', $tag) === true && $tag['close'] !== null) {
-                    $this->html .= $tag['close'];
-                }
-
-                if (array_key_exists('parent_tags', $tag) === true && $tag['parent_tags'] !== null &&
-                    array_key_exists('close', $tag['parent_tags']) && $tag['parent_tags']['close'] !== null) {
-                    $this->html .= $tag['parent_tags']['close'];
-                }
-            }
+        foreach ($this->deltas as $deltas) {
+            $this->html .= $deltas->render();
         }
 
-        return str_replace("\n", '', $this->html);
+        return $this->html;
     }
 }

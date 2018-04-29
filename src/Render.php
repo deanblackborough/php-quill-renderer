@@ -28,7 +28,7 @@ class Render
     private $format;
 
     /**
-     * Renderer constructor.
+     * Renderer constructor, sets the deltas and output format
      *
      * @param string $deltas Deltas json string
      * @param string $format Requested output format
@@ -42,7 +42,7 @@ class Render
                 $this->parser = new Parser\Html();
                 break;
             default:
-                throw new \Exception('No renderer found for ' . $format);
+                throw new \Exception('No renderer found for requested format: "' . $format . '"');
                 break;
         }
 
@@ -68,7 +68,7 @@ class Render
     }
 
     /**
-     * Pass content array to renderer and return output
+     * Pass the content array to the renderer and return the generated output
      *
      * @return string
      * @throws \Exception
@@ -76,7 +76,7 @@ class Render
     public function render() : string
     {
         if ($this->parser->parse() !== true) {
-            throw new \Exception('Failed to parse delta');
+            throw new \Exception('Failed to parse the supplied deltas object');
         }
 
         switch ($this->format) {
@@ -84,7 +84,7 @@ class Render
                 $this->renderer = new Renderer\Html($this->parser->content());
                 break;
             default:
-                throw new \Exception('No parser found for ' . $this->format);
+                throw new \Exception('No renderer found for requested format: "' . $this->format . '"');
                 break;
         }
 

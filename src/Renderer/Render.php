@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Renderer;
 
+use DBlackborough\Quill\Delta\Html\Delta;
+
 /**
  * Quill renderer, iterates over the generated content data array and creates the data in the relevant format
  *
@@ -13,18 +15,18 @@ namespace DBlackborough\Quill\Renderer;
 abstract class Render
 {
     /**
-     * @var array
+     * @var Delta[]
      */
-    protected $content;
+    protected $deltas;
 
     /**
      * Renderer constructor.
      *
-     * @param array $content Content data array for renderer
+     * @param array $deltas Content data array for renderer
      */
-    public function __construct(array $content)
+    public function __construct(array $deltas)
     {
-        $this->content = $content;
+        $this->deltas = $deltas;
     }
 
     /**
