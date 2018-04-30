@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Renderer;
 
+use DBlackborough\Quill\Delta\Html\Delta;
+
 /**
  * Quill renderer, iterates over the Deltas array from the parser calling the render method
  *
@@ -38,8 +40,16 @@ class Html extends Render
      */
     public function render() : string
     {
-        foreach ($this->deltas as $deltas) {
-            $this->html .= $deltas->render();
+        foreach ($this->deltas as $i => $delta) {
+            if ($i === 0 && $delta->displayType() === Delta::DISPLAY_INLINE) {
+                $this->html .= '<p>';
+            }
+
+            $this->html .= $delta->render();
+
+            if ($i === count($this->deltas)-1 && $delta->displayType() === Delta::DISPLAY_INLINE) {
+                $this->html .= '</p>';
+            }
         }
 
         return $this->html;

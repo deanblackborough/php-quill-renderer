@@ -81,7 +81,7 @@ class Render
 
         switch ($this->format) {
             case 'HTML':
-                $this->renderer = new Renderer\Html($this->parser->content());
+                $this->renderer = new Renderer\Html($this->parser->deltas());
                 break;
             default:
                 throw new \Exception('No renderer found for requested format: "' . $this->format . '"');

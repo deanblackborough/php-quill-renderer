@@ -13,6 +13,9 @@ namespace DBlackborough\Quill\Delta\Html;
  */
 abstract class Delta
 {
+    public CONST DISPLAY_BLOCK = 'block';
+    public CONST DISPLAY_INLINE = 'inline';
+
     /**
      * @var array The attributes array
      */
@@ -27,6 +30,13 @@ abstract class Delta
      * @var string|null The HTML tag for the delta when rendered as HTML
      */
     protected $tag;
+
+    /**
+     * Return the display type for the resultant HTML created by the delta, either inline or block
+     *
+     * @return string
+     */
+    abstract public function displayType(): string;
 
     /**
      * Is the delta a child?
@@ -87,5 +97,5 @@ abstract class Delta
      *
      * @return string
      */
-    abstract public function render() : string;
+    abstract public function render(): string;
 }

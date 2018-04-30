@@ -10,12 +10,17 @@ $parser = new HtmlParser();
 $parser->load($quill_json);
 $parser->parse();
 
-$deltas = $parser->deltas();
-
-
-$renderer = new DBlackborough\Quill\Renderer\Html($deltas);
-
+$renderer = new DBlackborough\Quill\Renderer\Html($parser->deltas());
 echo $renderer->render();
+
+echo PHP_EOL;
+
+try {
+    $quill = new \DBlackborough\Quill\Render($quill_json, 'HTML');
+    echo $quill->render();
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
 
 
 
