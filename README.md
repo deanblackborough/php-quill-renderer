@@ -13,7 +13,7 @@
 Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below, the goal is 
 to support every Quill feature.
 
-## Stability of master
+# Stability of master
 
 I'm periodically merging the v3.00.0-alpha branch into master, master should be considered unstable until the 
 first alpha release of v3.00.0, from that point stability will be maintained.
