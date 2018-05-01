@@ -31,7 +31,7 @@ alternatively include the classes in src/ in your library or app.
 ## Usage
 ```
 try {
-    $quill = new \DBlackborough\Quill\Render($deltas, 'HTML');
+    $quill = new \DBlackborough\Quill\Render($quill_json, 'HTML');
     echo $quill->render();
 } catch (\Exception $e) {
     echo $e->getMessage();
@@ -41,10 +41,10 @@ try {
 ## Usage, direct, parse and then render
 ```
 $parser = new \DBlackborough\Quill\Parser\Html();
-$parser->load($deltas);
+$parser->load($quill_json);
 $parser->parse();
 
-$renderer = new \DBlackborough\Quill\Renderer\Html($parser->content());
+$renderer = new \DBlackborough\Quill\Renderer\Html($parser->deltas());
 echo $renderer->render();
 ```
 
@@ -52,13 +52,13 @@ echo $renderer->render();
 
 Attribute | v1+ | v2+ | v3+
 --- | --- | --- | ---
-Bold | Yes | Yes | In Development
-Italic | Yes | Yes | In Development
+Bold | Yes | Yes | Yes
+Italic | Yes | Yes | Yes
 Link | Yes | Yes | In Development
-Strike | Yes | Yes | In Development
-Script:Sub | Yes | Yes | In Development
-Script:Super | Yes | Yes | In Development
-Underline | Yes | Yes | In Development
+Strike | Yes | Yes | Yes
+Script:Sub | Yes | Yes | Yes
+Script:Super | Yes | Yes | Yes
+Underline | Yes | Yes | Yes
 Header | Yes | Yes | In Development
 Image | Yes | Yes | In Development
 List | Yes | Yes | In Development

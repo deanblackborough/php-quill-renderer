@@ -5,6 +5,11 @@ namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Html\Bold;
 use DBlackborough\Quill\Delta\Html\Insert;
+use DBlackborough\Quill\Delta\Html\Italic;
+use DBlackborough\Quill\Delta\Html\Strike;
+use DBlackborough\Quill\Delta\Html\SubScript;
+use DBlackborough\Quill\Delta\Html\SuperScript;
+use DBlackborough\Quill\Delta\Html\Underline;
 
 /**
  * HTML parser, parses the deltas create an array of HTMl Delta objects which will be passed to the HTML
@@ -44,6 +49,33 @@ class Html extends Parse
                             case 'bold':
                                 if ($value === true) {
                                     $this->deltas[] = new Bold($quill['insert']);
+                                }
+                                break;
+
+                            case 'italic':
+                                if ($value === true) {
+                                    $this->deltas[] = new Italic($quill['insert']);
+                                }
+                                break;
+
+                            case 'script':
+                                if ($value === 'sub') {
+                                    $this->deltas[] = new SubScript($quill['insert']);
+                                }
+                                if ($value === 'super') {
+                                    $this->deltas[] = new SuperScript($quill['insert']);
+                                }
+                                break;
+
+                            case 'strike':
+                                if ($value === true) {
+                                    $this->deltas[] = new Strike($quill['insert']);
+                                }
+                                break;
+
+                            case 'underline':
+                                if ($value === true) {
+                                    $this->deltas[] = new Underline($quill['insert']);
                                 }
                                 break;
 
