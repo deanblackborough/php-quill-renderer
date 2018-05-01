@@ -52,13 +52,13 @@ echo $renderer->render();
 
 Attribute | v1+ | v2+ | v3+
 --- | --- | --- | ---
-Bold | Yes | Yes | In Development
-Italic | Yes | Yes | In Development
+Bold | Yes | Yes | Yes
+Italic | Yes | Yes | Yes
 Link | Yes | Yes | In Development
-Strike | Yes | Yes | In Development
-Script:Sub | Yes | Yes | In Development
-Script:Super | Yes | Yes | In Development
-Underline | Yes | Yes | In Development
+Strike | Yes | Yes | Yes
+Script:Sub | Yes | Yes | Yes
+Script:Super | Yes | Yes | Yes
+Underline | Yes | Yes | Yes
 Header | Yes | Yes | In Development
 Image | Yes | Yes | In Development
 List | Yes | Yes | In Development
