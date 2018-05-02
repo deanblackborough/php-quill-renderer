@@ -26,7 +26,6 @@ abstract class Parse
      */
     protected $deltas;
 
-
     /**
      * Is the json array a valid json array?
      *
