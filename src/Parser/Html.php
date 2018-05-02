@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Html\Bold;
+use DBlackborough\Quill\Delta\Html\Delta;
+use DBlackborough\Quill\Delta\Html\Header;
 use DBlackborough\Quill\Delta\Html\Insert;
 use DBlackborough\Quill\Delta\Html\Italic;
 use DBlackborough\Quill\Delta\Html\Strike;
@@ -21,6 +23,14 @@ use DBlackborough\Quill\Delta\Html\Underline;
  */
 class Html extends Parse
 {
+    /**
+     * Deltas array after parsing, array of Delta objects
+     *
+     * @var Delta[]
+     */
+    protected $deltas;
+
+
     /**
      * Renderer constructor.
      */
@@ -49,6 +59,15 @@ class Html extends Parse
                             case 'bold':
                                 if ($value === true) {
                                     $this->deltas[] = new Bold($quill['insert']);
+                                }
+                                break;
+
+                            case 'header':
+                                if (in_array($value, array(1,2,3,4,5,6,7)) === true) {
+                                    $insert = $this->deltas[count($this->deltas)-1]->insert();
+                                    unset($this->deltas[count($this->deltas)-1]);
+                                    $this->deltas[] = new Header($insert, $quill['attributes']);
+                                    $this->deltas = array_values($this->deltas);
                                 }
                                 break;
 
@@ -84,7 +103,6 @@ class Html extends Parse
                                 break;
                         }
                     }
-
                 } else {
                     $this->deltas[] = new Insert($quill['insert']);
                 }

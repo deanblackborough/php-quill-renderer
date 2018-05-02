@@ -69,6 +69,16 @@ abstract class Delta
     }
 
     /**
+     * Return the insert
+     *
+     * @return string
+     */
+    public function insert() : string
+    {
+        return $this->insert;
+    }
+
+    /**
      * If the delta is a child, is it the only child
      *
      * @return boolean
