@@ -41,6 +41,10 @@ class Html extends Render
     public function render() : string
     {
         foreach ($this->deltas as $i => $delta) {
+            if ($delta->isChild() === true && $delta->isFirstChild() === true) {
+                $this->html .= '<' . $delta->parentTag() . '>';
+            }
+
             if ($i === 0 && $delta->displayType() === Delta::DISPLAY_INLINE) {
                 $this->html .= '<p>';
             }
@@ -49,6 +53,10 @@ class Html extends Render
 
             if ($i === count($this->deltas)-1 && $delta->displayType() === Delta::DISPLAY_INLINE) {
                 $this->html .= '</p>';
+            }
+
+            if ($delta->isChild() === true && $delta->isLastChild() === true) {
+                $this->html .= '</' . $delta->parentTag() . '>';
             }
         }
 

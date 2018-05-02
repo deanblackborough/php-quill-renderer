@@ -32,6 +32,16 @@ abstract class Delta
     protected $tag;
 
     /**
+     * @var boolean $is_first_child
+     */
+    protected $is_first_child = false;
+
+    /**
+     * @var boolean $is_last_child
+     */
+    protected $is_last_child = false;
+
+    /**
      * Return the display type for the resultant HTML created by the delta, either inline or block
      *
      * @return string
@@ -55,7 +65,7 @@ abstract class Delta
      */
     public function isFirstChild(): bool
     {
-        return false;
+        return $this->is_first_child;
     }
 
     /**
@@ -65,7 +75,7 @@ abstract class Delta
      */
     public function isLastChild(): bool
     {
-        return false;
+        return $this->is_last_child;
     }
 
     /**
@@ -73,7 +83,7 @@ abstract class Delta
      *
      * @return string
      */
-    public function insert() : string
+    public function getInsert() : string
     {
         return $this->insert;
     }
@@ -93,11 +103,11 @@ abstract class Delta
     }
 
     /**
-     * If the delta is a child, what type of attribute is the parent
+     * If the delta is a child, what type of tag is the parent
      *
      * @return string|null
      */
-    public function parentType(): ?string
+    public function parentTag(): ?string
     {
         return null;
     }
@@ -108,4 +118,32 @@ abstract class Delta
      * @return string
      */
     abstract public function render(): string;
+
+    /**
+     * Set the delta to be the first child, alternatively, set to false by passing false
+     *
+     * @var boolean $value Set the value of $this->is_first_child, defaults to true
+     *
+     * @return Delta
+     */
+    public function setFirstChild(bool $value=true) : Delta
+    {
+        $this->is_first_child = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the delta to be the lasy child, alternatively, set to false by passing false
+     *
+     * @var boolean $value Set the value of $this->is_last_child, defaults to true
+     *
+     * return Delta
+     */
+    public function setLastChild(bool $value=true) : Delta
+    {
+        $this->is_last_child = $value;
+
+        return $this;
+    }
 }

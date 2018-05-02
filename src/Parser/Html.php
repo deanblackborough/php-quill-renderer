@@ -8,6 +8,7 @@ use DBlackborough\Quill\Delta\Html\Delta;
 use DBlackborough\Quill\Delta\Html\Header;
 use DBlackborough\Quill\Delta\Html\Insert;
 use DBlackborough\Quill\Delta\Html\Italic;
+use DBlackborough\Quill\Delta\Html\ListItem;
 use DBlackborough\Quill\Delta\Html\Strike;
 use DBlackborough\Quill\Delta\Html\SubScript;
 use DBlackborough\Quill\Delta\Html\SuperScript;
@@ -30,7 +31,6 @@ class Html extends Parse
      */
     protected $deltas;
 
-
     /**
      * Renderer constructor.
      */
@@ -50,6 +50,8 @@ class Html extends Parse
 
             $this->quill_json = $this->quill_json['ops'];
 
+            $parents_by_type = [];
+
             foreach ($this->quill_json as $quill) {
 
                 if (array_key_exists('attributes', $quill) === true && is_array($quill['attributes']) === true) {
@@ -64,7 +66,7 @@ class Html extends Parse
 
                             case 'header':
                                 if (in_array($value, array(1,2,3,4,5,6,7)) === true) {
-                                    $insert = $this->deltas[count($this->deltas)-1]->insert();
+                                    $insert = $this->deltas[count($this->deltas)-1]->getInsert();
                                     unset($this->deltas[count($this->deltas)-1]);
                                     $this->deltas[] = new Header($insert, $quill['attributes']);
                                     $this->deltas = array_values($this->deltas);
@@ -74,6 +76,23 @@ class Html extends Parse
                             case 'italic':
                                 if ($value === true) {
                                     $this->deltas[] = new Italic($quill['insert']);
+                                }
+                                break;
+
+                            case 'list':
+                                if (in_array($value, array('ordered', 'bullet')) === true) {
+                                    $insert = $this->deltas[count($this->deltas)-1]->getInsert();
+                                    unset($this->deltas[count($this->deltas)-1]);
+                                    $this->deltas[] = new ListItem($insert, $quill['attributes']);
+                                    $this->deltas = array_values($this->deltas);
+
+                                    if (array_key_exists('list', $parents_by_type) === false) {
+                                        $parents_by_type['list'] = true;
+                                        $this->deltas[count($this->deltas)-1]->setFirstChild(true);
+                                    } else {
+                                        $this->deltas[count($this->deltas)-1]->setLastChild(true);
+                                        $this->deltas[count($this->deltas)-2]->setLastChild(false);
+                                    }
                                 }
                                 break;
 
