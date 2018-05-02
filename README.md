@@ -59,9 +59,9 @@ Strike | Yes | Yes | Yes
 Script:Sub | Yes | Yes | Yes
 Script:Super | Yes | Yes | Yes
 Underline | Yes | Yes | Yes
-Header | Yes | Yes | In Development
+Header | Yes | Yes | Yes
 Image | Yes | Yes | In Development
-List | Yes | Yes | In Development
+List | Yes | Yes | Basic - In Development
 Indent/Outdent | No| No | In Development
 Text direction | No | No | In Development
 Color | No | No | In Development
