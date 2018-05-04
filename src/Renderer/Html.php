@@ -40,23 +40,31 @@ class Html extends Render
      */
     public function render() : string
     {
+        $block_open = false;
+
         foreach ($this->deltas as $i => $delta) {
+            if ($delta->displayType() === Delta::DISPLAY_INLINE && $block_open === false) {
+                $block_open = true;
+                $this->html .= '<p>';
+            }
+
             if ($delta->isChild() === true && $delta->isFirstChild() === true) {
                 $this->html .= '<' . $delta->parentTag() . '>';
             }
 
-            if ($i === 0 && $delta->displayType() === Delta::DISPLAY_INLINE) {
-                $this->html .= '<p>';
-            }
-
             $this->html .= $delta->render();
 
-            if ($i === count($this->deltas)-1 && $delta->displayType() === Delta::DISPLAY_INLINE) {
+            if ($delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true && $delta->close() === true) {
                 $this->html .= '</p>';
+                $block_open = false;
             }
 
             if ($delta->isChild() === true && $delta->isLastChild() === true) {
                 $this->html .= '</' . $delta->parentTag() . '>';
+            }
+
+            if ($i === count($this->deltas)-1 && $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true) {
+                $this->html .= '</p>';
             }
         }
 
