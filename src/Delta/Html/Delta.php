@@ -57,11 +57,15 @@ abstract class Delta
     }
 
     /**
-     * Return the display type for the resultant HTML created by the delta, either inline or block
+     * Return the display type for the resultant HTML created by the delta, either inline or block, defaults to
+     * inline block
      *
      * @return string
      */
-    abstract public function displayType(): string;
+    public function displayType(): string
+    {
+        return self::DISPLAY_INLINE;
+    }
 
     /**
      * Is the delta a child?

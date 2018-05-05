@@ -28,16 +28,6 @@ class Underline extends Delta
     }
 
     /**
-     * Return the display type for the resultant HTML created by the delta, either inline or block
-     *
-     * @return string
-     */
-    public function displayType() : string
-    {
-        return parent::DISPLAY_INLINE;
-    }
-
-    /**
      * Render the HTML for the specific Delta type
      *
      * @return string
