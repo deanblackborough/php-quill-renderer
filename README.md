@@ -60,7 +60,7 @@ Script:Sub | Yes | Yes | Yes
 Script:Super | Yes | Yes | Yes
 Underline | Yes | Yes | Yes
 Header | Yes | Yes | Yes
-Image | Yes | Yes | In Development
+Image | Yes | Yes | Yes
 List | Yes | Yes | Basic - In Development
 Indent/Outdent | No| No | In Development
 Text direction | No | No | In Development

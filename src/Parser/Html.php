@@ -6,6 +6,7 @@ namespace DBlackborough\Quill\Parser;
 use DBlackborough\Quill\Delta\Html\Bold;
 use DBlackborough\Quill\Delta\Html\Delta;
 use DBlackborough\Quill\Delta\Html\Header;
+use DBlackborough\Quill\Delta\Html\Image;
 use DBlackborough\Quill\Delta\Html\Insert;
 use DBlackborough\Quill\Delta\Html\Italic;
 use DBlackborough\Quill\Delta\Html\Link;
@@ -132,29 +133,33 @@ class Html extends Parse
                             }
                         }
                     } else {
-                        if (preg_match("/[\n]{2,}/", $quill['insert']) !== 0) {
-                            $splits = (preg_split("/[\n]{2,}/", $quill['insert']));
-                            $i = 0;
-                            foreach (preg_split("/[\n]{2,}/", $quill['insert']) as $match) {
+                        if (is_string($quill['insert']) === true) {
+                            if (preg_match("/[\n]{2,}/", $quill['insert']) !== 0) {
+                                $splits = (preg_split("/[\n]{2,}/", $quill['insert']));
+                                $i = 0;
+                                foreach (preg_split("/[\n]{2,}/", $quill['insert']) as $match) {
 
-                                $insert = new Insert(str_replace("\n", '', $match));
-                                if ($i === 0 || $i !== count($splits) - 1) {
-                                    $insert->setClose();
+                                    $insert = new Insert(str_replace("\n", '', $match));
+                                    if ($i === 0 || $i !== count($splits) - 1) {
+                                        $insert->setClose();
+                                    }
+
+                                    $this->deltas[] = $insert;
+
+                                    $i++;
                                 }
-
-                                $this->deltas[] = $insert;
-
-                                $i++;
+                            } else {
+                                /**
+                                 * @todo Need to look for single \n and split, need to catch there being a paragraph/string
+                                 * and then the start of a list
+                                 *
+                                 * @todo Also need to work out how to handle the p in this case not being closed, maybe
+                                 * ListItem should set close() of previous delta if displayType is inline
+                                 */
+                                $this->deltas[] = new Insert(str_replace("\n", '', $quill['insert']));
                             }
                         } else {
-                            /**
-                             * @todo Need to look for single \n and split, need to catch there being a paragraph/string
-                             * and then the start of a list
-                             *
-                             * @todo Also need to work out how to handle the p in this case not being closed, maybe
-                             * ListItem should set close() of previous delta if displayType is inline
-                             */
-                            $this->deltas[] = new Insert(str_replace("\n", '', $quill['insert']));
+                            $this->deltas[] = new Image($quill['insert']['image']);
                         }
                     }
                 }
