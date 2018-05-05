@@ -8,6 +8,7 @@ use DBlackborough\Quill\Delta\Html\Delta;
 use DBlackborough\Quill\Delta\Html\Header;
 use DBlackborough\Quill\Delta\Html\Insert;
 use DBlackborough\Quill\Delta\Html\Italic;
+use DBlackborough\Quill\Delta\Html\Link;
 use DBlackborough\Quill\Delta\Html\ListItem;
 use DBlackborough\Quill\Delta\Html\Strike;
 use DBlackborough\Quill\Delta\Html\SubScript;
@@ -78,6 +79,12 @@ class Html extends Parse
                                 case 'italic':
                                     if ($value === true) {
                                         $this->deltas[] = new Italic($quill['insert']);
+                                    }
+                                    break;
+
+                                case 'link':
+                                    if (strlen($value) > 0) {
+                                        $this->deltas[] = new Link($quill['insert'], $quill['attributes']);
                                     }
                                     break;
 

@@ -54,7 +54,7 @@ Attribute | v1+ | v2+ | v3+
 --- | --- | --- | ---
 Bold | Yes | Yes | Yes
 Italic | Yes | Yes | Yes
-Link | Yes | Yes | In Development
+Link | Yes | Yes | Yes
 Strike | Yes | Yes | Yes
 Script:Sub | Yes | Yes | Yes
 Script:Super | Yes | Yes | Yes
