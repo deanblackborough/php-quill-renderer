@@ -42,11 +42,30 @@ abstract class Delta
     protected $is_last_child = false;
 
     /**
-     * Return the display type for the resultant HTML created by the delta, either inline or block
+     * @var boolean $close
+     */
+    protected $close = false;
+
+    /**
+     * Should we close the block
+     *
+     * @return boolean
+     */
+    public function close() : bool
+    {
+        return $this->close;
+    }
+
+    /**
+     * Return the display type for the resultant HTML created by the delta, either inline or block, defaults to
+     * inline block
      *
      * @return string
      */
-    abstract public function displayType(): string;
+    public function displayType(): string
+    {
+        return self::DISPLAY_INLINE;
+    }
 
     /**
      * Is the delta a child?
@@ -120,6 +139,16 @@ abstract class Delta
     abstract public function render(): string;
 
     /**
+     * Set the close attribute
+     *
+     * @return void
+     */
+    public function setClose()
+    {
+        $this->close = true;
+    }
+
+    /**
      * Set the delta to be the first child, alternatively, set to false by passing false
      *
      * @var boolean $value Set the value of $this->is_first_child, defaults to true
@@ -134,11 +163,11 @@ abstract class Delta
     }
 
     /**
-     * Set the delta to be the lasy child, alternatively, set to false by passing false
+     * Set the delta to be the last child, alternatively, set to false by passing false
      *
      * @var boolean $value Set the value of $this->is_last_child, defaults to true
      *
-     * return Delta
+     * @return Delta
      */
     public function setLastChild(bool $value=true) : Delta
     {

@@ -19,7 +19,7 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
     private $expected_paragraphs_with_attributes = "<p>This is a three <strong>paragraph</strong> test</p><p>the <s>difference</s> being this time we </p><p>are <u>going to add</u> attributes.</p>";
     private $expected_single_paragraph = '<p>Lorem ipsum dolor sit amet</p>';
     private $expected_two_paragraphs = '<p>Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet.</p>';
-    private $expected_three_paragraphs = '<p>This is a single entry that</p><p>should create three paragraphs</p><p>of HTML.</p>';
+    private $expected_three_paragraphs = '<p>This is a single entry that </p><p>should create three paragraphs </p><p>of HTML.</p>';
 
     /**
      * Test paragraphs with attributes

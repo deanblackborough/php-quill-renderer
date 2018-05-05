@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Delta\Html;
 
 /**
- * Default delta class for inserts with the 'bold' attribute
+ * Default delta class for image inserts
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Bold extends Delta
+class Image extends Delta
 {
     /**
      * Set the initial properties for the delta
@@ -21,7 +21,7 @@ class Bold extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = 'strong';
+        $this->tag = null;
 
         $this->insert = $insert;
         $this->attributes = $attributes;
@@ -34,6 +34,6 @@ class Bold extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return "<img src=\"{$this->insert}\" />";
     }
 }
