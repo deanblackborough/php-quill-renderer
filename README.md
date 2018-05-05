@@ -10,8 +10,8 @@
 
 ## Description
 
-Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in a table below, the goal is 
-to support every Quill feature.
+Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in the table below, 
+the goal is to eventually support every Quill feature.
 
 # Stability of master
 
@@ -20,13 +20,13 @@ first alpha release of v3.00.0, from that point stability will be maintained.
 
 ## PHP < 7.2
 
-Please use version v1.01.1 or v2.03.1 if you are using an earlier version of PHP, versions 1 and 2 are not feature 
-complete with v3, v3 is a almost complete rewrite.
+Please use version v1.01.1 or v2.03.1 if you are using a version of PHP below 7.2, versions 1 and 2 are not feature 
+with version 3 and are unlikely to ever be updated, the v3 is so much more flexible.
 
 ## Installation
  
-The easiest way to use the renderer is with composer. ```composer require deanblackborough/php-quill-renderer```, 
-alternatively include the classes in src/ in your library or app.
+The easiest way to use the renderer is via composer. ```composer require deanblackborough/php-quill-renderer```, 
+alternatively you can include the classes in my src/ directory in your library or app.
  
 ## Usage
 ```
