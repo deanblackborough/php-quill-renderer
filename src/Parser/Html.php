@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Html\Bold;
+use DBlackborough\Quill\Delta\Html\Compound;
 use DBlackborough\Quill\Delta\Html\Delta;
 use DBlackborough\Quill\Delta\Html\Header;
 use DBlackborough\Quill\Delta\Html\Image;
@@ -59,77 +60,87 @@ class Html extends Parse
                 if ($quill['insert'] !== null) {
 
                     if (array_key_exists('attributes', $quill) === true && is_array($quill['attributes']) === true) {
-
-                        foreach ($quill['attributes'] as $attribute => $value) {
-                            switch ($attribute) {
-                                case 'bold':
-                                    if ($value === true) {
-                                        $this->deltas[] = new Bold($quill['insert']);
-                                    }
-                                    break;
-
-                                case 'header':
-                                    if (in_array($value, array(1, 2, 3, 4, 5, 6, 7)) === true) {
-                                        $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-                                        unset($this->deltas[count($this->deltas) - 1]);
-                                        $this->deltas[] = new Header($insert, $quill['attributes']);
-                                        $this->deltas = array_values($this->deltas);
-                                    }
-                                    break;
-
-                                case 'italic':
-                                    if ($value === true) {
-                                        $this->deltas[] = new Italic($quill['insert']);
-                                    }
-                                    break;
-
-                                case 'link':
-                                    if (strlen($value) > 0) {
-                                        $this->deltas[] = new Link($quill['insert'], $quill['attributes']);
-                                    }
-                                    break;
-
-                                case 'list':
-                                    if (in_array($value, array('ordered', 'bullet')) === true) {
-                                        $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-                                        unset($this->deltas[count($this->deltas) - 1]);
-                                        $this->deltas[] = new ListItem($insert, $quill['attributes']);
-                                        $this->deltas = array_values($this->deltas);
-
-                                        if (array_key_exists('list', $parents_by_type) === false) {
-                                            $parents_by_type['list'] = true;
-                                            $this->deltas[count($this->deltas) - 1]->setFirstChild(true);
-                                        } else {
-                                            $this->deltas[count($this->deltas) - 1]->setLastChild(true);
-                                            $this->deltas[count($this->deltas) - 2]->setLastChild(false);
+                        if (count($quill['attributes']) === 1) {
+                            foreach ($quill['attributes'] as $attribute => $value) {
+                                switch ($attribute) {
+                                    case 'bold':
+                                        if ($value === true) {
+                                            $this->deltas[] = new Bold($quill['insert']);
                                         }
-                                    }
-                                    break;
+                                        break;
 
-                                case 'script':
-                                    if ($value === 'sub') {
-                                        $this->deltas[] = new SubScript($quill['insert']);
-                                    }
-                                    if ($value === 'super') {
-                                        $this->deltas[] = new SuperScript($quill['insert']);
-                                    }
-                                    break;
+                                    case 'header':
+                                        if (in_array($value, array(1, 2, 3, 4, 5, 6, 7)) === true) {
+                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+                                            unset($this->deltas[count($this->deltas) - 1]);
+                                            $this->deltas[] = new Header($insert, $quill['attributes']);
+                                            $this->deltas = array_values($this->deltas);
+                                        }
+                                        break;
 
-                                case 'strike':
-                                    if ($value === true) {
-                                        $this->deltas[] = new Strike($quill['insert']);
-                                    }
-                                    break;
+                                    case 'italic':
+                                        if ($value === true) {
+                                            $this->deltas[] = new Italic($quill['insert']);
+                                        }
+                                        break;
 
-                                case 'underline':
-                                    if ($value === true) {
-                                        $this->deltas[] = new Underline($quill['insert']);
-                                    }
-                                    break;
+                                    case 'link':
+                                        if (strlen($value) > 0) {
+                                            $this->deltas[] = new Link($quill['insert'], $quill['attributes']);
+                                        }
+                                        break;
 
-                                default:
-                                    // Write to errors array? Throw exception?
-                                    break;
+                                    case 'list':
+                                        if (in_array($value, array('ordered', 'bullet')) === true) {
+                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+                                            unset($this->deltas[count($this->deltas) - 1]);
+                                            $this->deltas[] = new ListItem($insert, $quill['attributes']);
+                                            $this->deltas = array_values($this->deltas);
+
+                                            if (array_key_exists('list', $parents_by_type) === false) {
+                                                $parents_by_type['list'] = true;
+                                                $this->deltas[count($this->deltas) - 1]->setFirstChild(true);
+                                            } else {
+                                                $this->deltas[count($this->deltas) - 1]->setLastChild(true);
+                                                $this->deltas[count($this->deltas) - 2]->setLastChild(false);
+                                            }
+                                        }
+                                        break;
+
+                                    case 'script':
+                                        if ($value === 'sub') {
+                                            $this->deltas[] = new SubScript($quill['insert']);
+                                        }
+                                        if ($value === 'super') {
+                                            $this->deltas[] = new SuperScript($quill['insert']);
+                                        }
+                                        break;
+
+                                    case 'strike':
+                                        if ($value === true) {
+                                            $this->deltas[] = new Strike($quill['insert']);
+                                        }
+                                        break;
+
+                                    case 'underline':
+                                        if ($value === true) {
+                                            $this->deltas[] = new Underline($quill['insert']);
+                                        }
+                                        break;
+
+                                    default:
+                                        // Write to errors array? Throw exception?
+                                        break;
+                                }
+                            }
+                        } else {
+                            if (count($quill['attributes']) > 0) {
+                                $delta = new Compound($quill['insert']);
+                                foreach ($quill['attributes'] as $attribute => $value) {
+                                    $delta->setAttribute($attribute, $value);
+
+                                }
+                                $this->deltas[] = $delta;
                             }
                         }
                     } else {
