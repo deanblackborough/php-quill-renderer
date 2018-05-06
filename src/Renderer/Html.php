@@ -49,6 +49,11 @@ class Html extends Render
             }
 
             if ($delta->isChild() === true && $delta->isFirstChild() === true) {
+
+                if ($block_open === true && $this->deltas[$i-1]->displayType() === Delta::DISPLAY_INLINE) {
+                    $this->html .= '</p>';
+                }
+
                 $this->html .= '<' . $delta->parentTag() . '>';
             }
 
