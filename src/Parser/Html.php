@@ -149,14 +149,13 @@ class Html extends Parse
                                     $i++;
                                 }
                             } else {
-                                /**
-                                 * @todo Need to look for single \n and split, need to catch there being a paragraph/string
-                                 * and then the start of a list
-                                 *
-                                 * @todo Also need to work out how to handle the p in this case not being closed, maybe
-                                 * ListItem should set close() of previous delta if displayType is inline
-                                 */
-                                $this->deltas[] = new Insert(str_replace("\n", '', $quill['insert']));
+                                if (preg_match("/[\n]{1}/", $quill['insert']) !== 0) {
+                                    foreach (preg_split("/[\n]{1}/", $quill['insert']) as $match) {
+                                        $this->deltas[] = new Insert(str_replace("\n", '', $match));
+                                    }
+                                } else {
+                                    $this->deltas[] = new Insert($quill['insert']);
+                                }
                             }
                         } else {
                             $this->deltas[] = new Image($quill['insert']['image']);

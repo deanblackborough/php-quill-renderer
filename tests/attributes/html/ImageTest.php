@@ -28,8 +28,6 @@ final class ImageTest extends \PHPUnit\Framework\TestCase
         try {
             $quill = new QuillRender($this->delta_image);
             $result = $quill->render();
-
-            echo $result;
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
