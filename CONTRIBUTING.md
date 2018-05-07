@@ -21,6 +21,9 @@ Pull requests should be from a branch in your fork, please also try to give your
 * PHP keywords should be in ```lowercase```, including, ```true```, ```false``` and ```null```.
 * Braces on their own line for classes, namespaces and functions
 * Braces in line for if/while etc
-* ```UpperCamelCase``` for classes, interfaces etc
+* ```UpperCamelCase``` for classes, interfaces etc.
 * ```lowerCamelCase``` for methods and functions
-* ```lowercase_with_underscores``` for multiple word variables
+* ```lowercase_with_underscores``` for multiple word variables/fields
+
+You can read more about PSR at the following link - 
+https://www.php-fig.org/psr/psr-2/
