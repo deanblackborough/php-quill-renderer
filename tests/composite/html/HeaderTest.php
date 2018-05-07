@@ -54,6 +54,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_header_then_text_then_header, $result, __METHOD__ . ' - Header then text then header failure');
+        $this->assertEquals($this->expected_header_then_text_then_header, $result,
+            __METHOD__ . ' - Header then text then header failure');
     }
 }

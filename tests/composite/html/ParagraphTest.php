@@ -38,7 +38,8 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_paragraphs_with_attributes, $result, __METHOD__ . ' - Paragraphs with attributes failure');
+        $this->assertEquals($this->expected_paragraphs_with_attributes, $result,
+            __METHOD__ . ' - Paragraphs with attributes failure');
     }
 
     /**

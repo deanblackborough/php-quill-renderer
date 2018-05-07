@@ -38,7 +38,7 @@ class Html extends Render
      *
      * @return string
      */
-    public function render() : string
+    public function render(): string
     {
         $block_open = false;
 
@@ -50,7 +50,7 @@ class Html extends Render
 
             if ($delta->isChild() === true && $delta->isFirstChild() === true) {
 
-                if ($block_open === true && $this->deltas[$i-1]->displayType() === Delta::DISPLAY_INLINE) {
+                if ($block_open === true && $this->deltas[$i - 1]->displayType() === Delta::DISPLAY_INLINE) {
                     $this->html .= '</p>';
                 }
 
@@ -68,7 +68,7 @@ class Html extends Render
                 $this->html .= '</' . $delta->parentTag() . '>';
             }
 
-            if ($i === count($this->deltas)-1 && $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true) {
+            if ($i === count($this->deltas) - 1 && $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true) {
                 $this->html .= '</p>';
             }
         }

@@ -48,7 +48,7 @@ abstract class Parse
      *
      * @return boolean
      */
-    public function load(string $quill_json) : bool
+    public function load(string $quill_json): bool
     {
         $this->quill_json = json_decode($quill_json, true);
 
@@ -65,12 +65,12 @@ abstract class Parse
      *
      * @return boolean
      */
-    abstract public function parse() : bool;
+    abstract public function parse(): bool;
 
     /**
      * Return the array of delta objects
      *
      * @return array
      */
-    abstract public function deltas() : array;
+    abstract public function deltas(): array;
 }

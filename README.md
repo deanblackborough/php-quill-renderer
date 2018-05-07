@@ -13,10 +13,10 @@
 Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in the table below, 
 the goal is to eventually support every Quill feature.
 
-# Stability of master
+## Planned features
 
-I'm periodically merging the v3.00.0-alpha branch into master, master should be considered unstable until the 
-first alpha release of v3.00.0, from that point stability will be maintained.
+Over the next few weeks/months I want to continue adding support for additional Quill features and add additional 
+ parsers and renderers, I expect Markdown will be next. 
 
 ## PHP < 7.2
 
@@ -61,14 +61,14 @@ Script:Super | Yes | Yes | Yes
 Underline | Yes | Yes | Yes
 Header | Yes | Yes | Yes
 Image | Yes | Yes | Yes
-List | Yes | Yes | Basic - In Development
-Indent/Outdent | No| No | In Development
-Text direction | No | No | In Development
-Color | No | No | In Development
-Font | No | No | In Development
-Text align | No | No | In Development
-Block quote | No | No | In Development
-Code block | No | No | In Development
+List | Yes | Yes | Yes
+Indent/Outdent | No| No | Planned
+Text direction | No | No | Planned
+Color | No | No | Planned
+Font | No | No | Planned
+Text align | No | No | Planned
+Block quote | No | No | Planned
+Code block | No | No | Planned
 
 Attribute | HTML Tag
 --- | --- 

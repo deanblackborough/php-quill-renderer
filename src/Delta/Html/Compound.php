@@ -33,7 +33,7 @@ class Compound extends Delta
     /**
      * Tags
      */
-    private function tags() : void
+    private function tags(): void
     {
         foreach ($this->attributes as $attribute => $value) {
             switch ($attribute) {

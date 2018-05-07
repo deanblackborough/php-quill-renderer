@@ -35,7 +35,7 @@ class Render
      *
      * @throws \Exception
      */
-    public function __construct(string $deltas, string $format='HTML')
+    public function __construct(string $deltas, string $format = 'HTML')
     {
         switch ($format) {
             case 'HTML':
@@ -58,7 +58,7 @@ class Render
      *
      * @return boolean
      */
-    public function parserLoaded() : bool
+    public function parserLoaded(): bool
     {
         if ($this->parser !== null) {
             return true;
@@ -73,7 +73,7 @@ class Render
      * @return string
      * @throws \Exception
      */
-    public function render() : string
+    public function render(): string
     {
         if ($this->parser->parse() !== true) {
             throw new \Exception('Failed to parse the supplied deltas object');
