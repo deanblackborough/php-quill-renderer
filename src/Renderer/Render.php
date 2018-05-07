@@ -34,5 +34,5 @@ abstract class Render
      *
      * @return string
      */
-    abstract public function render() : string;
+    abstract public function render(): string;
 }

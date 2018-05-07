@@ -32,7 +32,7 @@ class ListItem extends Delta
      *
      * @return string
      */
-    public function displayType() : string
+    public function displayType(): string
     {
         return parent::DISPLAY_BLOCK;
     }

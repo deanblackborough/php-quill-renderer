@@ -3,6 +3,15 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.00.0 - 2018-05-08
+
+v3.00.0 is an almost complete rewrite of v2.03.1, the new design is flexible and supports all the features of the 
+previous versions without any blatant hacks, no more methods named checkLastItemClosed() or 
+removeRedundantParentTags(), the renderer is simpler because it just needs to iterate over a Deltas array.
+
+There was no change to the API. However, if you use it by calling the parser and renderer classes directly I renamed 
+one method, \DBlackborough\Quill\Parser\HTML::content() is now \DBlackborough\Quill\Parser\HTML::deltas().
+
 ## 2.03.1 - 2018-04-15
 
 * Minor bug fix and test thanks to pdiveris (https://github.com/pdiveris), deals with null inserts.

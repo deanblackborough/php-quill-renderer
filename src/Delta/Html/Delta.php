@@ -51,7 +51,7 @@ abstract class Delta
      *
      * @return boolean
      */
-    public function close() : bool
+    public function close(): bool
     {
         return $this->close;
     }
@@ -102,7 +102,7 @@ abstract class Delta
      *
      * @return string
      */
-    public function getInsert() : string
+    public function getInsert(): string
     {
         return $this->insert;
     }
@@ -155,7 +155,7 @@ abstract class Delta
      *
      * @return Delta
      */
-    public function setFirstChild(bool $value=true) : Delta
+    public function setFirstChild(bool $value = true): Delta
     {
         $this->is_first_child = $value;
 
@@ -169,7 +169,7 @@ abstract class Delta
      *
      * @return Delta
      */
-    public function setLastChild(bool $value=true) : Delta
+    public function setLastChild(bool $value = true): Delta
     {
         $this->is_last_child = $value;
 
