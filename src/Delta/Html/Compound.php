@@ -67,6 +67,9 @@ class Compound extends Delta
     /**
      * Pass in an attribute value for conversion
      *
+     * @param string $attribute Attribute name
+     * @param string $value Attribute value to assign
+     *
      * @return Compound
      */
     public function setAttribute($attribute, $value): Compound

@@ -85,5 +85,8 @@ List | `<ul>` `<ol>`
 
 ## Credits
 
-* carlos https://github.com/sald19 [Bugfix] v1.01.0
-* pdiveris https://github.com/pdiveris [Issue #43] v2.03.1 - Null inserts
+* [carlos](https://github.com/sald19) [Bugfix] v1.01.0
+* [pdiveris](https://github.com/pdiveris) [Issue #43] v2.03.1 - Null inserts
+* [Mark Davison](https://github.com/markdavison) - Pushed me in the right direction for v3.00.0
+* [tominventisbe](https://github.com/tominventisbe) [Issue #54] v3.01.0 - Parser::load() does not reset the deltas array
+* [tominventisbe](https://github.com/tominventisbe) [Issue #55] v3.01.0 - Image deltas with multiple attributes incorrectly being passed to Compound delta

@@ -54,6 +54,7 @@ abstract class Parse
 
         if (is_array($this->quill_json) === true && count($this->quill_json) > 0) {
             $this->valid = true;
+            $this->deltas = [];
             return true;
         } else {
             return false;
