@@ -3,6 +3,14 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.01.0 - 2018-05-10
+
+* `Parser::load()` wasn't resetting the deltas array, thanks [tominventisbe](https://github.com/tominventisbe).
+* Added `CompoundImage` delta, `Compound` delta was incorrectly trying to handle images, thanks [tominventisbe](https://github.com/tominventisbe).
+* The `CompoundImage` delta now assigns all defined attributes to the `img` tag.
+* Renamed the `CompositeTest`, now `CompoundTest`, new name more closely matches what I am testing.
+* Added credit to [Mark Davison](https://github.com/markdavison) - Missing in the v3.00.0 release.
+
 ## v3.00.0 - 2018-05-08
 
 v3.00.0 is an almost complete rewrite of v2.03.1, the new design is flexible and supports all the features of the 
@@ -10,7 +18,7 @@ previous versions without any blatant hacks, no more methods named checkLastItem
 removeRedundantParentTags(), the renderer is simpler because it just needs to iterate over a Deltas array.
 
 There was no change to the API. However, if you use it by calling the parser and renderer classes directly I renamed 
-one method, \DBlackborough\Quill\Parser\HTML::content() is now \DBlackborough\Quill\Parser\HTML::deltas().
+one method, `\DBlackborough\Quill\Parser\HTML::content()` is now `\DBlackborough\Quill\Parser\HTML::deltas()`.
 
 ## 2.03.1 - 2018-04-15
 

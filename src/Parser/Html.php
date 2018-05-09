@@ -5,6 +5,7 @@ namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Html\Bold;
 use DBlackborough\Quill\Delta\Html\Compound;
+use DBlackborough\Quill\Delta\Html\CompoundImage;
 use DBlackborough\Quill\Delta\Html\Delta;
 use DBlackborough\Quill\Delta\Html\Header;
 use DBlackborough\Quill\Delta\Html\Image;
@@ -135,7 +136,11 @@ class Html extends Parse
                             }
                         } else {
                             if (count($quill['attributes']) > 0) {
-                                $delta = new Compound($quill['insert']);
+                                if (is_array($quill['insert']) === false) {
+                                    $delta = new Compound($quill['insert']);
+                                } else {
+                                    $delta = new CompoundImage($quill['insert']['image']);
+                                }
                                 foreach ($quill['attributes'] as $attribute => $value) {
                                     $delta->setAttribute($attribute, $value);
 
