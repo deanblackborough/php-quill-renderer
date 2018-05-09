@@ -67,6 +67,6 @@ final class StockTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_null_insert, $result, __METHOD__ . ' Null insert skipped failure');
+        $this->assertEquals($this->expected_header, $result, __METHOD__ . ' Multiple load calls failure');
     }
 }
