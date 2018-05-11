@@ -130,7 +130,7 @@ class Html extends Parse
                                         break;
 
                                     default:
-                                        // Write to errors array? Throw exception?
+                                        $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
                                         break;
                                 }
                             }

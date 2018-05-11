@@ -12,19 +12,22 @@ use DBlackborough\Quill\Render as QuillRender;
 final class TypographyTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_bold = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"bold":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $delta_bold_with_attributes = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"bold":true, "class":"bold_attributes"},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_italic = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"italic":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_strike = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"strike":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_sub_script = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"sub"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas."}]}';
     private $delta_super_script = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"super"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas."}]}';
     private $delta_underline = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"underline":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $delta_single_attribute = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"class":"custom_class"},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
 
     private $expected_bold = '<p>Lorem ipsum dolor sit amet <strong>sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
+    private $expected_bold_with_attributes = '<p>Lorem ipsum dolor sit amet <strong class="bold_attributes">sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_italic = '<p>Lorem ipsum dolor sit amet <em>sollicitudin</em> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_strike = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_sub_script = '<p>Lorem ipsum dolor sit<sub>x</sub> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
     private $expected_super_script = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
     private $expected_underline = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
-
+    private $expected_single_attribute = '<p>Lorem ipsum dolor sit amet <span class="custom_class">sollicitudin</span> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
 
     /**
      * Test bold attribute
@@ -44,6 +47,26 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_bold, $result, __METHOD__ . ' - Bold attribute failure');
+    }
+
+    /**
+     * Test bold attribute with additional custom attribute
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testBoldWithAttribute()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_bold_with_attributes);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals($this->expected_bold_with_attributes, $result, __METHOD__ . ' - Bold attribute with attributes failure');
     }
 
     /**
@@ -142,5 +165,25 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_underline, $result, __METHOD__ . ' - Underline attribute failure');
+    }
+
+    /**
+     * Test a single 'unknown' attribute, should create a span
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testSingleAttribute()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_single_attribute);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals($this->expected_single_attribute, $result, __METHOD__ . ' - Single attribute failure');
     }
 }
