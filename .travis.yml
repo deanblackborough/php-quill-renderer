@@ -13,10 +13,7 @@ notifications:
     on_failure: always # default: always
 
 script:
-  - mkdir -p build/logs
-  - phpunit tests --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover clover.xml
 
 after_success:
-  - travis_retry php vendor/bin/php-coveralls
-    # or enable logging
-  - travis_retry php vendor/bin/php-coveralls -v
+  - php vendor/bin/php-coveralls -v
