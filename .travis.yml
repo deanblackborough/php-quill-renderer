@@ -14,7 +14,7 @@ notifications:
 
 script:
   - mkdir -p build/logs
-  - phpunit tests --coverage-clover build/logs/clover.xml
+  - phpunit tests --coverage-clover build/logs/clover.xml -c app
 
 after_success:
   - travis_retry phpunit --coverage-clover build/logs/clover.xml
