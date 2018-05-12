@@ -12,4 +12,9 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-script: phpunit tests
+script:
+  - mkdir -p build/logs
+  - phpunit tests --coverage-clover build/logs/clover.xml
+
+after_success:
+  - travis_retry phpunit --coverage-clover build/logs/clover.xml
