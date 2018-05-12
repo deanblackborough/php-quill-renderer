@@ -12,7 +12,7 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-script: phpunit tests
+script: phpunit tests --coverage-clover build/logs/clover.xml
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls
