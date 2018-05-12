@@ -14,6 +14,5 @@ notifications:
 
 script:
   - vendor/bin/phpunit --coverage-clover clover.xml
-
 after_success:
   - php vendor/bin/php-coveralls -v
