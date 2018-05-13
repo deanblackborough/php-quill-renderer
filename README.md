@@ -29,7 +29,7 @@ with version 3 and are unlikely to ever be updated, the v3 is so much more flexi
 The easiest way to use the renderer is via composer. ```composer require deanblackborough/php-quill-renderer```, 
 alternatively you can include the classes in my src/ directory in your library or app.
  
-## Usage
+## Usage via API
 ```
 try {
     $quill = new \DBlackborough\Quill\Render($quill_json, 'HTML');
@@ -40,6 +40,9 @@ try {
 ```
 
 ## Usage, direct, parse and then render
+
+### If you use this method, it will change in the next release, I need to add a load() method to the Renderer class, the API will not change.
+
 ```
 $parser = new \DBlackborough\Quill\Parser\Html();
 $parser->load($quill_json);
