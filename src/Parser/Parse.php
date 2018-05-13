@@ -115,4 +115,14 @@ abstract class Parse
      * @return array
      */
     abstract public function deltas(): array;
+
+    /**
+     * Return a specific delta array of delta objects
+     *
+     * @param string $index Index of the deltas array you want
+     *
+     * @return array
+     * @throwns \OutOfRangeException
+     */
+    abstract public function deltasByIndex(string $index): array;
 }
