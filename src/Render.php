@@ -42,14 +42,14 @@ class Render
                 $this->parser = new Parser\Html();
                 break;
             default:
-                throw new \Exception('No renderer found for requested format: "' . $format . '"');
+                throw new \InvalidArgumentException('Requested $format not supported, formats supported, [HTML]');
                 break;
         }
 
         $this->format = $format;
 
         if ($this->parser->load($deltas) === false) {
-            throw new \Exception('Failed to load deltas json');
+            throw new \RuntimeException('Failed to load/parse deltas json');
         }
     }
 
@@ -75,6 +75,10 @@ class Render
      */
     public function render(): string
     {
+        if ($this->parser === null) {
+            throw new \BadMethodCallException('No parser loaded');
+        }
+
         if ($this->parser->parse() !== true) {
             throw new \Exception('Failed to parse the supplied deltas object');
         }
@@ -84,7 +88,7 @@ class Render
                 $this->renderer = new Renderer\Html($this->parser->deltas());
                 break;
             default:
-                throw new \Exception('No renderer found for requested format: "' . $this->format . '"');
+                // Never should be reached
                 break;
         }
 

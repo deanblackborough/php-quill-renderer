@@ -3,6 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.02.0 - 2018-05-xx
+
+* Custom attributes can be added to base insert and compound delta. The base insert adds a span around the insert 
+text; the compound delta adds the attributes to the outer HTML tag.
+* Added code coverage reporting via coveralls.io.
+* Increased test coverage, test for thrown exceptions and removed redundant method in Delta class.
+
 ## v3.01.0 - 2018-05-10
 
 * `Parser::load()` wasn't resetting the deltas array, thanks [tominventisbe](https://github.com/tominventisbe).

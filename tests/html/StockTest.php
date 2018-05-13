@@ -13,6 +13,7 @@ final class StockTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_null_insert = '{"ops":[{"insert":"Heading 1"},{"insert":null},{"attributes":{"header":1},"insert":"\n"}]}';
     private $delta_header = '{"ops":[{"insert":"Heading 1"},{"attributes":{"header":1},"insert":"\n"}]}';
+    private $delta_header_invalid = '{"ops":[{"insert":"Heading 1"},{"attributes":{"header":1},"insert":"\n"}}';
 
     private $expected_null_insert = "<h1>Heading 1</h1>";
     private $expected_header = '<h1>Heading 1</h1>';
@@ -68,5 +69,31 @@ final class StockTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_header, $result, __METHOD__ . ' Multiple load calls failure');
+    }
+
+    /**
+     * Test to see if an exception is thrown when an invalid parser is requested
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testExceptionThrownForInvalidParser()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $quill = new QuillRender($this->delta_header, 'UNKNOWN');
+    }
+
+    /**
+     * Test to see if an exception is thrown when attempting to parse an invalid json string
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testExceptionThrownForInvalidJson()
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $quill = new QuillRender($this->delta_header_invalid, 'HTML');
     }
 }
