@@ -12,4 +12,7 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-script: phpunit tests
+script:
+  - vendor/bin/phpunit --coverage-clover clover.xml
+after_success:
+  - php vendor/bin/php-coveralls -v
