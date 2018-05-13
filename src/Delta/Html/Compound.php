@@ -13,8 +13,19 @@ namespace DBlackborough\Quill\Delta\Html;
  */
 class Compound extends Delta
 {
+    /**
+     * @var array Array of HTML tags
+     */
     private $tags;
 
+    /**
+     * @var array An array of element attributes
+     */
+    private $element_attributes;
+
+    /**
+     * @var string The generated HTML fragment
+     */
     private $html;
 
     /**
@@ -27,6 +38,7 @@ class Compound extends Delta
         $this->insert = $insert;
 
         $this->tags = [];
+        $this->element_attributes = [];
         $this->html = '';
     }
 
@@ -58,7 +70,7 @@ class Compound extends Delta
                     break;
 
                 default:
-                    // Ignore tags not found
+                    $this->element_attributes[$attribute] = $value;
                     break;
             }
         }
@@ -88,8 +100,17 @@ class Compound extends Delta
     {
         $this->tags();
 
-        foreach ($this->tags as $tag) {
-            $this->html .= "<{$tag}>";
+        $element_attributes = '';
+        foreach ($this->element_attributes as $attribute => $value) {
+            $element_attributes .= "{$attribute}=\"{$value}\" ";
+        }
+
+        foreach ($this->tags as $i => $tag) {
+            if ($i === 0 && strlen($element_attributes) > 0) {
+                $this->html .= "<{$tag} " . rtrim($element_attributes) . '>';
+            } else {
+                $this->html .= "<{$tag}>";
+            }
         }
 
         $this->html .= $this->insert;

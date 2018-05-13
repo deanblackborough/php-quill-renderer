@@ -130,7 +130,7 @@ class Html extends Parse
                                         break;
 
                                     default:
-                                        // Write to errors array? Throw exception?
+                                        $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
                                         break;
                                 }
                             }
@@ -186,6 +186,30 @@ class Html extends Parse
     }
 
     /**
+     * Parse multiple deltas
+     *
+     * @return boolean Return true if all the deltas could be parsed ready for the renderer
+     */
+    public function parseMultiple() : bool
+    {
+        $results = [];
+        foreach ($this->quill_json_stack as $index => $quill_json) {
+            $this->quill_json = $quill_json;
+            $this->deltas = [];
+            $results[$index] = $this->parse();
+            if ($results[$index] === true) {
+                $this->deltas_stack[$index] = $this->deltas();
+            }
+        }
+
+        if (in_array(false, $results) === false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Return the array of delta objects
      *
      * @return array
@@ -193,5 +217,22 @@ class Html extends Parse
     public function deltas(): array
     {
         return $this->deltas;
+    }
+
+    /**
+     * Return a specific delta array of delta objects
+     *
+     * @param string $index Index of the deltas array you want
+     *
+     * @return array
+     * @throwns \OutOfRangeException
+     */
+    public function deltasByIndex(string $index): array
+    {
+        if (array_key_exists($index, $this->deltas_stack) === true) {
+            return $this->deltas_stack[$index];
+        } else {
+            throw new \OutOfRangeException('Deltas array does not exist for the given index: ' . $index);
+        }
     }
 }

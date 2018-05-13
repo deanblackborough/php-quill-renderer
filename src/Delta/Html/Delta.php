@@ -108,20 +108,6 @@ abstract class Delta
     }
 
     /**
-     * If the delta is a child, is it the only child
-     *
-     * @return boolean
-     */
-    public function isOnlyChild(): bool
-    {
-        if ($this->isFirstChild() === true && $this->isLastChild() === true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * If the delta is a child, what type of tag is the parent
      *
      * @return string|null

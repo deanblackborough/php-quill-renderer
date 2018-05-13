@@ -25,6 +25,7 @@ class Html extends Render
      * Renderer constructor.
      *
      * @param array $deltas Delta objects array
+     * @deprecated Loading the delta in the constructor is going to be removed in the next version, to support multiple deltas I am going to add a load method
      */
     public function __construct(array $deltas)
     {
