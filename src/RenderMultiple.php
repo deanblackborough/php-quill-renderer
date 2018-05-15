@@ -14,11 +14,6 @@ namespace DBlackborough\Quill;
 class RenderMultiple
 {
     /**
-     * @var \DBlackborough\Quill\Renderer\Render
-     */
-    private $renderer;
-
-    /**
      * @var \DBlackborough\Quill\Parser\Parse
      */
     private $parser;
