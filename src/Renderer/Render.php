@@ -22,11 +22,25 @@ abstract class Render
     /**
      * Renderer constructor.
      *
-     * @param array $deltas Content data array for renderer
+     * @return void
      */
-    public function __construct(array $deltas)
+    public function __construct()
+    {
+        $this->deltas = [];
+    }
+
+    /**
+     * Load the deltas array
+     *
+     * @param array $deltas Deltas array from the parser
+     *
+     * @return Render
+     */
+    public function load(array $deltas) : Render
     {
         $this->deltas = $deltas;
+
+        return $this;
     }
 
     /**

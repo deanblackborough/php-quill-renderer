@@ -3,6 +3,14 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.10.0 - 2018-05-16
+
+* Added support for passing multiple deltas into the API/parser, limited to multiple of the same type.
+* Added support for reusing the renderer, added `load()` method to enable this.
+* README updated to show new usage.
+* Minor comment and variable corrections.
+* Added tests to cover new feature.
+
 ## v3.02.0 - 2018-05-13
 
 * Add initial support for loading multiple deltas, very basic and not yet supported through the API, next version.

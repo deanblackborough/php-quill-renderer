@@ -29,27 +29,57 @@ with version 3 and are unlikely to ever be updated, the v3 is so much more flexi
 The easiest way to use the renderer is via composer. ```composer require deanblackborough/php-quill-renderer```, 
 alternatively you can include the classes in my src/ directory in your library or app.
  
-## Usage via API
+## Usage via API, single $quill_json
 ```
 try {
     $quill = new \DBlackborough\Quill\Render($quill_json, 'HTML');
-    echo $quill->render();
+    $result = $quill->render();
 } catch (\Exception $e) {
     echo $e->getMessage();
 }
+
+echo $result;
 ```
 
-## Usage, direct, parse and then render
+## Usage via API, multiple $quill_json, passed in via array
 
-### If you use this method, it will change in the next release, I need to add a load() method to the Renderer class, the API will not change.
+```
+try {
+    $quill = new RenderMultiple($quill_json, 'HTML');
+    
+    $result_one = $quill->render('one');
+    $result_two = $quill->render('two');
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
+
+echo $result_one;
+echo $result_two;
+```
+
+## Usage, direct, parse and then render, single $quill_json - updated in v3.10.0
 
 ```
 $parser = new \DBlackborough\Quill\Parser\Html();
+$renderer = new \DBlackborough\Quill\Renderer\Html();
+
 $parser->load($quill_json);
 $parser->parse();
 
-$renderer = new \DBlackborough\Quill\Renderer\Html($parser->deltas());
-echo $renderer->render();
+echo $renderer->load($parser->deltas())->render();
+```
+
+## Usage, direct, parse and then render, multiple $quill_json - updated in v3.10.0
+
+```
+$parser = new \DBlackborough\Quill\Parser\Html();
+$renderer = new \DBlackborough\Quill\Renderer\Html();
+
+$parser->loadMultiple([ 'one'=> $quill_json_1, 'two' => $quill_json_2);
+$parser->parseMultiple();
+
+echo $renderer->load($parser->deltasByIndex('one'))->render();
+echo $renderer->load($parser->deltasByIndex('two'))->render();
 ```
 
 ## Quill attributes support
@@ -73,6 +103,7 @@ Font | No | No | Planned
 Text align | No | No | Planned
 Block quote | No | No | Planned
 Code block | No | No | Planned
+Custom attributes | No | No | Yes
 
 Attribute | HTML Tag
 --- | --- 

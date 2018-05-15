@@ -44,7 +44,7 @@ class Html extends Parse
     }
 
     /**
-     * Loop through the deltas and generate the contents array
+     * Parse the $quill_json and generate an array of Delta objects
      *
      * @return boolean
      */
@@ -186,9 +186,9 @@ class Html extends Parse
     }
 
     /**
-     * Parse multiple deltas
+     * Parse the $quill_json_stack and generate an indexed array of Delta objects
      *
-     * @return boolean Return true if all the deltas could be parsed ready for the renderer
+     * @return boolean
      */
     public function parseMultiple() : bool
     {

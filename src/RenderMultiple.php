@@ -4,19 +4,15 @@ declare(strict_types=1);
 namespace DBlackborough\Quill;
 
 /**
- * Parse Quill generated deltas into the requested format
+ * Parse multiple Quill generated deltas strings into the requested format, you can return
+ * then rendered strings in whatever order you want, just provide the relevant index
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Render
+class RenderMultiple
 {
-    /**
-     * @var \DBlackborough\Quill\Renderer\Render
-     */
-    private $renderer;
-
     /**
      * @var \DBlackborough\Quill\Parser\Parse
      */
@@ -30,12 +26,12 @@ class Render
     /**
      * Renderer constructor, pass in the $quill_json string and set the requested output format
      *
-     * @param string $quill_json
+     * @param array $quill_json An indexed array of $quill_json string
      * @param string $format Requested output format
      *
      * @throws \Exception
      */
-    public function __construct(string $quill_json, string $format = 'HTML')
+    public function __construct(array $quill_json, string $format = 'HTML')
     {
         switch ($format) {
             case 'HTML':
@@ -48,36 +44,41 @@ class Render
 
         $this->format = $format;
 
-        if ($this->parser->load($quill_json) === false) {
-            throw new \RuntimeException('Failed to load/json_decode the $quill_json string');
+        if ($this->parser->loadMultiple($quill_json) === false) {
+            throw new \RuntimeException('Failed to load/json_decode the $quill_json strings');
         }
     }
 
     /**
      * Pass the content array to the renderer and return the generated output
      *
+     * @param string $index Index to return
+     *
      * @return string
      * @throws \Exception
+     * @throws \BadMethodCallException
+     * @throws \OutOfRangeException
      */
-    public function render(): string
+    public function render(string $index): string
     {
         if ($this->parser === null) {
             throw new \BadMethodCallException('No parser loaded');
         }
 
-        if ($this->parser->parse() !== true) {
-            throw new \Exception('Failed to parse the supplied $quill_json array');
+        if ($this->parser->parseMultiple() !== true) {
+            throw new \Exception('Failed to parse the supplied $quill_json arrays');
         }
 
         switch ($this->format) {
             case 'HTML':
-                $this->renderer = new Renderer\Html();
+                $deltas = $this->parser->deltasByIndex($index);
                 break;
             default:
-                // Never should be reached
+                $deltas = [];
                 break;
         }
 
-        return $this->renderer->load($this->parser->deltas())->render();
+        $renderer = new Renderer\Html();
+        return $renderer->load($deltas)->render();
     }
 }
