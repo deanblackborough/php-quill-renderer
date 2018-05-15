@@ -103,11 +103,18 @@ abstract class Parse
     }
 
     /**
-     * Loop through the deltas and generate the contents array
+     * Parse the $quill_json and generate an array of Delta objects
      *
      * @return boolean
      */
     abstract public function parse(): bool;
+
+    /**
+     * Parse the $quill_json_stack and generate an indexed array of Delta objects
+     *
+     * @return boolean
+     */
+    abstract public function parseMultiple() : bool;
 
     /**
      * Return the array of delta objects

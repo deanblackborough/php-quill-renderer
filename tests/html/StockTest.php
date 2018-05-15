@@ -56,14 +56,14 @@ final class StockTest extends \PHPUnit\Framework\TestCase
             $parser->load($this->delta_header);
             $parser->parse();
 
-            $renderer = new \DBlackborough\Quill\Renderer\Html($parser->deltas());
-            $result = $renderer->render();
+            $renderer = new \DBlackborough\Quill\Renderer\Html();
+            $result = $renderer->load($parser->deltas())->render();
 
             $parser->load($this->delta_header);
             $parser->parse();
 
-            $renderer = new \DBlackborough\Quill\Renderer\Html($parser->deltas());
-            $result = $renderer->render();
+            $renderer = new \DBlackborough\Quill\Renderer\Html();
+            $result = $renderer->load($parser->deltas())->render();
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }

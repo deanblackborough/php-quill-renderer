@@ -28,14 +28,14 @@ class Render
     private $format;
 
     /**
-     * Renderer constructor, sets the deltas and output format
+     * Renderer constructor, pass in the $quill_json string and set the requested output format
      *
-     * @param string $deltas Deltas json string
+     * @param string $quill_json
      * @param string $format Requested output format
      *
      * @throws \Exception
      */
-    public function __construct(string $deltas, string $format = 'HTML')
+    public function __construct(string $quill_json, string $format = 'HTML')
     {
         switch ($format) {
             case 'HTML':
@@ -48,22 +48,8 @@ class Render
 
         $this->format = $format;
 
-        if ($this->parser->load($deltas) === false) {
-            throw new \RuntimeException('Failed to load/parse deltas json');
-        }
-    }
-
-    /**
-     * Check to see if a parser has been instantiated
-     *
-     * @return boolean
-     */
-    public function parserLoaded(): bool
-    {
-        if ($this->parser !== null) {
-            return true;
-        } else {
-            return false;
+        if ($this->parser->load($quill_json) === false) {
+            throw new \RuntimeException('Failed to load/json_decode the $quill_json string');
         }
     }
 
@@ -80,18 +66,18 @@ class Render
         }
 
         if ($this->parser->parse() !== true) {
-            throw new \Exception('Failed to parse the supplied deltas object');
+            throw new \Exception('Failed to parse the supplied $quill_json array');
         }
 
         switch ($this->format) {
             case 'HTML':
-                $this->renderer = new Renderer\Html($this->parser->deltas());
+                $this->renderer = new Renderer\Html();
                 break;
             default:
                 // Never should be reached
                 break;
         }
 
-        return $this->renderer->render();
+        return $this->renderer->load($this->parser->deltas())->render();
     }
 }
