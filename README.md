@@ -16,8 +16,8 @@ the goal is to eventually support every Quill feature.
 
 ## Planned features
 
-Over the next few weeks/months I want to continue adding support for additional Quill features and add additional 
- parsers and renderers, I expect Markdown will be next. 
+Over the next few weeks/months I want to continue adding support for additional [Quill](https://github.com/quilljs/quill) 
+features and add additional parsers and renderers, I expect Markdown will be next. 
 
 ## PHP < 7.2
 
