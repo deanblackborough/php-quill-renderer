@@ -167,7 +167,9 @@ class Html extends Parse
                             } else {
                                 if (preg_match("/[\n]{1}/", $quill['insert']) !== 0) {
                                     foreach (preg_split("/[\n]{1}/", $quill['insert']) as $match) {
-                                        $this->deltas[] = new Insert(str_replace("\n", '', $match));
+                                        if (strlen(trim($match)) > 0) {
+                                            $this->deltas[] = new Insert(str_replace("\n", '', $match));
+                                        }
                                     }
                                 } else {
                                     $this->deltas[] = new Insert($quill['insert']);
