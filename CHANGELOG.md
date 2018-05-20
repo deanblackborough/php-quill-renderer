@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.10.1 - 2018-05-21
+
+* Fixed bugs #64 and #65, empty deltas being created by the preg_match on \n
+
 ## v3.10.0 - 2018-05-16
 
 * Added support for passing multiple deltas into the API/parser, limited to multiple of the same type.

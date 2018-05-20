@@ -6,8 +6,8 @@
             "DBlackborough\\Quill\\" : "src/"
         }
     },
-    "homepage": "http://www.transmute-coffee.com/",
-    "keywords": [ "quill", "quilljs", "renderer", "delta", "parse", "html", "php"],
+    "homepage": "http://www.transmute-coffee.com/php-quill-renderer.php",
+    "keywords": [ "quill", "quilljs", "renderer", "delta", "parse", "html", "php", "markdown"],
     "authors": [
         {
             "name": "Dean Blackborough",
