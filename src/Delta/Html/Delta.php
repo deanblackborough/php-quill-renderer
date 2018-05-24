@@ -47,6 +47,11 @@ abstract class Delta
     protected $close = false;
 
     /**
+     * @var boolean $new_line
+     */
+    protected $new_line = false;
+
+    /**
      * Should we close the block
      *
      * @return boolean
@@ -108,6 +113,16 @@ abstract class Delta
     }
 
     /**
+     * Return whether or not a new line needs to be added
+     *
+     * @return boolean
+     */
+    public function newLine(): bool
+    {
+        return $this->new_line;
+    }
+
+    /**
      * If the delta is a child, what type of tag is the parent
      *
      * @return string|null
@@ -158,6 +173,18 @@ abstract class Delta
     public function setLastChild(bool $value = true): Delta
     {
         $this->is_last_child = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the new line state
+     *
+     * @return Delta
+     */
+    public function setNewLine(): Delta
+    {
+        $this->new_line = true;
 
         return $this;
     }
