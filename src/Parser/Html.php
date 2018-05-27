@@ -150,11 +150,16 @@ class Html extends Parse
                         }
                     } else {
                         if (is_string($quill['insert']) === true) {
+
                             $inserts = $this->splitInsertsOnNewLines($quill['insert']);
+
                             foreach ($inserts as $insert) {
                                 $delta = new Insert($insert['insert']);
                                 if ($insert['close'] === true) {
                                     $delta->setClose();
+                                }
+                                if ($insert['new_line'] === true) {
+                                    $delta->setNewLine();
                                 }
 
                                 $this->deltas[] = $delta;
@@ -223,8 +228,8 @@ class Html extends Parse
     }
 
     /**
-     * Split insert by new lines and optionally set whether or not the close
-     * method needs to set called on the Delta
+     * Split insert by new lines and optionally set whether or not the close()
+     * method needs to called on the Delta
      *
      * @param string $insert An insert string
      *
@@ -244,14 +249,22 @@ class Html extends Parse
                     $close = true;
                 }
 
-                $inserts[] = ['insert' => $sub_insert, 'close' => $close];
+                $inserts[] = [
+                    'insert' => $sub_insert,
+                    'close' => $close,
+                    'new_line' => false
+                ];
 
                 $i++;
             }
         } else {
             $sub_inserts = $this->splitInsertsOnNewLine($insert);
             foreach ($sub_inserts as $sub_insert) {
-                $inserts[] = ['insert' => $sub_insert['insert'], 'close' => false];
+                $inserts[] = [
+                    'insert' => $sub_insert['insert'],
+                    'close' => $sub_insert['close'],
+                    'new_line' => $sub_insert['new_line']
+                ];
             }
         }
 
@@ -259,25 +272,41 @@ class Html extends Parse
     }
 
     /**
-     * Split insert by new line
+     * Split insert by new line and optionally set whether or not the close()
+     * and newLine() methods needs to be called on the Delta
      *
      * @param string $insert An insert string
      *
-     * @return array array of inserts
+     * @return array array of inserts, three indexes, insert, close and new_line
      */
     private function splitInsertsOnNewLine($insert)
     {
         $inserts = [];
 
-        if (preg_match("/[\n]{1}/", $insert) !== 0) {
-            foreach (preg_split("/[\n]{1}/", $insert) as $match) {
+        if (preg_match("/[\n]{1}/", rtrim($insert, "\n")) !== 0) {
+            $matches = preg_split("/[\n]{1}/", rtrim($insert, "\n"));
+            $i = 0;
+            foreach ($matches as $match) {
                 if (strlen(trim($match)) > 0) {
                     $sub_insert = str_replace("\n", '', $match);
-                    $inserts[] = ['insert' => $sub_insert];
+                    $new_line = true;
+                    if ($i === count($matches) - 1) {
+                        $new_line = false;
+                    }
+                    $inserts[] = [
+                        'insert' => $sub_insert,
+                        'close' => false,
+                        'new_line' => $new_line
+                    ];
                 }
+                $i++;
             }
         } else {
-            $inserts[] = ['insert' => $insert];
+            $inserts[] = [
+                'insert' => str_replace("\n", '', $insert),
+                'close' => false,
+                'new_line' => false
+            ];
         }
 
         return $inserts;

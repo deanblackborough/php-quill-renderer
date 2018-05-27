@@ -40,7 +40,7 @@ class Insert extends Delta
         }
 
         if ($add_span === false) {
-            return $this->insert;
+            $html = $this->insert;
         } else {
             $html = '<span';
             foreach($this->attributes as $attribute => $value) {
