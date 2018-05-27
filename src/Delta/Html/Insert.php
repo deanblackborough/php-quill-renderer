@@ -47,8 +47,12 @@ class Insert extends Delta
                 $html .= " {$attribute}=\"{$value}\"";
             }
             $html .= ">{$this->insert}</span>";
-
-            return $html;
         }
+
+        if ($this->newLine() === true) {
+            $html .= '<br />';
+        }
+
+        return $html;
     }
 }
