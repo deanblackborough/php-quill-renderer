@@ -249,16 +249,35 @@ class Html extends Parse
                 $i++;
             }
         } else {
-            if (preg_match("/[\n]{1}/", $insert) !== 0) {
-                foreach (preg_split("/[\n]{1}/", $insert) as $match) {
-                    if (strlen(trim($match)) > 0) {
-                        $sub_insert = str_replace("\n", '', $match);
-                        $inserts[] = ['insert' => $sub_insert, 'close' => false];
-                    }
-                }
-            } else {
-                $inserts[] = ['insert' => $insert, 'close' => false];
+            $sub_inserts = $this->splitInsertsOnNewLine($insert);
+            foreach ($sub_inserts as $sub_insert) {
+                $inserts[] = ['insert' => $sub_insert['insert'], 'close' => false];
             }
+        }
+
+        return $inserts;
+    }
+
+    /**
+     * Split insert by new line
+     *
+     * @param string $insert An insert string
+     *
+     * @return array array of inserts
+     */
+    private function splitInsertsOnNewLine($insert)
+    {
+        $inserts = [];
+
+        if (preg_match("/[\n]{1}/", $insert) !== 0) {
+            foreach (preg_split("/[\n]{1}/", $insert) as $match) {
+                if (strlen(trim($match)) > 0) {
+                    $sub_insert = str_replace("\n", '', $match);
+                    $inserts[] = ['insert' => $sub_insert];
+                }
+            }
+        } else {
+            $inserts[] = ['insert' => $insert];
         }
 
         return $inserts;
