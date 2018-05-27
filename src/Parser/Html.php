@@ -150,30 +150,14 @@ class Html extends Parse
                         }
                     } else {
                         if (is_string($quill['insert']) === true) {
-                            if (preg_match("/[\n]{2,}/", $quill['insert']) !== 0) {
-                                $splits = (preg_split("/[\n]{2,}/", $quill['insert']));
-                                $i = 0;
-                                foreach (preg_split("/[\n]{2,}/", $quill['insert']) as $match) {
-
-                                    $insert = new Insert(str_replace("\n", '', $match));
-                                    if ($i === 0 || $i !== count($splits) - 1) {
-                                        $insert->setClose();
-                                    }
-
-                                    $this->deltas[] = $insert;
-
-                                    $i++;
+                            $inserts = $this->splitInsertsOnNewLines($quill['insert']);
+                            foreach ($inserts as $insert) {
+                                $delta = new Insert($insert['insert']);
+                                if ($insert['close'] === true) {
+                                    $delta->setClose();
                                 }
-                            } else {
-                                if (preg_match("/[\n]{1}/", $quill['insert']) !== 0) {
-                                    foreach (preg_split("/[\n]{1}/", $quill['insert']) as $match) {
-                                        if (strlen(trim($match)) > 0) {
-                                            $this->deltas[] = new Insert(str_replace("\n", '', $match));
-                                        }
-                                    }
-                                } else {
-                                    $this->deltas[] = new Insert($quill['insert']);
-                                }
+
+                                $this->deltas[] = $delta;
                             }
                         } else {
                             $this->deltas[] = new Image($quill['insert']['image']);
@@ -192,7 +176,7 @@ class Html extends Parse
      *
      * @return boolean
      */
-    public function parseMultiple() : bool
+    public function parseMultiple(): bool
     {
         $results = [];
         foreach ($this->quill_json_stack as $index => $quill_json) {
@@ -260,7 +244,7 @@ class Html extends Parse
                     $close = true;
                 }
 
-                $inserts[] = [ 'insert' => $sub_insert, 'close' => $close ];
+                $inserts[] = ['insert' => $sub_insert, 'close' => $close];
 
                 $i++;
             }
@@ -269,11 +253,11 @@ class Html extends Parse
                 foreach (preg_split("/[\n]{1}/", $insert) as $match) {
                     if (strlen(trim($match)) > 0) {
                         $sub_insert = str_replace("\n", '', $match);
-                        $inserts[] = [ 'insert' => $sub_insert, 'close' => false ];
+                        $inserts[] = ['insert' => $sub_insert, 'close' => false];
                     }
                 }
             } else {
-                $inserts[] = [ 'insert' => $insert, 'close' => false ];
+                $inserts[] = ['insert' => $insert, 'close' => false];
             }
         }
 
