@@ -237,4 +237,46 @@ class Html extends Parse
             throw new \OutOfRangeException('Deltas array does not exist for the given index: ' . $index);
         }
     }
+
+    /**
+     * Split insert by new lines and optionally set whether or not the close
+     * method needs to set called on the Delta
+     *
+     * @param string $insert An insert string
+     *
+     * @return array array of inserts, two indexes, insert and close
+     */
+    private function splitInsertsOnNewLines($insert)
+    {
+        $inserts = [];
+
+        if (preg_match("/[\n]{2,}/", $insert) !== 0) {
+            $splits = (preg_split("/[\n]{2,}/", $insert));
+            $i = 0;
+            foreach (preg_split("/[\n]{2,}/", $insert) as $match) {
+                $close = false;
+                $sub_insert = str_replace("\n", '', $match);
+                if ($i === 0 || $i !== count($splits) - 1) {
+                    $close = true;
+                }
+
+                $inserts[] = [ 'insert' => $sub_insert, 'close' => $close ];
+
+                $i++;
+            }
+        } else {
+            if (preg_match("/[\n]{1}/", $insert) !== 0) {
+                foreach (preg_split("/[\n]{1}/", $insert) as $match) {
+                    if (strlen(trim($match)) > 0) {
+                        $sub_insert = str_replace("\n", '', $match);
+                        $inserts[] = [ 'insert' => $sub_insert, 'close' => false ];
+                    }
+                }
+            } else {
+                $inserts[] = [ 'insert' => $insert, 'close' => false ];
+            }
+        }
+
+        return $inserts;
+    }
 }
