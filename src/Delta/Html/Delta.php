@@ -180,11 +180,13 @@ abstract class Delta
     /**
      * Set the new line state
      *
+     * @var boolean $value Set the value of $this->new_line, defaults to true
+     *
      * @return Delta
      */
-    public function setNewLine(): Delta
+    public function setNewLine(bool $value = true): Delta
     {
-        $this->new_line = true;
+        $this->new_line = $value;
 
         return $this;
     }

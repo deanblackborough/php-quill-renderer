@@ -290,7 +290,7 @@ class Html extends Parse
                 if (strlen(trim($match)) > 0) {
                     $sub_insert = str_replace("\n", '', $match);
                     $new_line = true;
-                    if ($i === count($matches) - 1) {
+                    if ($i === (count($matches) - 1)) {
                         $new_line = false;
                     }
                     $inserts[] = [
