@@ -243,17 +243,33 @@ class Html extends Parse
             $splits = (preg_split("/[\n]{2,}/", $insert));
             $i = 0;
             foreach (preg_split("/[\n]{2,}/", $insert) as $match) {
-                $close = false;
-                $sub_insert = str_replace("\n", '', $match);
-                if ($i === 0 || $i !== count($splits) - 1) {
-                    $close = true;
-                }
 
-                $inserts[] = [
-                    'insert' => $sub_insert,
-                    'close' => $close,
-                    'new_line' => false
-                ];
+                $close = false;
+
+                $sub_inserts = $this->splitInsertsOnNewLine($match);
+
+                if (count($sub_inserts) > 1) {
+                    foreach ($sub_inserts as $sub_insert) {
+                        $inserts[] = [
+                            'insert' => $sub_insert['insert'],
+                            'close' => $sub_insert['close'],
+                            'new_line' => $sub_insert['new_line']
+                        ];
+                    }
+                } else if (count($sub_inserts) === 1) {
+                    if ($i === 0 || $i !== count($splits) - 1) {
+                        $close = true;
+                    }
+
+                    $inserts[] = [
+                        'insert' => $sub_inserts[0]['insert'],
+                        'close' => $close,
+                        'new_line' => false
+                    ];
+                } else {
+                    // Do nothing, should we even be here
+                    // Need to update this, not keen on empty else
+                }
 
                 $i++;
             }
