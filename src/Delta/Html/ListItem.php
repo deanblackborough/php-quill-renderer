@@ -57,10 +57,10 @@ class ListItem extends Delta
     public function parentTag(): ?string
     {
         switch ($this->attributes['list']) {
-            case 'ordered':
+            case Options::ATTRIBUTE_LIST_ORDERED:
                 return Options::TAG_LIST_ORDERED;
                 break;
-            case 'bullet':
+            case Options::ATTRIBUTE_LIST_BULLET:
                 return Options::TAG_LIST_UNORDERED;
                 break;
 

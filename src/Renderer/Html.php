@@ -50,7 +50,10 @@ class Html extends Render
 
             if ($delta->isChild() === true && $delta->isFirstChild() === true) {
 
-                if ($block_open === true && $this->deltas[$i - 1]->displayType() === Delta::DISPLAY_INLINE) {
+                if (
+                    $block_open === true &&
+                    $this->deltas[$i - 1]->displayType() === Delta::DISPLAY_INLINE
+                ) {
                     $this->html .= "</p>\n";
                 }
 
@@ -59,7 +62,10 @@ class Html extends Render
 
             $this->html .= $delta->render();
 
-            if ($delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true && $delta->close() === true) {
+            if (
+                $delta->displayType() === Delta::DISPLAY_INLINE &&
+                $block_open === true && $delta->close() === true
+            ) {
                 $this->html .= "</p>\n";
                 $block_open = false;
             }
@@ -68,7 +74,10 @@ class Html extends Render
                 $this->html .= '</' . $delta->parentTag() . ">\n";
             }
 
-            if ($i === count($this->deltas) - 1 && $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true) {
+            if (
+                $i === count($this->deltas) - 1 &&
+                $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true
+            ) {
                 $this->html .= "</p>\n";
             }
         }

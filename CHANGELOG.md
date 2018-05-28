@@ -9,6 +9,7 @@ Full changelog for PHP Quill Renderer
 a minor change to throw exceptions.
 * Generated HTML now has newlines where expected, closes #69
 * Updated one test, expected and actual the wrong way around.
+* Added a `Options` class.
 
 ## v3.10.2 - 2018-05-28
 

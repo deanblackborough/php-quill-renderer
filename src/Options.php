@@ -31,6 +31,8 @@ class Options
     public const ATTRIBUTE_ITALIC = 'italic';
     public const ATTRIBUTE_LINK = 'link';
     public const ATTRIBUTE_LIST = 'list';
+    public const ATTRIBUTE_LIST_ORDERED = 'ordered';
+    public const ATTRIBUTE_LIST_BULLET = 'bullet';
     public const ATTRIBUTE_SCRIPT = 'script';
     public const ATTRIBUTE_SCRIPT_SUB = 'sub';
     public const ATTRIBUTE_SCRIPT_SUPER = 'super';
