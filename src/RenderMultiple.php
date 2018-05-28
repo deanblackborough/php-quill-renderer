@@ -56,13 +56,14 @@ class RenderMultiple
      * Pass the content array to the renderer and return the generated output
      *
      * @param string $index Index to return
+     * @param boolean Optionally trim the output
      *
      * @return string
      * @throws \Exception
      * @throws \BadMethodCallException
      * @throws \OutOfRangeException
      */
-    public function render(string $index): string
+    public function render(string $index, bool $trim = false): string
     {
         if ($this->parser === null) {
             throw new \BadMethodCallException('No parser loaded');
@@ -82,6 +83,6 @@ class RenderMultiple
         }
 
         $renderer = new Renderer\Html();
-        return $renderer->load($deltas)->render();
+        return $renderer->load($deltas)->render($trim);
     }
 }

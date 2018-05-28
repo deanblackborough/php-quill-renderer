@@ -61,10 +61,12 @@ class Render
     /**
      * Pass the content array to the renderer and return the generated output
      *
+     * @param boolean Optionally trim the output
+     *
      * @return string
      * @throws \Exception
      */
-    public function render(): string
+    public function render(bool $trim = false): string
     {
         if ($this->parser === null) {
             throw new \BadMethodCallException('No parser loaded');
@@ -83,6 +85,6 @@ class Render
                 break;
         }
 
-        return $this->renderer->load($this->parser->deltas())->render();
+        return $this->renderer->load($this->parser->deltas())->render($trim);
     }
 }

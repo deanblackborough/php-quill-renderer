@@ -10,6 +10,8 @@ a minor change to throw exceptions.
 * Generated HTML now has newlines where expected, closes #69
 * Updated one test, expected and actual the wrong way around.
 * Added a `Options` class.
+* Added two tests to catch exceptions.
+* Added a trim option to `render`, strips any extra whitespace.
 
 ## v3.10.2 - 2018-05-28
 

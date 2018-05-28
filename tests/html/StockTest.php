@@ -134,4 +134,27 @@ final class StockTest extends \PHPUnit\Framework\TestCase
             'HTML'
         );
     }
+
+    /**
+     * Test the trim option of render
+     *
+     * @return void
+     */
+    public function testTrimOptionOfRender()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_header);
+            $result = $quill->render(true);
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals(
+            $this->expected_header,
+            $result,
+            __METHOD__ . ' Trim option failure'
+        );
+    }
 }

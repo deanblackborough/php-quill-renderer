@@ -46,7 +46,9 @@ abstract class Render
     /**
      * Generate the final output the contents array
      *
+     * @param boolean $trim Optional trim the output
+     *
      * @return string
      */
-    abstract public function render(): string;
+    abstract public function render(bool $trim = false): string;
 }

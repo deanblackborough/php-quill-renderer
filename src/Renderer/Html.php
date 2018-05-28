@@ -34,9 +34,11 @@ class Html extends Render
     /**
      * Generate the final HTML, calls the render method on each object
      *
+     * @param boolean $trim Optional trim the output
+     *
      * @return string
      */
-    public function render(): string
+    public function render(bool $trim = false): string
     {
         $this->html = '';
 
@@ -82,6 +84,10 @@ class Html extends Render
             }
         }
 
-        return $this->html;
+        if ($trim === false) {
+            return $this->html;
+        } else {
+            return trim($this->html);
+        }
     }
 }
