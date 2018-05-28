@@ -3,10 +3,18 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.11.0 - 2018-xx-xx
+
+* `load()` and `loadMultple()` now support method chaining, closes #72, required 
+a minor change to throw exceptions.
+* Generated HTML now has newlines where expected, closes #69
+* Updated one test, expected and actual the wrong way around.
+
 ## v3.10.2 - 2018-05-28
 
 * Line breaks missing, added where expected, a couple of tests where updated 
-to include the `<br />` where it should have been in the expected output.
+to include the `<br />` where it should have been in the expected output, 
+closes #67.
 
 ## v3.10.1 - 2018-05-21
 
