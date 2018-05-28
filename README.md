@@ -22,7 +22,7 @@ features and add additional parsers and renderers, I expect Markdown will be nex
 ## PHP < 7.2
 
 Please use version v1.01.1 or v2.03.1 if you are using a version of PHP below 7.2, versions 1 and 2 are not feature 
-with version 3 and are unlikely to ever be updated, the v3 is so much more flexible.
+complete with version 3 and are unlikely to ever be updated, the v3 code is so much more flexible.
 
 ## Installation
  
@@ -63,8 +63,7 @@ echo $result_two;
 $parser = new \DBlackborough\Quill\Parser\Html();
 $renderer = new \DBlackborough\Quill\Renderer\Html();
 
-$parser->load($quill_json);
-$parser->parse();
+$parser->load($quill_json)->parse();
 
 echo $renderer->load($parser->deltas())->render();
 ```
@@ -75,8 +74,7 @@ echo $renderer->load($parser->deltas())->render();
 $parser = new \DBlackborough\Quill\Parser\Html();
 $renderer = new \DBlackborough\Quill\Renderer\Html();
 
-$parser->loadMultiple([ 'one'=> $quill_json_1, 'two' => $quill_json_2);
-$parser->parseMultiple();
+$parser->loadMultiple(['one'=> $quill_json_1, 'two' => $quill_json_2)->parseMultiple();
 
 echo $renderer->load($parser->deltasByIndex('one'))->render();
 echo $renderer->load($parser->deltasByIndex('two'))->render();

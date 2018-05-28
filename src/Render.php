@@ -48,8 +48,10 @@ class Render
 
         $this->format = $format;
 
-        if ($this->parser->load($quill_json) === false) {
-            throw new \RuntimeException('Failed to load/json_decode the $quill_json string');
+        try {
+            $this->parser->load($quill_json);
+        } catch (\InvalidArgumentException $e){
+            throw new \InvalidArgumentException($e->getMessage());
         }
     }
 

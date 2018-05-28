@@ -52,15 +52,12 @@ final class StockTest extends \PHPUnit\Framework\TestCase
         $parser = new \DBlackborough\Quill\Parser\Html();
 
         try {
-
-            $parser->load($this->delta_header);
-            $parser->parse();
+            $parser->load($this->delta_header)->parse();
 
             $renderer = new \DBlackborough\Quill\Renderer\Html();
             $result = $renderer->load($parser->deltas())->render();
 
-            $parser->load($this->delta_header);
-            $parser->parse();
+            $parser->load($this->delta_header)->parse();
 
             $renderer = new \DBlackborough\Quill\Renderer\Html();
             $result = $renderer->load($parser->deltas())->render();
@@ -68,7 +65,10 @@ final class StockTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_header, $result, __METHOD__ . ' Multiple load calls failure');
+        $this->assertEquals(
+            $this->expected_header,
+            $result, __METHOD__ . ' Multiple load calls failure'
+        );
     }
 
     /**
@@ -92,7 +92,7 @@ final class StockTest extends \PHPUnit\Framework\TestCase
      */
     public function testExceptionThrownForInvalidJson()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $quill = new QuillRender($this->delta_header_invalid, 'HTML');
     }
