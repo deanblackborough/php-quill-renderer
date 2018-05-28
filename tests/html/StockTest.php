@@ -5,6 +5,7 @@ namespace DBlackborough\Quill\Tests\Html;
 require __DIR__ . '../../../vendor/autoload.php';
 
 use DBlackborough\Quill\Render as QuillRender;
+use DBlackborough\Quill\RenderMultiple as QuillRenderMultiple;
 
 /**
  * Stock tests, testing base functionality not necessarily related to attributes
@@ -86,7 +87,20 @@ final class StockTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $quill = new QuillRender($this->delta_header, 'UNKNOWN');
+        new QuillRender($this->delta_header, 'UNKNOWN');
+    }
+
+    /**
+     * Test to see if an exception is thrown when an invalid parser is requested
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testExceptionThrownForInvalidMultipleParser()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new QuillRenderMultiple([], 'UNKNOWN');
     }
 
     /**
@@ -99,6 +113,25 @@ final class StockTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $quill = new QuillRender($this->delta_header_invalid, 'HTML');
+        new QuillRender($this->delta_header_invalid, 'HTML');
+    }
+
+    /**
+     * Test to see if an exception is thrown when attempting to parse an invalid json string
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testExceptionThrownForInvalidMultipleJson()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new QuillRenderMultiple(
+            [
+                'delta_1' => $this->delta_header,
+                'delta_2' => $this->delta_header_invalid
+            ],
+            'HTML'
+        );
     }
 }
