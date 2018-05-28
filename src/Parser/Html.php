@@ -248,27 +248,26 @@ class Html extends Parse
 
                 $sub_inserts = $this->splitInsertsOnNewLine($match);
 
-                if (count($sub_inserts) > 1) {
-                    foreach ($sub_inserts as $sub_insert) {
-                        $inserts[] = [
-                            'insert' => $sub_insert['insert'],
-                            'close' => $sub_insert['close'],
-                            'new_line' => $sub_insert['new_line']
-                        ];
-                    }
-                } else if (count($sub_inserts) === 1) {
-                    if ($i === 0 || $i !== count($splits) - 1) {
-                        $close = true;
-                    }
+                if (count($sub_inserts) > 0) {
+                    if (count($sub_inserts) === 1) {
+                        if ($i === 0 || $i !== count($splits) - 1) {
+                            $close = true;
+                        }
 
-                    $inserts[] = [
-                        'insert' => $sub_inserts[0]['insert'],
-                        'close' => $close,
-                        'new_line' => false
-                    ];
-                } else {
-                    // Do nothing, should we even be here
-                    // Need to update this, not keen on empty else
+                        $inserts[] = [
+                            'insert' => $sub_inserts[0]['insert'],
+                            'close' => $close,
+                            'new_line' => false
+                        ];
+                    } else {
+                        foreach ($sub_inserts as $sub_insert) {
+                            $inserts[] = [
+                                'insert' => $sub_insert['insert'],
+                                'close' => $sub_insert['close'],
+                                'new_line' => $sub_insert['new_line']
+                            ];
+                        }
+                    }
                 }
 
                 $i++;
