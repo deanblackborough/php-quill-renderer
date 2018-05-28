@@ -32,6 +32,6 @@ final class HrefTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_href, $result, __METHOD__ . ' Href failure');
+        $this->assertEquals($this->expected_href, trim($result), __METHOD__ . ' Href failure');
     }
 }

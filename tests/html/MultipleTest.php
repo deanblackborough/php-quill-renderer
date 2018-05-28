@@ -33,8 +33,14 @@ final class MultipleTest extends \PHPUnit\Framework\TestCase
 
         $renderer = new \DBlackborough\Quill\Renderer\Html();
 
-        $this->assertEquals($renderer->load($parser->deltasByIndex('one'))->render(), $this->expected_one);
-        $this->assertEquals($renderer->load($parser->deltasByIndex('two'))->render(), $this->expected_two);
+        $this->assertEquals(
+            $this->expected_one,
+            trim($renderer->load($parser->deltasByIndex('one'))->render())
+        );
+        $this->assertEquals(
+            $this->expected_two,
+            trim($renderer->load($parser->deltasByIndex('two'))->render())
+        );
     }
 
     /**
@@ -60,8 +66,16 @@ final class MultipleTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_one, $result_one, __METHOD__ . ' multiple text first index failure');
-        $this->assertEquals($this->expected_two, $result_two, __METHOD__ . ' multiple text second index failure');
+        $this->assertEquals(
+            $this->expected_one,
+            trim($result_one),
+            __METHOD__ . ' multiple text first index failure'
+        );
+        $this->assertEquals(
+            $this->expected_two,
+            trim($result_two),
+            __METHOD__ . ' multiple text second index failure'
+        );
     }
 
     /**

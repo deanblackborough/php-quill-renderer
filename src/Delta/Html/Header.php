@@ -44,6 +44,6 @@ class Header extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return "<{$this->tag}>{$this->insert}</{$this->tag}>\n";
     }
 }

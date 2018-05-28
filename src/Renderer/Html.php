@@ -51,25 +51,25 @@ class Html extends Render
             if ($delta->isChild() === true && $delta->isFirstChild() === true) {
 
                 if ($block_open === true && $this->deltas[$i - 1]->displayType() === Delta::DISPLAY_INLINE) {
-                    $this->html .= '</p>';
+                    $this->html .= "</p>\n";
                 }
 
-                $this->html .= '<' . $delta->parentTag() . '>';
+                $this->html .= '<' . $delta->parentTag() . ">\n";
             }
 
             $this->html .= $delta->render();
 
             if ($delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true && $delta->close() === true) {
-                $this->html .= '</p>';
+                $this->html .= "</p>\n";
                 $block_open = false;
             }
 
             if ($delta->isChild() === true && $delta->isLastChild() === true) {
-                $this->html .= '</' . $delta->parentTag() . '>';
+                $this->html .= '</' . $delta->parentTag() . ">\n";
             }
 
             if ($i === count($this->deltas) - 1 && $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true) {
-                $this->html .= '</p>';
+                $this->html .= "</p>\n";
             }
         }
 

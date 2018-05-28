@@ -32,6 +32,6 @@ final class ImageTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_image, $result, __METHOD__ . ' Image failure');
+        $this->assertEquals($this->expected_image, trim($result), __METHOD__ . ' Image failure');
     }
 }

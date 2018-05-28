@@ -68,8 +68,14 @@ final class MixTest extends \PHPUnit\Framework\TestCase
         ]
     }';
 
-    private $expected_paragraph_after_two_headers = '<h1>Primary Header</h1><h2>Secondary header</h2><p>A paragraph.</p>';
-    private $expected_list_and_header = '<ul><li>Another list</li><li>List item two entry two</li></ul><h4>And now a HEADER</h4>';
+    private $expected_paragraph_after_two_headers = '<h1>Primary Header</h1>
+<h2>Secondary header</h2>
+<p>A paragraph.</p>';
+    private $expected_list_and_header = '<ul>
+<li>Another list</li>
+<li>List item two entry two</li>
+</ul>
+<h4>And now a HEADER</h4>';
 
     /**
      * Test for issue #64, opening p tag between two opening headers
@@ -90,7 +96,7 @@ final class MixTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             $this->expected_paragraph_after_two_headers,
-            $result,
+            trim($result),
             __METHOD__ . ' - paragraph after two headers failure');
     }
 
@@ -112,7 +118,7 @@ final class MixTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_list_and_header,
-            $result,
+            trim($result),
             __METHOD__ . ' - header after list at end of content failure');
     }
 }
