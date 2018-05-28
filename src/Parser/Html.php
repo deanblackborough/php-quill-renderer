@@ -150,30 +150,19 @@ class Html extends Parse
                         }
                     } else {
                         if (is_string($quill['insert']) === true) {
-                            if (preg_match("/[\n]{2,}/", $quill['insert']) !== 0) {
-                                $splits = (preg_split("/[\n]{2,}/", $quill['insert']));
-                                $i = 0;
-                                foreach (preg_split("/[\n]{2,}/", $quill['insert']) as $match) {
 
-                                    $insert = new Insert(str_replace("\n", '', $match));
-                                    if ($i === 0 || $i !== count($splits) - 1) {
-                                        $insert->setClose();
-                                    }
+                            $inserts = $this->splitInsertsOnNewLines($quill['insert']);
 
-                                    $this->deltas[] = $insert;
-
-                                    $i++;
+                            foreach ($inserts as $insert) {
+                                $delta = new Insert($insert['insert']);
+                                if ($insert['close'] === true) {
+                                    $delta->setClose();
                                 }
-                            } else {
-                                if (preg_match("/[\n]{1}/", $quill['insert']) !== 0) {
-                                    foreach (preg_split("/[\n]{1}/", $quill['insert']) as $match) {
-                                        if (strlen(trim($match)) > 0) {
-                                            $this->deltas[] = new Insert(str_replace("\n", '', $match));
-                                        }
-                                    }
-                                } else {
-                                    $this->deltas[] = new Insert($quill['insert']);
+                                if ($insert['new_line'] === true) {
+                                    $delta->setNewLine();
                                 }
+
+                                $this->deltas[] = $delta;
                             }
                         } else {
                             $this->deltas[] = new Image($quill['insert']['image']);
@@ -192,7 +181,7 @@ class Html extends Parse
      *
      * @return boolean
      */
-    public function parseMultiple() : bool
+    public function parseMultiple(): bool
     {
         $results = [];
         foreach ($this->quill_json_stack as $index => $quill_json) {
@@ -236,5 +225,106 @@ class Html extends Parse
         } else {
             throw new \OutOfRangeException('Deltas array does not exist for the given index: ' . $index);
         }
+    }
+
+    /**
+     * Split insert by new lines and optionally set whether or not the close()
+     * method needs to called on the Delta
+     *
+     * @param string $insert An insert string
+     *
+     * @return array array of inserts, two indexes, insert and close
+     */
+    private function splitInsertsOnNewLines($insert)
+    {
+        $inserts = [];
+
+        if (preg_match("/[\n]{2,}/", $insert) !== 0) {
+            $splits = (preg_split("/[\n]{2,}/", $insert));
+            $i = 0;
+            foreach (preg_split("/[\n]{2,}/", $insert) as $match) {
+
+                $close = false;
+
+                $sub_inserts = $this->splitInsertsOnNewLine($match);
+
+                if (count($sub_inserts) > 1) {
+                    foreach ($sub_inserts as $sub_insert) {
+                        $inserts[] = [
+                            'insert' => $sub_insert['insert'],
+                            'close' => $sub_insert['close'],
+                            'new_line' => $sub_insert['new_line']
+                        ];
+                    }
+                } else if (count($sub_inserts) === 1) {
+                    if ($i === 0 || $i !== count($splits) - 1) {
+                        $close = true;
+                    }
+
+                    $inserts[] = [
+                        'insert' => $sub_inserts[0]['insert'],
+                        'close' => $close,
+                        'new_line' => false
+                    ];
+                } else {
+                    // Do nothing, should we even be here
+                    // Need to update this, not keen on empty else
+                }
+
+                $i++;
+            }
+        } else {
+            $sub_inserts = $this->splitInsertsOnNewLine($insert);
+            foreach ($sub_inserts as $sub_insert) {
+                $inserts[] = [
+                    'insert' => $sub_insert['insert'],
+                    'close' => $sub_insert['close'],
+                    'new_line' => $sub_insert['new_line']
+                ];
+            }
+        }
+
+        return $inserts;
+    }
+
+    /**
+     * Split insert by new line and optionally set whether or not the close()
+     * and newLine() methods needs to be called on the Delta
+     *
+     * @param string $insert An insert string
+     *
+     * @return array array of inserts, three indexes, insert, close and new_line
+     */
+    private function splitInsertsOnNewLine($insert)
+    {
+        $inserts = [];
+
+        if (preg_match("/[\n]{1}/", rtrim($insert, "\n")) !== 0) {
+            $matches = preg_split("/[\n]{1}/", rtrim($insert, "\n"));
+            $i = 0;
+            foreach ($matches as $match) {
+                if (strlen(trim($match)) > 0) {
+                    $sub_insert = str_replace("\n", '', $match);
+                    $new_line = true;
+                    if ($i === (count($matches) - 1)) {
+                        $new_line = false;
+                    }
+                    $inserts[] = [
+                        'insert' => $sub_insert,
+                        'close' => false,
+                        'new_line' => $new_line
+                    ];
+                }
+                $i++;
+            }
+        } else {
+            $inserts[] = [
+                'insert' => str_replace("\n", '', $insert),
+                'close' => false,
+                'new_line' => false
+            ];
+        }
+
+        return $inserts;
     }
 }

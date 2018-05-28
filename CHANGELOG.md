@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.10.2 - 2018-05-28
+
+* Line breaks missing, added where expected, a couple of tests where updated 
+to include the `<br />` where it should have been in the expected output.
+
 ## v3.10.1 - 2018-05-21
 
 * Fixed bugs #64 and #65, empty deltas being created by the preg_match on \n
