@@ -31,14 +31,17 @@ class RenderMultiple
      *
      * @throws \Exception
      */
-    public function __construct(array $quill_json, string $format = 'HTML')
+    public function __construct(array $quill_json, string $format = Options::FORMAT_HTML)
     {
         switch ($format) {
-            case 'HTML':
+            case Options::FORMAT_HTML:
                 $this->parser = new Parser\Html();
                 break;
             default:
-                throw new \InvalidArgumentException('Requested $format not supported, formats supported, [HTML]');
+                throw new \InvalidArgumentException(
+                    'Requested $format not supported, formats supported, ' .
+                    Options::FORMAT_HTML
+                );
                 break;
         }
 
@@ -70,7 +73,7 @@ class RenderMultiple
         }
 
         switch ($this->format) {
-            case 'HTML':
+            case Options::FORMAT_HTML:
                 $deltas = $this->parser->deltasByIndex($index);
                 break;
             default:

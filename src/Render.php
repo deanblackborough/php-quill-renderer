@@ -35,14 +35,17 @@ class Render
      *
      * @throws \Exception
      */
-    public function __construct(string $quill_json, string $format = 'HTML')
+    public function __construct(string $quill_json, string $format = Options::FORMAT_HTML)
     {
         switch ($format) {
-            case 'HTML':
+            case Options::FORMAT_HTML:
                 $this->parser = new Parser\Html();
                 break;
             default:
-                throw new \InvalidArgumentException('Requested $format not supported, formats supported, [HTML]');
+                throw new \InvalidArgumentException(
+                    'Requested $format not supported, formats supported, ' .
+                    Options::FORMAT_HTML
+                );
                 break;
         }
 
@@ -72,7 +75,7 @@ class Render
         }
 
         switch ($this->format) {
-            case 'HTML':
+            case Options::FORMAT_HTML:
                 $this->renderer = new Renderer\Html();
                 break;
             default:

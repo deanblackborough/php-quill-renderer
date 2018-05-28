@@ -17,6 +17,7 @@ use DBlackborough\Quill\Delta\Html\Strike;
 use DBlackborough\Quill\Delta\Html\SubScript;
 use DBlackborough\Quill\Delta\Html\SuperScript;
 use DBlackborough\Quill\Delta\Html\Underline;
+use DBlackborough\Quill\Options;
 
 /**
  * HTML parser, parses the deltas create an array of HTMl Delta objects which will be passed to the HTML
@@ -50,7 +51,10 @@ class Html extends Parse
      */
     public function parse(): bool
     {
-        if ($this->valid === true && array_key_exists('ops', $this->quill_json) === true) {
+        if (
+            $this->valid === true &&
+            array_key_exists('ops', $this->quill_json) === true
+        ) {
 
             $this->quill_json = $this->quill_json['ops'];
 
@@ -60,38 +64,45 @@ class Html extends Parse
 
                 if ($quill['insert'] !== null) {
 
-                    if (array_key_exists('attributes', $quill) === true && is_array($quill['attributes']) === true) {
+                    if (
+                        array_key_exists('attributes', $quill) === true &&
+                        is_array($quill['attributes']) === true
+                    ) {
                         if (count($quill['attributes']) === 1) {
                             foreach ($quill['attributes'] as $attribute => $value) {
                                 switch ($attribute) {
-                                    case 'bold':
+                                    case Options::ATTRIBUTE_BOLD:
                                         if ($value === true) {
                                             $this->deltas[] = new Bold($quill['insert']);
                                         }
                                         break;
 
-                                    case 'header':
+                                    case Options::ATTRIBUTE_HEADER:
                                         if (in_array($value, array(1, 2, 3, 4, 5, 6, 7)) === true) {
                                             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
                                             unset($this->deltas[count($this->deltas) - 1]);
                                             $this->deltas[] = new Header($insert, $quill['attributes']);
+                                            // Reorder the array
                                             $this->deltas = array_values($this->deltas);
                                         }
                                         break;
 
-                                    case 'italic':
+                                    case Options::ATTRIBUTE_ITALIC:
                                         if ($value === true) {
                                             $this->deltas[] = new Italic($quill['insert']);
                                         }
                                         break;
 
-                                    case 'link':
+                                    case Options::ATTRIBUTE_LINK:
                                         if (strlen($value) > 0) {
-                                            $this->deltas[] = new Link($quill['insert'], $quill['attributes']);
+                                            $this->deltas[] = new Link(
+                                                $quill['insert'],
+                                                $quill['attributes']
+                                            );
                                         }
                                         break;
 
-                                    case 'list':
+                                    case Options::ATTRIBUTE_LIST:
                                         if (in_array($value, array('ordered', 'bullet')) === true) {
                                             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
                                             unset($this->deltas[count($this->deltas) - 1]);
@@ -108,29 +119,32 @@ class Html extends Parse
                                         }
                                         break;
 
-                                    case 'script':
-                                        if ($value === 'sub') {
+                                    case Options::ATTRIBUTE_SCRIPT:
+                                        if ($value === Options::ATTRIBUTE_SCRIPT_SUB) {
                                             $this->deltas[] = new SubScript($quill['insert']);
                                         }
-                                        if ($value === 'super') {
+                                        if ($value === Options::ATTRIBUTE_SCRIPT_SUPER) {
                                             $this->deltas[] = new SuperScript($quill['insert']);
                                         }
                                         break;
 
-                                    case 'strike':
+                                    case Options::ATTRIBUTE_STRIKE:
                                         if ($value === true) {
                                             $this->deltas[] = new Strike($quill['insert']);
                                         }
                                         break;
 
-                                    case 'underline':
+                                    case Options::ATTRIBUTE_UNDERLINE:
                                         if ($value === true) {
                                             $this->deltas[] = new Underline($quill['insert']);
                                         }
                                         break;
 
                                     default:
-                                        $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
+                                        $this->deltas[] = new Insert(
+                                            $quill['insert'],
+                                            $quill['attributes']
+                                        );
                                         break;
                                 }
                             }
@@ -223,7 +237,9 @@ class Html extends Parse
         if (array_key_exists($index, $this->deltas_stack) === true) {
             return $this->deltas_stack[$index];
         } else {
-            throw new \OutOfRangeException('Deltas array does not exist for the given index: ' . $index);
+            throw new \OutOfRangeException(
+                'Deltas array does not exist for the given index: ' . $index
+            );
         }
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Options;
+
 /**
  * Default delta class for inserts with the 'italic' attribute
  *
@@ -21,7 +23,7 @@ class Italic extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = 'em';
+        $this->tag = Options::TAG_ITALIC;
 
         $this->insert = $insert;
         $this->attributes = $attributes;
@@ -34,6 +36,6 @@ class Italic extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return $this->renderSimpleTag($this->tag, $this->insert);
     }
 }
