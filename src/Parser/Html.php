@@ -230,7 +230,7 @@ class Html extends Parse
      * @param string $index Index of the deltas array you want
      *
      * @return array
-     * @throwns \OutOfRangeException
+     * @throws \OutOfRangeException
      */
     public function deltasByIndex(string $index): array
     {

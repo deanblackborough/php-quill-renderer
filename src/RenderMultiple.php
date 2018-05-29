@@ -47,8 +47,10 @@ class RenderMultiple
 
         $this->format = $format;
 
-        if ($this->parser->loadMultiple($quill_json) === false) {
-            throw new \RuntimeException('Failed to load/json_decode the $quill_json strings');
+        try {
+            $this->parser->loadMultiple($quill_json);
+        } catch (\InvalidArgumentException $e){
+            throw new \InvalidArgumentException($e->getMessage());
         }
     }
 
@@ -65,24 +67,24 @@ class RenderMultiple
      */
     public function render(string $index, bool $trim = false): string
     {
-        if ($this->parser === null) {
-            throw new \BadMethodCallException('No parser loaded');
-        }
-
         if ($this->parser->parseMultiple() !== true) {
             throw new \Exception('Failed to parse the supplied $quill_json arrays');
         }
 
+        $deltas = $this->parser->deltasByIndex($index);
+
         switch ($this->format) {
             case Options::FORMAT_HTML:
-                $deltas = $this->parser->deltasByIndex($index);
+                $renderer = new Renderer\Html();
                 break;
             default:
-                $deltas = [];
+                throw new \InvalidArgumentException(
+                    'Requested $format not supported, formats supported, ' .
+                    Options::FORMAT_HTML
+                );
                 break;
         }
 
-        $renderer = new Renderer\Html();
         return $renderer->load($deltas)->render($trim);
     }
 }

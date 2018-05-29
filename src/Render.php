@@ -13,11 +13,6 @@ namespace DBlackborough\Quill;
 class Render
 {
     /**
-     * @var \DBlackborough\Quill\Renderer\Render
-     */
-    private $renderer;
-
-    /**
      * @var \DBlackborough\Quill\Parser\Parse
      */
     private $parser;
@@ -68,23 +63,19 @@ class Render
      */
     public function render(bool $trim = false): string
     {
-        if ($this->parser === null) {
-            throw new \BadMethodCallException('No parser loaded');
-        }
-
         if ($this->parser->parse() !== true) {
             throw new \Exception('Failed to parse the supplied $quill_json array');
         }
 
         switch ($this->format) {
             case Options::FORMAT_HTML:
-                $this->renderer = new Renderer\Html();
+                $renderer = new Renderer\Html();
                 break;
             default:
                 // Never should be reached
                 break;
         }
 
-        return $this->renderer->load($this->parser->deltas())->render($trim);
+        return $renderer->load($this->parser->deltas())->render($trim);
     }
 }

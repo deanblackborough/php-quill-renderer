@@ -3,7 +3,7 @@
 
 Full changelog for PHP Quill Renderer
 
-## v3.11.0 - 2018-xx-xx
+## v3.11.0 - 2018-05-29
 
 * `load()` and `loadMultple()` now support method chaining, closes #72, required 
 a minor change to throw exceptions.

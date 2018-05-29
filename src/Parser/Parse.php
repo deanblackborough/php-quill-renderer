@@ -133,7 +133,7 @@ abstract class Parse
      * @param string $index Index of the deltas array you want
      *
      * @return array
-     * @throwns \OutOfRangeException
+     * @throws \OutOfRangeException
      */
     abstract public function deltasByIndex(string $index): array;
 }
