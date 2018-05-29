@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Delta\Html;
 
 use DBlackborough\Quill\Delta\Delta as BaseDelta;
-use DBlackborough\Quill\Delta\DeltaInterface;
 
 /**
  * Base delta class for HTML deltas
@@ -14,7 +13,7 @@ use DBlackborough\Quill\Delta\DeltaInterface;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Delta extends BaseDelta implements DeltaInterface
+abstract class Delta extends BaseDelta
 {
     public CONST DISPLAY_BLOCK = 'block';
     public CONST DISPLAY_INLINE = 'inline';

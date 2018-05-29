@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace DBlackborough\Quill\Delta;
+namespace DBlackborough\Quill\Interfaces;
+
+use DBlackborough\Quill\Delta\Delta;
 
 /**
- * Interface for all Delta objects
+ * Interfaces for all Delta objects
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough

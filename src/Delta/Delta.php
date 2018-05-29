@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta;
 
+use DBlackborough\Quill\Interfaces\DeltaInterface;
+
 /**
  * Base delta class for all Delta objects
  *
