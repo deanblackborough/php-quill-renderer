@@ -56,33 +56,37 @@ abstract class Parse
     }
 
     /**
-     * Load the deltas, checks the json is valid and then save to the $quill_json property
+     * Load the deltas string, checks the json is valid and can be decoded and
+     * and then saves to the $quill_json property
      *
      * @param string $quill_json Quill json string
      *
-     * @return boolean
+     * @return Parse
+     * @throws \InvalidArgumentException Throws an exception if there was an error decoding the json
      */
-    public function load(string $quill_json): bool
+    public function load(string $quill_json): Parse
     {
         $this->quill_json = json_decode($quill_json, true);
 
         if (is_array($this->quill_json) === true && count($this->quill_json) > 0) {
             $this->valid = true;
             $this->deltas = [];
-            return true;
+            return $this;
         } else {
-            return false;
+            throw new \InvalidArgumentException('Unable to decode the json');
         }
     }
 
     /**
-     * Load multiple deltas
+     * Load multiple delta strings, checks the json is valid for each index,
+     * can be decoded and the saves to the $quill_json_stack property
      *
      * @param array An array of $quill json, returnable via array index
      *
-     * @return boolean
+     * @return Parse
+     * @throws \InvalidArgumentException Throws an exception if there was an error decoding the json
      */
-    public function loadMultiple(array $quill_json): bool
+    public function loadMultiple(array $quill_json): Parse
     {
         $this->deltas_stack = [];
 
@@ -96,9 +100,9 @@ abstract class Parse
 
         if (count($quill_json) === count($this->quill_json_stack)) {
             $this->valid = true;
-            return true;
+            return $this;
         } else {
-            return false;
+            throw new \InvalidArgumentException('Unable to decode all the json and assign to the stack');
         }
     }
 
@@ -129,7 +133,7 @@ abstract class Parse
      * @param string $index Index of the deltas array you want
      *
      * @return array
-     * @throwns \OutOfRangeException
+     * @throws \OutOfRangeException
      */
     abstract public function deltasByIndex(string $index): array;
 }

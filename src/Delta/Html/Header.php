@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Options;
+
 /**
  * Default delta class for inserts with the 'Header' attribute
  *
@@ -24,7 +26,7 @@ class Header extends Delta
         $this->insert = $insert;
         $this->attributes = $attributes;
 
-        $this->tag = 'h' . $this->attributes['header'];
+        $this->tag = Options::TAG_HEADER . $this->attributes['header'];
     }
 
     /**
@@ -44,6 +46,6 @@ class Header extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return $this->renderSimpleTag($this->tag, $this->insert, true);
     }
 }

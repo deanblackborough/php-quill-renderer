@@ -44,7 +44,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h1, $result, __METHOD__ . ' - Header 1 attribute failure');
+        $this->assertEquals(
+            $this->expected_h1,
+            trim($result),
+            __METHOD__ . ' - Header 1 attribute failure'
+        );
     }
 
     /**
@@ -64,7 +68,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h2, $result, __METHOD__ . ' - Header 2 attribute failure');
+        $this->assertEquals(
+            $this->expected_h2,
+            trim($result),
+            __METHOD__ . ' - Header 2 attribute failure'
+        );
     }
 
     /**
@@ -84,7 +92,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h3, $result, __METHOD__ . ' - Header 3 attribute failure');
+        $this->assertEquals(
+            $this->expected_h3,
+            trim($result),
+            __METHOD__ . ' - Header 3 attribute failure'
+        );
     }
 
     /**
@@ -104,7 +116,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h4, $result, __METHOD__ . ' - Header 4 attribute failure');
+        $this->assertEquals(
+            $this->expected_h4,
+            trim($result),
+            __METHOD__ . ' - Header 4 attribute failure'
+        );
     }
 
     /**
@@ -124,7 +140,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h5, $result, __METHOD__ . ' - Header 5 attribute failure');
+        $this->assertEquals(
+            $this->expected_h5,
+            trim($result),
+            __METHOD__ . ' - Header 5 attribute failure'
+        );
     }
 
     /**
@@ -144,7 +164,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h6, $result, __METHOD__ . ' - Header 6 attribute failure');
+        $this->assertEquals(
+            $this->expected_h6,
+            trim($result),
+            __METHOD__ . ' - Header 6 attribute failure'
+        );
     }
 
     /**
@@ -164,6 +188,10 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_h7, $result, __METHOD__ . ' - Header 7 attribute failure');
+        $this->assertEquals(
+            $this->expected_h7,
+            trim($result),
+            __METHOD__ . ' - Header 7 attribute failure'
+        );
     }
 }

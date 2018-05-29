@@ -46,7 +46,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_bold, $result, __METHOD__ . ' - Bold attribute failure');
+        $this->assertEquals($this->expected_bold, trim($result), __METHOD__ . ' - Bold attribute failure');
     }
 
     /**
@@ -66,7 +66,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_bold_with_attributes, $result, __METHOD__ . ' - Bold attribute with attributes failure');
+        $this->assertEquals($this->expected_bold_with_attributes, trim($result), __METHOD__ . ' - Bold attribute with attributes failure');
     }
 
     /**
@@ -86,7 +86,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_italic, $result, __METHOD__ . ' - Italic attribute failure');
+        $this->assertEquals($this->expected_italic, trim($result), __METHOD__ . ' - Italic attribute failure');
     }
 
     /**
@@ -104,7 +104,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_strike, $result, __METHOD__ . ' - Strike attribute failure');
+        $this->assertEquals($this->expected_strike, trim($result), __METHOD__ . ' - Strike attribute failure');
     }
 
     /**
@@ -124,7 +124,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_sub_script, $result, __METHOD__ . ' - SubScript attribute failure');
+        $this->assertEquals($this->expected_sub_script, trim($result), __METHOD__ . ' - SubScript attribute failure');
     }
 
     /**
@@ -144,7 +144,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_super_script, $result, __METHOD__ . ' - SuperScript attribute failure');
+        $this->assertEquals($this->expected_super_script, trim($result), __METHOD__ . ' - SuperScript attribute failure');
     }
 
     /**
@@ -164,7 +164,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_underline, $result, __METHOD__ . ' - Underline attribute failure');
+        $this->assertEquals($this->expected_underline, trim($result), __METHOD__ . ' - Underline attribute failure');
     }
 
     /**
@@ -184,6 +184,6 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_single_attribute, $result, __METHOD__ . ' - Single attribute failure');
+        $this->assertEquals($this->expected_single_attribute, trim($result), __METHOD__ . ' - Single attribute failure');
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Options;
+
 /**
  * Default delta class for inserts with the 'list' attribute
  *
@@ -24,7 +26,7 @@ class ListItem extends Delta
         $this->insert = $insert;
         $this->attributes = $attributes;
 
-        $this->tag = 'li';
+        $this->tag = Options::TAG_LIST_ITEM;
     }
 
     /**
@@ -55,15 +57,15 @@ class ListItem extends Delta
     public function parentTag(): ?string
     {
         switch ($this->attributes['list']) {
-            case 'ordered':
-                return 'ol';
+            case Options::ATTRIBUTE_LIST_ORDERED:
+                return Options::TAG_LIST_ORDERED;
                 break;
-            case 'bullet':
-                return 'ul';
+            case Options::ATTRIBUTE_LIST_BULLET:
+                return Options::TAG_LIST_UNORDERED;
                 break;
 
             default:
-                return 'ul';
+                return Options::TAG_LIST_UNORDERED;
                 break;
         }
     }
@@ -75,6 +77,6 @@ class ListItem extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return $this->renderSimpleTag($this->tag, $this->insert, true);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Options;
+
 /**
  * Compound HTML delta, collects all the attributes for a compound insert and returns the generated HTML
  *
@@ -49,24 +51,24 @@ class Compound extends Delta
     {
         foreach ($this->attributes as $attribute => $value) {
             switch ($attribute) {
-                case 'bold':
-                    $this->tags[] = 'strong';
+                case Options::ATTRIBUTE_BOLD:
+                    $this->tags[] = Options::TAG_BOLD;
                     break;
 
-                case 'italic':
-                    $this->tags[] = 'em';
+                case Options::ATTRIBUTE_ITALIC:
+                    $this->tags[] = Options::TAG_ITALIC;
                     break;
 
-                case 'script':
+                case Options::ATTRIBUTE_SCRIPT:
                     $this->tags[] = $value;
                     break;
 
-                case 'strike':
-                    $this->tags[] = 's';
+                case Options::ATTRIBUTE_STRIKE:
+                    $this->tags[] = Options::TAG_STRIKE;
                     break;
 
-                case 'underline':
-                    $this->tags[] = 'u';
+                case Options::ATTRIBUTE_UNDERLINE:
+                    $this->tags[] = Options::TAG_UNDERLINE;
                     break;
 
                 default:

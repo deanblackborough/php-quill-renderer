@@ -14,8 +14,16 @@ final class ListTest extends \PHPUnit\Framework\TestCase
     private $delta_ordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_unordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
 
-    private $expected_ordered = '<ol><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>';
-    private $expected_unordered = '<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>';
+    private $expected_ordered = '<ol>
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+</ol>';
+    private $expected_unordered = '<ul>
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3</li>
+</ul>';
 
     /**
      * Ordered list
@@ -34,7 +42,7 @@ final class ListTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_ordered, $result, __METHOD__ . ' Ordered list failure');
+        $this->assertEquals($this->expected_ordered, trim($result), __METHOD__ . ' Ordered list failure');
     }
 
     /**
@@ -54,6 +62,6 @@ final class ListTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_unordered, $result, __METHOD__ . ' Unordered list failure');
+        $this->assertEquals($this->expected_unordered, trim($result), __METHOD__ . ' Unordered list failure');
     }
 }

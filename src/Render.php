@@ -13,11 +13,6 @@ namespace DBlackborough\Quill;
 class Render
 {
     /**
-     * @var \DBlackborough\Quill\Renderer\Render
-     */
-    private $renderer;
-
-    /**
      * @var \DBlackborough\Quill\Parser\Parse
      */
     private $parser;
@@ -35,49 +30,52 @@ class Render
      *
      * @throws \Exception
      */
-    public function __construct(string $quill_json, string $format = 'HTML')
+    public function __construct(string $quill_json, string $format = Options::FORMAT_HTML)
     {
         switch ($format) {
-            case 'HTML':
+            case Options::FORMAT_HTML:
                 $this->parser = new Parser\Html();
                 break;
             default:
-                throw new \InvalidArgumentException('Requested $format not supported, formats supported, [HTML]');
+                throw new \InvalidArgumentException(
+                    'Requested $format not supported, formats supported, ' .
+                    Options::FORMAT_HTML
+                );
                 break;
         }
 
         $this->format = $format;
 
-        if ($this->parser->load($quill_json) === false) {
-            throw new \RuntimeException('Failed to load/json_decode the $quill_json string');
+        try {
+            $this->parser->load($quill_json);
+        } catch (\InvalidArgumentException $e){
+            throw new \InvalidArgumentException($e->getMessage());
         }
     }
 
     /**
      * Pass the content array to the renderer and return the generated output
      *
+     * @param boolean Optionally trim the output
+     *
      * @return string
      * @throws \Exception
      */
-    public function render(): string
+    public function render(bool $trim = false): string
     {
-        if ($this->parser === null) {
-            throw new \BadMethodCallException('No parser loaded');
-        }
-
         if ($this->parser->parse() !== true) {
             throw new \Exception('Failed to parse the supplied $quill_json array');
         }
 
         switch ($this->format) {
-            case 'HTML':
-                $this->renderer = new Renderer\Html();
+            case Options::FORMAT_HTML:
+                $renderer = new Renderer\Html();
                 break;
             default:
                 // Never should be reached
                 break;
         }
 
-        return $this->renderer->load($this->parser->deltas())->render();
+        return $renderer->load($this->parser->deltas())->render($trim);
     }
 }

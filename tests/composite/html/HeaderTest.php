@@ -14,8 +14,11 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
     private $delta_header_then_text = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n"}]}';
     private $delta_header_then_text_then_header = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n\nNow another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
 
-    private $expected_header_then_text = "<h2>This is a heading</h2><p>Now some normal text.</p>";
-    private $expected_header_then_text_then_header = "<h2>This is a heading</h2><p>Now some normal text.</p><h1>Now another heading</h1>";
+    private $expected_header_then_text = "<h2>This is a heading</h2>
+<p>Now some normal text.</p>";
+    private $expected_header_then_text_then_header = "<h2>This is a heading</h2>
+<p>Now some normal text.</p>
+<h1>Now another heading</h1>";
 
     /**
      * Test a heading then plain text
@@ -34,7 +37,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_header_then_text, $result, __METHOD__ . ' - Header then text failure');
+        $this->assertEquals($this->expected_header_then_text, trim($result), __METHOD__ . ' - Header then text failure');
     }
 
     /**
@@ -54,7 +57,7 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
-        $this->assertEquals($this->expected_header_then_text_then_header, $result,
+        $this->assertEquals($this->expected_header_then_text_then_header, trim($result),
             __METHOD__ . ' - Header then text then header failure');
     }
 }

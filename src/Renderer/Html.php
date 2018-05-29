@@ -34,9 +34,11 @@ class Html extends Render
     /**
      * Generate the final HTML, calls the render method on each object
      *
+     * @param boolean $trim Optional trim the output
+     *
      * @return string
      */
-    public function render(): string
+    public function render(bool $trim = false): string
     {
         $this->html = '';
 
@@ -50,29 +52,42 @@ class Html extends Render
 
             if ($delta->isChild() === true && $delta->isFirstChild() === true) {
 
-                if ($block_open === true && $this->deltas[$i - 1]->displayType() === Delta::DISPLAY_INLINE) {
-                    $this->html .= '</p>';
+                if (
+                    $block_open === true &&
+                    $this->deltas[$i - 1]->displayType() === Delta::DISPLAY_INLINE
+                ) {
+                    $this->html .= "</p>\n";
                 }
 
-                $this->html .= '<' . $delta->parentTag() . '>';
+                $this->html .= '<' . $delta->parentTag() . ">\n";
             }
 
             $this->html .= $delta->render();
 
-            if ($delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true && $delta->close() === true) {
-                $this->html .= '</p>';
+            if (
+                $delta->displayType() === Delta::DISPLAY_INLINE &&
+                $block_open === true && $delta->close() === true
+            ) {
+                $this->html .= "</p>\n";
                 $block_open = false;
             }
 
             if ($delta->isChild() === true && $delta->isLastChild() === true) {
-                $this->html .= '</' . $delta->parentTag() . '>';
+                $this->html .= '</' . $delta->parentTag() . ">\n";
             }
 
-            if ($i === count($this->deltas) - 1 && $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true) {
-                $this->html .= '</p>';
+            if (
+                $i === count($this->deltas) - 1 &&
+                $delta->displayType() === Delta::DISPLAY_INLINE && $block_open === true
+            ) {
+                $this->html .= "</p>\n";
             }
         }
 
-        return $this->html;
+        if ($trim === false) {
+            return $this->html;
+        } else {
+            return trim($this->html);
+        }
     }
 }

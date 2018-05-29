@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Options;
+
 /**
  * Default delta class for inserts with the 'script' attribute set to 'super'
  *
@@ -21,7 +23,7 @@ class SuperScript extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = 'sup';
+        $this->tag = Options::TAG_SUPER_SCRIPT;
 
         $this->insert = $insert;
         $this->attributes = $attributes;
@@ -34,6 +36,6 @@ class SuperScript extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return $this->renderSimpleTag($this->tag, $this->insert);
     }
 }

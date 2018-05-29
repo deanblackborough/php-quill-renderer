@@ -14,8 +14,13 @@ final class LineBreakTest extends \PHPUnit\Framework\TestCase
     private $delta_line_breaks = '{"ops":[{"insert":"Line 1, should have a BR\nLine 2, should have a BR\nLine 3\n"}]}';
     private $delta_paragraph_then_line_breaks = '{"ops":[{"insert":"Paragraph\n\nLine 1, should have a BR\nLine 2, should have a BR\nLine 3\n"}]}';
 
-    private $expected_line_breaks = "<p>Line 1, should have a BR<br />Line 2, should have a BR<br />Line 3</p>";
-    private $expected_paragraph_then_line_breaks = "<p>Paragraph</p><p>Line 1, should have a BR<br />Line 2, should have a BR<br />Line 3</p>";
+    private $expected_line_breaks = "<p>Line 1, should have a BR<br />
+Line 2, should have a BR<br />
+Line 3</p>";
+    private $expected_paragraph_then_line_breaks = "<p>Paragraph</p>
+<p>Line 1, should have a BR<br />
+Line 2, should have a BR<br />
+Line 3</p>";
 
     /**
      * test two lines breaks inside a paragraph, no other attributes
@@ -36,7 +41,7 @@ final class LineBreakTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             $this->expected_line_breaks,
-            $result,
+            trim($result),
             __METHOD__ . ' - Lines breaks in a simple paragraph, failure'
         );
     }
@@ -60,7 +65,7 @@ final class LineBreakTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             $this->expected_paragraph_then_line_breaks,
-            $result,
+            trim($result),
             __METHOD__ . ' - Lines breaks in a simple paragraph, following a paragraph, failure'
         );
     }

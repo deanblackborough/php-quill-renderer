@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Options;
+
 /**
  * Default delta class for inserts with the 'strike' attribute
  *
@@ -21,7 +23,7 @@ class Strike extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = 's';
+        $this->tag = Options::TAG_STRIKE;
 
         $this->insert = $insert;
         $this->attributes = $attributes;
@@ -34,6 +36,6 @@ class Strike extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag}>{$this->insert}</{$this->tag}>";
+        return $this->renderSimpleTag($this->tag, $this->insert);
     }
 }

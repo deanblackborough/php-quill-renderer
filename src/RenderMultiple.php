@@ -31,21 +31,26 @@ class RenderMultiple
      *
      * @throws \Exception
      */
-    public function __construct(array $quill_json, string $format = 'HTML')
+    public function __construct(array $quill_json, string $format = Options::FORMAT_HTML)
     {
         switch ($format) {
-            case 'HTML':
+            case Options::FORMAT_HTML:
                 $this->parser = new Parser\Html();
                 break;
             default:
-                throw new \InvalidArgumentException('Requested $format not supported, formats supported, [HTML]');
+                throw new \InvalidArgumentException(
+                    'Requested $format not supported, formats supported, ' .
+                    Options::FORMAT_HTML
+                );
                 break;
         }
 
         $this->format = $format;
 
-        if ($this->parser->loadMultiple($quill_json) === false) {
-            throw new \RuntimeException('Failed to load/json_decode the $quill_json strings');
+        try {
+            $this->parser->loadMultiple($quill_json);
+        } catch (\InvalidArgumentException $e){
+            throw new \InvalidArgumentException($e->getMessage());
         }
     }
 
@@ -53,32 +58,33 @@ class RenderMultiple
      * Pass the content array to the renderer and return the generated output
      *
      * @param string $index Index to return
+     * @param boolean Optionally trim the output
      *
      * @return string
      * @throws \Exception
      * @throws \BadMethodCallException
      * @throws \OutOfRangeException
      */
-    public function render(string $index): string
+    public function render(string $index, bool $trim = false): string
     {
-        if ($this->parser === null) {
-            throw new \BadMethodCallException('No parser loaded');
-        }
-
         if ($this->parser->parseMultiple() !== true) {
             throw new \Exception('Failed to parse the supplied $quill_json arrays');
         }
 
+        $deltas = $this->parser->deltasByIndex($index);
+
         switch ($this->format) {
-            case 'HTML':
-                $deltas = $this->parser->deltasByIndex($index);
+            case Options::FORMAT_HTML:
+                $renderer = new Renderer\Html();
                 break;
             default:
-                $deltas = [];
+                throw new \InvalidArgumentException(
+                    'Requested $format not supported, formats supported, ' .
+                    Options::FORMAT_HTML
+                );
                 break;
         }
 
-        $renderer = new Renderer\Html();
-        return $renderer->load($deltas)->render();
+        return $renderer->load($deltas)->render($trim);
     }
 }

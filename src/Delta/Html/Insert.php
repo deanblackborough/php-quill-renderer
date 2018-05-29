@@ -50,7 +50,7 @@ class Insert extends Delta
         }
 
         if ($this->newLine() === true) {
-            $html .= '<br />';
+            $html .= "<br />\n";
         }
 
         return $html;

@@ -190,4 +190,18 @@ abstract class Delta
 
         return $this;
     }
+
+    /**
+     * Generate the HTML fragment for a simple insert replacement
+     *
+     * @param string $tag HTML tag to wrap around insert
+     * @param string $insert Insert for tag
+     * @param boolean $new_line Append a new line
+     *
+     * @return string
+     */
+    protected function renderSimpleTag($tag, $insert, $new_line = false): string
+    {
+        return "<{$tag}>{$insert}</{$tag}>" . ($new_line === true ? "\n" : null);
+    }
 }
