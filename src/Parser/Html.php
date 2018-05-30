@@ -198,7 +198,7 @@ class Html extends Parse
      *
      * @return array array of inserts, two indexes, insert and close
      */
-    private function splitInsertsOnNewLines($insert)
+    protected function splitInsertsOnNewLines($insert): array
     {
         $inserts = [];
 
@@ -257,7 +257,7 @@ class Html extends Parse
      *
      * @return array array of inserts, three indexes, insert, close and new_line
      */
-    private function splitInsertsOnNewLine($insert)
+    protected function splitInsertsOnNewLine($insert): array
     {
         $inserts = [];
 
