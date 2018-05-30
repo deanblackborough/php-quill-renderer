@@ -45,7 +45,7 @@ class Html extends Parse
     }
 
     /**
-     * Parse the $quill_json and generate an array of Delta objects
+     * Parse the $quill_json array and generate an array of Delta[] objects
      *
      * @return boolean
      */
@@ -191,7 +191,8 @@ class Html extends Parse
     }
 
     /**
-     * Parse the $quill_json_stack and generate an indexed array of Delta objects
+     * Parse the $quill_json_stack arrays and generate an indexed array of
+     * Delta[] objects
      *
      * @return boolean
      */
@@ -215,7 +216,7 @@ class Html extends Parse
     }
 
     /**
-     * Return the array of delta objects
+     * Return the array of Delta[] objects after a call to parse()
      *
      * @return array
      */
@@ -225,9 +226,9 @@ class Html extends Parse
     }
 
     /**
-     * Return a specific delta array of delta objects
+     * Return a specific Delta[] objects array after a call to parseMultiple()
      *
-     * @param string $index Index of the deltas array you want
+     * @param string $index Index of the Delta[] array you are after
      *
      * @return array
      * @throws \OutOfRangeException

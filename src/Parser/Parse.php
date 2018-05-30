@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Parser;
 
+use DBlackborough\Quill\Delta\Delta;
+use DBlackborough\Quill\Interfaces\ParserInterface;
+
 /**
  * Quill parser, parses deltas json array and generates an array of Delta objects for use by the relevant renderer
  *
@@ -10,7 +13,7 @@ namespace DBlackborough\Quill\Parser;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Parse
+abstract class Parse implements ParserInterface
 {
     /**
      * The initial quill json string after it has been json decoded
@@ -29,7 +32,7 @@ abstract class Parse
     /**
      * Deltas array after parsing, array of Delta objects
      *
-     * @var array
+     * @var Delta[]
      */
     protected $deltas;
 
@@ -41,7 +44,7 @@ abstract class Parse
     protected $deltas_stack;
 
     /**
-     * Is the json array a valid json array?
+     * Is the json array or group of arrays valid and able to be decoded
      *
      * @param boolean
      */
@@ -56,8 +59,8 @@ abstract class Parse
     }
 
     /**
-     * Load the deltas string, checks the json is valid and can be decoded and
-     * and then saves to the $quill_json property
+     * Load the deltas string, checks the json is valid and can be decoded
+     * and then saves the decoded array to the the $quill_json property
      *
      * @param string $quill_json Quill json string
      *
@@ -79,9 +82,10 @@ abstract class Parse
 
     /**
      * Load multiple delta strings, checks the json is valid for each index,
-     * can be decoded and the saves to the $quill_json_stack property
+     * ensures they can be decoded and the saves each decoded array to the
+     * $quill_json_stack property indexed by the given key
      *
-     * @param array An array of $quill json, returnable via array index
+     * @param array An array of $quill json strings, returnable via array index
      *
      * @return Parse
      * @throws \InvalidArgumentException Throws an exception if there was an error decoding the json
@@ -107,30 +111,31 @@ abstract class Parse
     }
 
     /**
-     * Parse the $quill_json and generate an array of Delta objects
+     * Parse the $quill_json array and generate an array of Delta[] objects
      *
      * @return boolean
      */
     abstract public function parse(): bool;
 
     /**
-     * Parse the $quill_json_stack and generate an indexed array of Delta objects
+     * Parse the $quill_json_stack arrays and generate an indexed array of
+     * Delta[] objects
      *
      * @return boolean
      */
-    abstract public function parseMultiple() : bool;
+    abstract public function parseMultiple(): bool;
 
     /**
-     * Return the array of delta objects
+     * Return the array of Delta[] objects after a call to parse()
      *
      * @return array
      */
     abstract public function deltas(): array;
 
     /**
-     * Return a specific delta array of delta objects
+     * Return a specific Delta[] objects array after a call to parseMultiple()
      *
-     * @param string $index Index of the deltas array you want
+     * @param string $index Index of the Delta[] array you are after
      *
      * @return array
      * @throws \OutOfRangeException

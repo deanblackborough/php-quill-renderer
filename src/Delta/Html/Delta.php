@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Delta\Delta as BaseDelta;
+
 /**
  * Base delta class for HTML deltas
  *
@@ -11,35 +13,15 @@ namespace DBlackborough\Quill\Delta\Html;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Delta
+abstract class Delta extends BaseDelta
 {
     public CONST DISPLAY_BLOCK = 'block';
     public CONST DISPLAY_INLINE = 'inline';
 
     /**
-     * @var array The attributes array
-     */
-    protected $attributes;
-
-    /**
-     * @var string The insert string
-     */
-    protected $insert;
-
-    /**
      * @var string|null The HTML tag for the delta when rendered as HTML
      */
     protected $tag;
-
-    /**
-     * @var boolean $is_first_child
-     */
-    protected $is_first_child = false;
-
-    /**
-     * @var boolean $is_last_child
-     */
-    protected $is_last_child = false;
 
     /**
      * @var boolean $close
@@ -73,46 +55,6 @@ abstract class Delta
     }
 
     /**
-     * Is the delta a child?
-     *
-     * @return boolean
-     */
-    public function isChild(): bool
-    {
-        return false;
-    }
-
-    /**
-     * If the delta is a child, is it the first child
-     *
-     * @return boolean
-     */
-    public function isFirstChild(): bool
-    {
-        return $this->is_first_child;
-    }
-
-    /**
-     * If the delta is a child, is it the last child
-     *
-     * @return boolean
-     */
-    public function isLastChild(): bool
-    {
-        return $this->is_last_child;
-    }
-
-    /**
-     * Return the insert
-     *
-     * @return string
-     */
-    public function getInsert(): string
-    {
-        return $this->insert;
-    }
-
-    /**
      * Return whether or not a new line needs to be added
      *
      * @return boolean
@@ -123,23 +65,6 @@ abstract class Delta
     }
 
     /**
-     * If the delta is a child, what type of tag is the parent
-     *
-     * @return string|null
-     */
-    public function parentTag(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * Render the HTML for the specific Delta type
-     *
-     * @return string
-     */
-    abstract public function render(): string;
-
-    /**
      * Set the close attribute
      *
      * @return void
@@ -147,34 +72,6 @@ abstract class Delta
     public function setClose()
     {
         $this->close = true;
-    }
-
-    /**
-     * Set the delta to be the first child, alternatively, set to false by passing false
-     *
-     * @var boolean $value Set the value of $this->is_first_child, defaults to true
-     *
-     * @return Delta
-     */
-    public function setFirstChild(bool $value = true): Delta
-    {
-        $this->is_first_child = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the delta to be the last child, alternatively, set to false by passing false
-     *
-     * @var boolean $value Set the value of $this->is_last_child, defaults to true
-     *
-     * @return Delta
-     */
-    public function setLastChild(bool $value = true): Delta
-    {
-        $this->is_last_child = $value;
-
-        return $this;
     }
 
     /**
