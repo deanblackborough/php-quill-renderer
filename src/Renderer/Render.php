@@ -22,6 +22,13 @@ abstract class Render implements RendererInterface
     protected $deltas;
 
     /**
+     * The generated HTML
+     *
+     * @var string
+     */
+    protected $output;
+
+    /**
      * Renderer constructor.
      *
      * @return void

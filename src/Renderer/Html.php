@@ -15,11 +15,9 @@ use DBlackborough\Quill\Delta\Html\Delta;
 class Html extends Render
 {
     /**
-     * The generated HTML
-     *
-     * @var string
+     * @var Delta[]
      */
-    protected $output;
+    protected $deltas;
 
     /**
      * Renderer constructor.
@@ -34,7 +32,7 @@ class Html extends Render
     /**
      * Generate the final HTML, calls the render method on each object
      *
-     * @param boolean $trim Optional trim the output
+     * @param boolean $trim Optionally trim the output
      *
      * @return string
      */

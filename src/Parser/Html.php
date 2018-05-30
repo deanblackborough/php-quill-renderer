@@ -191,60 +191,6 @@ class Html extends Parse
     }
 
     /**
-     * Parse the $quill_json_stack arrays and generate an indexed array of
-     * Delta[] objects
-     *
-     * @return boolean
-     */
-    public function parseMultiple(): bool
-    {
-        $results = [];
-        foreach ($this->quill_json_stack as $index => $quill_json) {
-            $this->quill_json = $quill_json;
-            $this->deltas = [];
-            $results[$index] = $this->parse();
-            if ($results[$index] === true) {
-                $this->deltas_stack[$index] = $this->deltas();
-            }
-        }
-
-        if (in_array(false, $results) === false) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Return the array of Delta[] objects after a call to parse()
-     *
-     * @return array
-     */
-    public function deltas(): array
-    {
-        return $this->deltas;
-    }
-
-    /**
-     * Return a specific Delta[] objects array after a call to parseMultiple()
-     *
-     * @param string $index Index of the Delta[] array you are after
-     *
-     * @return array
-     * @throws \OutOfRangeException
-     */
-    public function deltasByIndex(string $index): array
-    {
-        if (array_key_exists($index, $this->deltas_stack) === true) {
-            return $this->deltas_stack[$index];
-        } else {
-            throw new \OutOfRangeException(
-                'Deltas array does not exist for the given index: ' . $index
-            );
-        }
-    }
-
-    /**
      * Split insert by new lines and optionally set whether or not the close()
      * method needs to called on the Delta
      *

@@ -28,7 +28,7 @@ class Render
      * @param string $quill_json
      * @param string $format Requested output format
      *
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $quill_json, string $format = Options::FORMAT_HTML)
     {
@@ -36,10 +36,16 @@ class Render
             case Options::FORMAT_HTML:
                 $this->parser = new Parser\Html();
                 break;
+            case Options::FORMAT_MARKDOWN:
+                $this->parser = new Parser\Markdown();
+                break;
             default:
                 throw new \InvalidArgumentException(
                     'Requested $format not supported, formats supported, ' .
-                    Options::FORMAT_HTML
+                    implode(
+                        ', ',
+                        [Options::FORMAT_HTML, OPTIONS::FORMAT_MARKDOWN]
+                    )
                 );
                 break;
         }
@@ -48,7 +54,7 @@ class Render
 
         try {
             $this->parser->load($quill_json);
-        } catch (\InvalidArgumentException $e){
+        } catch (\InvalidArgumentException $e) {
             throw new \InvalidArgumentException($e->getMessage());
         }
     }
@@ -59,23 +65,34 @@ class Render
      * @param boolean Optionally trim the output
      *
      * @return string
+     * @throws \InvalidArgumentException
      * @throws \Exception
      */
     public function render(bool $trim = false): string
     {
-        if ($this->parser->parse() !== true) {
+        if ($this->parser->parse() === true) {
+            switch ($this->format) {
+                case Options::FORMAT_HTML:
+                    $renderer = new Renderer\Html();
+                    break;
+                case Options::FORMAT_MARKDOWN:
+                    $renderer = new Renderer\Markdown();
+                    break;
+                default:
+                    // Shouldn't be possible to get here
+                    throw new \InvalidArgumentException(
+                        'Requested $format not supported, formats supported, ' .
+                        implode(
+                            ', ',
+                            [Options::FORMAT_HTML, OPTIONS::FORMAT_MARKDOWN]
+                        )
+                    );
+                    break;
+            }
+
+            return $renderer->load($this->parser->deltas())->render($trim);
+        } else {
             throw new \Exception('Failed to parse the supplied $quill_json array');
         }
-
-        switch ($this->format) {
-            case Options::FORMAT_HTML:
-                $renderer = new Renderer\Html();
-                break;
-            default:
-                // Never should be reached
-                break;
-        }
-
-        return $renderer->load($this->parser->deltas())->render($trim);
     }
 }

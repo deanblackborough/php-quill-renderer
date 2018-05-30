@@ -13,6 +13,7 @@ namespace DBlackborough\Quill;
 class Options
 {
     public const FORMAT_HTML = 'HTML';
+    public const FORMAT_MARKDOWN = 'Markdown';
 
     public const TAG_BOLD = 'strong';
     public const TAG_HEADER = 'h';
@@ -22,6 +23,8 @@ class Options
     public const TAG_SUB_SCRIPT = 'sub';
     public const TAG_SUPER_SCRIPT = 'sup';
     public const TAG_UNDERLINE = 'u';
+
+    public const TOKEN_HEADER = '#';
 
     public const TAG_LIST_ORDERED = 'ol';
     public const TAG_LIST_UNORDERED = 'ul';
