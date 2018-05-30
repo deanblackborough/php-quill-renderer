@@ -41,7 +41,7 @@ class Markdown extends Render
         $this->output = '';
 
         foreach ($this->deltas as $i => $delta) {
-            $this->output .= $delta->render() . "\n";
+            $this->output .= $delta->render();
         }
 
         if ($trim === false) {

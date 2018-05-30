@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Parser;
 
+use DBlackborough\Quill\Delta\Markdown\Bold;
 use DBlackborough\Quill\Delta\Markdown\Delta;
 use DBlackborough\Quill\Delta\Markdown\Header;
 use DBlackborough\Quill\Delta\Markdown\Insert;
+use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Options;
 
 /**
@@ -57,6 +59,12 @@ class Markdown extends Parse
                         if (count($quill['attributes']) === 1) {
                             foreach ($quill['attributes'] as $attribute => $value) {
                                 switch ($attribute) {
+                                    case Options::ATTRIBUTE_BOLD:
+                                        if ($value === true) {
+                                            $this->deltas[] = new Bold($quill['insert']);
+                                        }
+                                        break;
+
                                     case Options::ATTRIBUTE_HEADER:
                                         if (in_array($value, array(1, 2, 3, 4, 5, 6, 7)) === true) {
                                             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
@@ -64,6 +72,12 @@ class Markdown extends Parse
                                             $this->deltas[] = new Header($insert, $quill['attributes']);
                                             // Reorder the array
                                             $this->deltas = array_values($this->deltas);
+                                        }
+                                        break;
+
+                                    case Options::ATTRIBUTE_ITALIC:
+                                        if ($value === true) {
+                                            $this->deltas[] = new Italic($quill['insert']);
                                         }
                                         break;
 

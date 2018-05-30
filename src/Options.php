@@ -24,7 +24,9 @@ class Options
     public const TAG_SUPER_SCRIPT = 'sup';
     public const TAG_UNDERLINE = 'u';
 
+    public const TOKEN_BOLD = '**';
     public const TOKEN_HEADER = '#';
+    public const TOKEN_ITALIC = '*';
 
     public const TAG_LIST_ORDERED = 'ol';
     public const TAG_LIST_UNORDERED = 'ul';
