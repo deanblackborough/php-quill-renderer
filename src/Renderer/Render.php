@@ -4,15 +4,17 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Renderer;
 
 use DBlackborough\Quill\Delta\Html\Delta;
+use DBlackborough\Quill\Interfaces\RendererInterface;
 
 /**
- * Quill renderer, iterates over the generated content data array and creates the data in the relevant format
+ * Quill renderer, iterates over the Delta[] array created by a parser and then
+ * created the output in the requested format
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Render
+abstract class Render implements RendererInterface
 {
     /**
      * @var Delta[]
@@ -30,7 +32,7 @@ abstract class Render
     }
 
     /**
-     * Load the deltas array
+     * Load the Deltas array from the relevant parser
      *
      * @param array $deltas Deltas array from the parser
      *
@@ -44,9 +46,9 @@ abstract class Render
     }
 
     /**
-     * Generate the final output the contents array
+     * Generate the final output string from the Delta[] array
      *
-     * @param boolean $trim Optional trim the output
+     * @param boolean $trim Optionally trim the output
      *
      * @return string
      */
