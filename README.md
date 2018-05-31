@@ -7,27 +7,38 @@
 
 # PHP Quill Renderer
 
-*Render quill insert deltas to HTML, additional output formats will be added after the v3.00.0 release*
+Render quill insert deltas to HTML and Markdown
 
 ## Description
 
-Quill deltas renderer, converts deltas to HTML, the Quill attributes supported are listed in the table below, 
-the goal is to eventually support every Quill feature.
+Quill deltas renderer, converts deltas to HTML and Markdown, the Quill attributes 
+supported are listed in the table below, the goal is to eventually support every Quill feature.
 
 ## Planned features
 
-Over the next few weeks/months I want to continue adding support for additional [Quill](https://github.com/quilljs/quill) 
-features and add additional parsers and renderers, I expect Markdown will be next. 
+Over the next few weeks/months I want to continue adding support for additional 
+[Quill](https://github.com/quilljs/quill) features and add, flesh out additional 
+output formats, after Markdown I'm planning on plain txt, GitHUb flavoured Markdown 
+and possible RTF/PDF. 
 
 ## PHP < 7.2
 
-Please use version v1.01.1 or v2.03.1 if you are using a version of PHP below 7.2, versions 1 and 2 are not feature 
-complete with version 3 and are unlikely to ever be updated, the v3 code is so much more flexible.
+Please use version v1.01.1 or v2.03.1 if you are using a version of PHP below 7.2, 
+versions 1 and 2 are not feature complete with version 3 and are unlikely to ever 
+be updated, the v3 code is so much more flexible, consider 1 and 2 unsupported.
 
 ## Installation
  
-The easiest way to use the renderer is via composer. ```composer require deanblackborough/php-quill-renderer```, 
-alternatively you can include the classes in my src/ directory in your library or app.
+The easiest way to use the `PHP Quill Renderer` is via composer. 
+```composer require deanblackborough/php-quill-renderer```, 
+alternatively you can include the classes in my src/ directory directly in 
+your library or app.
+
+### Legacy entry points
+
+The `Render` and `RenderMultiple` classes are marked as deprecated, there is a 
+now a single entry point, `Quill`. The `Render` and `RenderMultiple` classes 
+will remain but should be considered legacy.
  
 ## Usage via API, single $quill_json
 ```
@@ -82,39 +93,40 @@ echo $renderer->load($parser->deltasByIndex('two'))->render();
 
 ## Quill attributes support
 
-Attribute | v1+ | v2+ | v3+
---- | --- | --- | ---
-Bold | Yes | Yes | Yes
-Italic | Yes | Yes | Yes
-Link | Yes | Yes | Yes
-Strike | Yes | Yes | Yes
-Script:Sub | Yes | Yes | Yes
-Script:Super | Yes | Yes | Yes
-Underline | Yes | Yes | Yes
-Header | Yes | Yes | Yes
-Image | Yes | Yes | Yes
-List | Yes | Yes | Yes
-Indent/Outdent | No| No | Planned
-Text direction | No | No | Planned
-Color | No | No | Planned
-Font | No | No | Planned
-Text align | No | No | Planned
-Block quote | No | No | Planned
-Code block | No | No | Planned
-Custom attributes | No | No | Yes
+Attribute | v1+ | v2+ | v3 HTML | v3 Markdown
+--- | --- | --- | --- | ---
+Bold | Yes | Yes | Yes | Yes
+Italic | Yes | Yes | Yes | Yes
+Link | Yes | Yes | Yes | Planned
+Strike | Yes | Yes | Yes | N/K
+Script:Sub | Yes | Yes | Yes | N/K
+Script:Super | Yes | Yes | Yes | N/K
+Underline | Yes | Yes | Yes | N/K
+Header | Yes | Yes | Yes | Yes
+Image | Yes | Yes | Yes | Planned
+List | Yes | Yes | Yes | Planned
+Child lists | No | No | Planned | Planned
+Indent/Outdent | No| No | Planned | N/K
+Text direction | No | No | Planned | N/K
+Color | No | No | Planned | N/K
+Font | No | No | Planned | N/K
+Text align | No | No | Planned | N/K
+Block quote | No | No | Planned | Planned
+Code block | No | No | Planned | Planned
+Custom attributes | No | No | Yes | N/K
 
-Attribute | HTML Tag
---- | --- 
-Bold | `<strong>`
-Italic | `<em>`
-Link | `<a>`
-Strike | `<s>`
-Script:Sub | `<sub>`
-Script:Super | `<sup>`
-Underline | `<u>`
-Header | `<h[n]>`
-Image | `<img>`
-List | `<ul>` `<ol>`
+Attribute | HTML Tag | Markdown Token
+--- | --- | ---
+Bold | `<strong>` | `**`
+Italic | `<em>` | `*`
+Link | `<a>` | 
+Strike | `<s>` |
+Script:Sub | `<sub>` |
+Script:Super | `<sup>` |
+Underline | `<u>` |
+Header | `<h[n]>` `#[n]`
+Image | `<img>` | 
+List | `<ul>` `<ol>` | `* ` & `[n]`
 
 ## Credits
 
