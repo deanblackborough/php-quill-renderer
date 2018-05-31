@@ -76,16 +76,6 @@ abstract class Delta implements DeltaInterface
     }
 
     /**
-     * If the delta is a child, what type of tag/attribute belongs to the parent
-     *
-     * @return string|null
-     */
-    public function parentTag(): ?string
-    {
-        return null;
-    }
-
-    /**
      * Render and return the string for the insert ready for the relevant
      * renderer
      *

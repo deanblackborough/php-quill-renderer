@@ -43,14 +43,6 @@ Interface DeltaInterface
      */
     public function getInsert(): string;
 
-
-    /**
-     * If the delta is a child, what type of tag/attribute belongs to the parent
-     *
-     * @return string|null
-     */
-    public function parentTag(): ?string;
-
     /**
      * Render and return the string for the insert ready for renderer
      *

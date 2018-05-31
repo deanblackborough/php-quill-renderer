@@ -27,6 +27,7 @@ class Options
     public const TOKEN_BOLD = '**';
     public const TOKEN_HEADER = '#';
     public const TOKEN_ITALIC = '*';
+    public const TOKEN_LIST_ITEM_UNORDERED = '* ';
 
     public const TAG_LIST_ORDERED = 'ol';
     public const TAG_LIST_UNORDERED = 'ul';

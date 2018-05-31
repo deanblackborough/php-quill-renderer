@@ -65,6 +65,16 @@ abstract class Delta extends BaseDelta
     }
 
     /**
+     * If the delta is a child, what type of tag is the parent
+     *
+     * @return string|null
+     */
+    public function parentTag(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Set the close attribute
      *
      * @return void

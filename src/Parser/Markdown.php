@@ -10,6 +10,7 @@ use DBlackborough\Quill\Delta\Markdown\Image;
 use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
+use DBlackborough\Quill\Delta\Markdown\ListItem;
 use DBlackborough\Quill\Options;
 
 /**
@@ -51,6 +52,8 @@ class Markdown extends Parse
 
             $this->quill_json = $this->quill_json['ops'];
 
+            $parents_by_type = [];
+
             foreach ($this->quill_json as $quill) {
 
                 if ($quill['insert'] !== null) {
@@ -89,6 +92,23 @@ class Markdown extends Parse
                                                 $quill['insert'],
                                                 $quill['attributes']
                                             );
+                                        }
+                                        break;
+
+                                    case Options::ATTRIBUTE_LIST:
+                                        if (in_array($value, array('ordered', 'bullet')) === true) {
+                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+                                            unset($this->deltas[count($this->deltas) - 1]);
+                                            $this->deltas[] = new ListItem($insert, $quill['attributes']);
+                                            $this->deltas = array_values($this->deltas);
+
+                                            if (array_key_exists('list', $parents_by_type) === false) {
+                                                $parents_by_type['list'] = true;
+                                                $this->deltas[count($this->deltas) - 1]->setFirstChild(true);
+                                            } else {
+                                                $this->deltas[count($this->deltas) - 1]->setLastChild(true);
+                                                $this->deltas[count($this->deltas) - 2]->setLastChild(false);
+                                            }
                                         }
                                         break;
 
