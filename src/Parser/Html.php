@@ -20,8 +20,8 @@ use DBlackborough\Quill\Delta\Html\Underline;
 use DBlackborough\Quill\Options;
 
 /**
- * HTML parser, parses the deltas create an array of HTMl Delta objects which will be passed to the HTML
- * renderer
+ * HTML parser, parses the deltas, create an array of HTMl Delta objects which
+ * will be passed to the HTML renderer
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -55,15 +55,11 @@ class Html extends Parse
             $this->valid === true &&
             array_key_exists('ops', $this->quill_json) === true
         ) {
-
             $this->quill_json = $this->quill_json['ops'];
-
-            $parents_by_type = [];
 
             foreach ($this->quill_json as $quill) {
 
                 if ($quill['insert'] !== null) {
-
                     if (
                         array_key_exists('attributes', $quill) === true &&
                         is_array($quill['attributes']) === true
@@ -109,12 +105,18 @@ class Html extends Parse
                                             $this->deltas[] = new ListItem($insert, $quill['attributes']);
                                             $this->deltas = array_values($this->deltas);
 
-                                            if (array_key_exists('list', $parents_by_type) === false) {
-                                                $parents_by_type['list'] = true;
-                                                $this->deltas[count($this->deltas) - 1]->setFirstChild(true);
+                                            $index = count($this->deltas) - 1;
+                                            $previous_index = $index -1;
+
+                                            if ($previous_index < 0) {
+                                                $this->deltas[$index]->setFirstChild();
                                             } else {
-                                                $this->deltas[count($this->deltas) - 1]->setLastChild(true);
-                                                $this->deltas[count($this->deltas) - 2]->setLastChild(false);
+                                                if ($this->deltas[$previous_index]->isChild() === true) {
+                                                    $this->deltas[$index]->setLastChild();
+                                                    $this->deltas[$previous_index]->setLastChild(false);
+                                                } else {
+                                                    $this->deltas[$index]->setFirstChild();
+                                                }
                                             }
                                         }
                                         break;
