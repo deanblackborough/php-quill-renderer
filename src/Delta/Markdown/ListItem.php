@@ -15,6 +15,8 @@ use DBlackborough\Quill\Options;
  */
 class ListItem extends Delta
 {
+    private $counter = null;
+
     /**
      * Set the initial properties for the delta
      *
@@ -31,6 +33,18 @@ class ListItem extends Delta
         if ($this->attributes['list'] === 'bullet') {
             $this->token = Options::TOKEN_LIST_ITEM_UNORDERED;
         }
+    }
+
+    /**
+     * Set the counter for ordered lists
+     *
+     * @param integer $counter
+     *
+     * @return Delta
+     */
+    public function setCounter(int $counter): Delta
+    {
+        $this->counter = $counter;
     }
 
     /**
@@ -51,7 +65,7 @@ class ListItem extends Delta
     public function render(): string
     {
         if ($this->token === null) {
-            return "1. " . $this->insert . "\n";
+            return $this->counter . ". " . $this->insert . "\n";
         } else {
             return $this->token . $this->insert . "\n";
         }
