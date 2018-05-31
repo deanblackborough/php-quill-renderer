@@ -103,7 +103,7 @@ Script:Sub | Yes | Yes | Yes | N/K
 Script:Super | Yes | Yes | Yes | N/K
 Underline | Yes | Yes | Yes | N/K
 Header | Yes | Yes | Yes | Yes
-Image | Yes | Yes | Yes | Planned
+Image | Yes | Yes | Yes | Yes
 List | Yes | Yes | Yes | Planned
 Child lists | No | No | Planned | Planned
 Indent/Outdent | No| No | Planned | N/K
@@ -127,7 +127,7 @@ Script:Sub | `<sub>` |
 Script:Super | `<sup>` |
 Underline | `<u>` |
 Header | `<h[n]>` | `#[n]`
-Image | `<img>` | 
+Image | `<img>` | `![Image](\path\to\image)`
 List | `<ul>` `<ol>` | `* ` & `[n]`
 
 ## Credits

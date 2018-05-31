@@ -6,6 +6,7 @@ namespace DBlackborough\Quill\Parser;
 use DBlackborough\Quill\Delta\Markdown\Bold;
 use DBlackborough\Quill\Delta\Markdown\Delta;
 use DBlackborough\Quill\Delta\Markdown\Header;
+use DBlackborough\Quill\Delta\Markdown\Image;
 use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
@@ -105,7 +106,11 @@ class Markdown extends Parse
                             }
                         }
                     } else {
-                        $this->deltas[] = new Insert($quill['insert']);
+                        if (is_string($quill['insert']) === true) {
+                            $this->deltas[] = new Insert($quill['insert']);
+                        } else {
+                            $this->deltas[] = new Image($quill['insert']['image']);
+                        }
                     }
                 }
             }
