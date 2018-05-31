@@ -8,6 +8,7 @@ use DBlackborough\Quill\Delta\Markdown\Delta;
 use DBlackborough\Quill\Delta\Markdown\Header;
 use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
+use DBlackborough\Quill\Delta\Markdown\Link;
 use DBlackborough\Quill\Options;
 
 /**
@@ -78,6 +79,15 @@ class Markdown extends Parse
                                     case Options::ATTRIBUTE_ITALIC:
                                         if ($value === true) {
                                             $this->deltas[] = new Italic($quill['insert']);
+                                        }
+                                        break;
+
+                                    case Options::ATTRIBUTE_LINK:
+                                        if (strlen($value) > 0) {
+                                            $this->deltas[] = new Link(
+                                                $quill['insert'],
+                                                $quill['attributes']
+                                            );
                                         }
                                         break;
 

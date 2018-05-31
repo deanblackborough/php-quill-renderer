@@ -91,13 +91,13 @@ echo $renderer->load($parser->deltasByIndex('one'))->render();
 echo $renderer->load($parser->deltasByIndex('two'))->render();
 ```
 
-## Quill attributes support
+## Quill attributes and text flow support
 
 Attribute | v1+ | v2+ | v3 HTML | v3 Markdown
 --- | --- | --- | --- | ---
 Bold | Yes | Yes | Yes | Yes
 Italic | Yes | Yes | Yes | Yes
-Link | Yes | Yes | Yes | Planned
+Link | Yes | Yes | Yes | Yes
 Strike | Yes | Yes | Yes | N/K
 Script:Sub | Yes | Yes | Yes | N/K
 Script:Super | Yes | Yes | Yes | N/K
@@ -114,17 +114,19 @@ Text align | No | No | Planned | N/K
 Block quote | No | No | Planned | Planned
 Code block | No | No | Planned | Planned
 Custom attributes | No | No | Yes | N/K
+Line breaks | No | No | Yes | N/A
+Paragraphs | Yes | Yes | Yes | N/A
 
 Attribute | HTML Tag | Markdown Token
 --- | --- | ---
 Bold | `<strong>` | `**`
 Italic | `<em>` | `*`
-Link | `<a>` | 
+Link | `<a>` | `[Text](Link)`
 Strike | `<s>` |
 Script:Sub | `<sub>` |
 Script:Super | `<sup>` |
 Underline | `<u>` |
-Header | `<h[n]>` `#[n]`
+Header | `<h[n]>` | `#[n]`
 Image | `<img>` | 
 List | `<ul>` `<ol>` | `* ` & `[n]`
 
