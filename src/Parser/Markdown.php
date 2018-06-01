@@ -51,8 +51,9 @@ class Markdown extends Parse
         ) {
             $this->quill_json = $this->quill_json['ops'];
 
-            foreach ($this->quill_json as $quill) {
+            $counter = 1;
 
+            foreach ($this->quill_json as $quill) {
                 if ($quill['insert'] !== null) {
                     if (
                         array_key_exists('attributes', $quill) === true &&
@@ -103,13 +104,16 @@ class Markdown extends Parse
                                             $previous_index = $index -1;
 
                                             if ($previous_index < 0) {
-                                                $this->deltas[$index]->setFirstChild();
+                                                $counter = 1;
+                                                $this->deltas[$index]->setFirstChild()->setCounter($counter);
                                             } else {
                                                 if ($this->deltas[$previous_index]->isChild() === true) {
-                                                    $this->deltas[$index]->setLastChild();
+                                                    $counter++;
+                                                    $this->deltas[$index]->setLastChild()->setCounter($counter);
                                                     $this->deltas[$previous_index]->setLastChild(false);
                                                 } else {
-                                                    $this->deltas[$index]->setFirstChild();
+                                                    $counter = 1;
+                                                    $this->deltas[$index]->setFirstChild()->setCounter($counter);
                                                 }
                                             }
                                         }

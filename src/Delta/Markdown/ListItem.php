@@ -45,6 +45,8 @@ class ListItem extends Delta
     public function setCounter(int $counter): Delta
     {
         $this->counter = $counter;
+
+        return $this;
     }
 
     /**
