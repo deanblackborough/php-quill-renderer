@@ -11,6 +11,7 @@ use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
 use DBlackborough\Quill\Delta\Markdown\ListItem;
+use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Options;
 
 /**
@@ -21,7 +22,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Markdown extends Parse
+class Markdown extends Parse implements ParserAttributeInterface
 {
     /**
      * Deltas array after parsing, array of Delta objects
@@ -145,5 +146,60 @@ class Markdown extends Parse
         } else {
             return false;
         }
+    }
+
+    public function attributeBold()
+    {
+        // TODO: Implement attributeBold() method.
+    }
+
+    public function attributeHeader()
+    {
+        // TODO: Implement attributeHeader() method.
+    }
+
+    public function attributeItalic()
+    {
+        // TODO: Implement attributeItalic() method.
+    }
+
+    public function attributeLink()
+    {
+        // TODO: Implement attributeLink() method.
+    }
+
+    public function attributeList()
+    {
+        // TODO: Implement attributeList() method.
+    }
+
+    public function attributeScript()
+    {
+        // TODO: Implement attributeScript() method.
+    }
+
+    public function attributeStrike()
+    {
+        // TODO: Implement attributeStrike() method.
+    }
+
+    public function attributeUnderline()
+    {
+        // TODO: Implement attributeUnderline() method.
+    }
+
+    public function insert()
+    {
+        // TODO: Implement insert() method.
+    }
+
+    public function compoundInsert()
+    {
+        // TODO: Implement compoundInsert() method.
+    }
+
+    public function image()
+    {
+        // TODO: Implement image() method.
     }
 }

@@ -17,6 +17,7 @@ use DBlackborough\Quill\Delta\Html\Strike;
 use DBlackborough\Quill\Delta\Html\SubScript;
 use DBlackborough\Quill\Delta\Html\SuperScript;
 use DBlackborough\Quill\Delta\Html\Underline;
+use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
 
@@ -28,7 +29,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Html extends Parse implements ParserSplitInterface
+class Html extends Parse implements ParserSplitInterface, ParserAttributeInterface
 {
     /**
      * Deltas array after parsing, array of Delta objects
@@ -291,5 +292,60 @@ class Html extends Parse implements ParserSplitInterface
         }
 
         return $inserts;
+    }
+
+    public function attributeBold()
+    {
+        // TODO: Implement attributeBold() method.
+    }
+
+    public function attributeHeader()
+    {
+        // TODO: Implement attributeHeader() method.
+    }
+
+    public function attributeItalic()
+    {
+        // TODO: Implement attributeItalic() method.
+    }
+
+    public function attributeLink()
+    {
+        // TODO: Implement attributeLink() method.
+    }
+
+    public function attributeList()
+    {
+        // TODO: Implement attributeList() method.
+    }
+
+    public function attributeScript()
+    {
+        // TODO: Implement attributeScript() method.
+    }
+
+    public function attributeStrike()
+    {
+        // TODO: Implement attributeStrike() method.
+    }
+
+    public function attributeUnderline()
+    {
+        // TODO: Implement attributeUnderline() method.
+    }
+
+    public function insert()
+    {
+        // TODO: Implement insert() method.
+    }
+
+    public function compoundInsert()
+    {
+        // TODO: Implement compoundInsert() method.
+    }
+
+    public function image()
+    {
+        // TODO: Implement image() method.
     }
 }
