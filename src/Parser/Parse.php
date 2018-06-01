@@ -170,22 +170,4 @@ abstract class Parse implements ParserInterface
             );
         }
     }
-
-    /**
-     * Split an insert on multiple new lines and handle accordingly
-     *
-     * @param string $insert An insert string
-     *
-     * @return array array of inserts, two indexes, insert and close
-     */
-    abstract protected function splitInsertsOnNewLines($insert): array;
-
-    /**
-     * Split an insert on a single new line and handle accordingly
-     *
-     * @param string $insert An insert string
-     *
-     * @return array array of inserts, three indexes, insert, close and new_line
-     */
-    abstract protected function splitInsertsOnNewLine($insert): array;
 }

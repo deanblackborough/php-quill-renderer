@@ -17,6 +17,7 @@ use DBlackborough\Quill\Delta\Html\Strike;
 use DBlackborough\Quill\Delta\Html\SubScript;
 use DBlackborough\Quill\Delta\Html\SuperScript;
 use DBlackborough\Quill\Delta\Html\Underline;
+use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
 
 /**
@@ -27,7 +28,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Html extends Parse
+class Html extends Parse implements ParserSplitInterface
 {
     /**
      * Deltas array after parsing, array of Delta objects
@@ -200,7 +201,7 @@ class Html extends Parse
      *
      * @return array array of inserts, two indexes, insert and close
      */
-    protected function splitInsertsOnNewLines($insert): array
+    public function splitInsertsOnNewLines($insert): array
     {
         $inserts = [];
 
@@ -259,7 +260,7 @@ class Html extends Parse
      *
      * @return array array of inserts, three indexes, insert, close and new_line
      */
-    protected function splitInsertsOnNewLine($insert): array
+    public function splitInsertsOnNewLine($insert): array
     {
         $inserts = [];
 
