@@ -13,25 +13,27 @@ namespace DBlackborough\Quill\Interfaces;
  */
 interface ParserAttributeInterface
 {
-    public function attributeBold();
+    public function attributeBold(array $quill);
 
-    public function attributeHeader();
+    public function attributeHeader(array $quill);
 
-    public function attributeItalic();
+    public function attributeItalic(array $quill);
 
-    public function attributeLink();
+    public function attributeLink(array $quill);
 
-    public function attributeList();
+    public function attributeList(array $quill);
 
-    public function attributeScript();
+    public function attributeScript(array $quill);
 
-    public function attributeStrike();
+    public function attributeStrike(array $quill);
 
-    public function attributeUnderline();
+    public function attributeUnderline(array $quill);
 
-    public function insert();
+    public function insert(array $quill);
 
-    public function compoundInsert();
+    public function extendedInsert($quill);
 
-    public function image();
+    public function compoundInsert(array $quill);
+
+    public function image(array $quill);
 }

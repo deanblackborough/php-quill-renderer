@@ -47,154 +47,6 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     }
 
     /**
-     * Parse the $quill_json array and generate an array of Delta[] objects
-     *
-     * @return boolean
-     */
-    public function parse(): bool
-    {
-        if (
-            $this->valid === true &&
-            array_key_exists('ops', $this->quill_json) === true
-        ) {
-            $this->quill_json = $this->quill_json['ops'];
-
-            foreach ($this->quill_json as $quill) {
-
-                if ($quill['insert'] !== null) {
-                    if (
-                        array_key_exists('attributes', $quill) === true &&
-                        is_array($quill['attributes']) === true
-                    ) {
-                        if (count($quill['attributes']) === 1) {
-                            foreach ($quill['attributes'] as $attribute => $value) {
-                                switch ($attribute) {
-                                    case Options::ATTRIBUTE_BOLD:
-                                        if ($value === true) {
-                                            $this->deltas[] = new Bold($quill['insert']);
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_HEADER:
-                                        if (in_array($value, array(1, 2, 3, 4, 5, 6, 7)) === true) {
-                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-                                            unset($this->deltas[count($this->deltas) - 1]);
-                                            $this->deltas[] = new Header($insert, $quill['attributes']);
-                                            // Reorder the array
-                                            $this->deltas = array_values($this->deltas);
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_ITALIC:
-                                        if ($value === true) {
-                                            $this->deltas[] = new Italic($quill['insert']);
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_LINK:
-                                        if (strlen($value) > 0) {
-                                            $this->deltas[] = new Link(
-                                                $quill['insert'],
-                                                $quill['attributes']
-                                            );
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_LIST:
-                                        if (in_array($value, array('ordered', 'bullet')) === true) {
-                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-                                            unset($this->deltas[count($this->deltas) - 1]);
-                                            $this->deltas[] = new ListItem($insert, $quill['attributes']);
-                                            $this->deltas = array_values($this->deltas);
-
-                                            $index = count($this->deltas) - 1;
-                                            $previous_index = $index -1;
-
-                                            if ($previous_index < 0) {
-                                                $this->deltas[$index]->setFirstChild();
-                                            } else {
-                                                if ($this->deltas[$previous_index]->isChild() === true) {
-                                                    $this->deltas[$index]->setLastChild();
-                                                    $this->deltas[$previous_index]->setLastChild(false);
-                                                } else {
-                                                    $this->deltas[$index]->setFirstChild();
-                                                }
-                                            }
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_SCRIPT:
-                                        if ($value === Options::ATTRIBUTE_SCRIPT_SUB) {
-                                            $this->deltas[] = new SubScript($quill['insert']);
-                                        }
-                                        if ($value === Options::ATTRIBUTE_SCRIPT_SUPER) {
-                                            $this->deltas[] = new SuperScript($quill['insert']);
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_STRIKE:
-                                        if ($value === true) {
-                                            $this->deltas[] = new Strike($quill['insert']);
-                                        }
-                                        break;
-
-                                    case Options::ATTRIBUTE_UNDERLINE:
-                                        if ($value === true) {
-                                            $this->deltas[] = new Underline($quill['insert']);
-                                        }
-                                        break;
-
-                                    default:
-                                        $this->deltas[] = new Insert(
-                                            $quill['insert'],
-                                            $quill['attributes']
-                                        );
-                                        break;
-                                }
-                            }
-                        } else {
-                            if (count($quill['attributes']) > 0) {
-                                if (is_array($quill['insert']) === false) {
-                                    $delta = new Compound($quill['insert']);
-                                } else {
-                                    $delta = new CompoundImage($quill['insert']['image']);
-                                }
-                                foreach ($quill['attributes'] as $attribute => $value) {
-                                    $delta->setAttribute($attribute, $value);
-
-                                }
-                                $this->deltas[] = $delta;
-                            }
-                        }
-                    } else {
-                        if (is_string($quill['insert']) === true) {
-
-                            $inserts = $this->splitInsertsOnNewLines($quill['insert']);
-
-                            foreach ($inserts as $insert) {
-                                $delta = new Insert($insert['insert']);
-                                if ($insert['close'] === true) {
-                                    $delta->setClose();
-                                }
-                                if ($insert['new_line'] === true) {
-                                    $delta->setNewLine();
-                                }
-
-                                $this->deltas[] = $delta;
-                            }
-                        } else {
-                            $this->deltas[] = new Image($quill['insert']['image']);
-                        }
-                    }
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Split insert by new lines and optionally set whether or not the close()
      * method needs to called on the Delta
      *
@@ -294,58 +146,129 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         return $inserts;
     }
 
-    public function attributeBold()
+    public function attributeBold($quill)
     {
-        // TODO: Implement attributeBold() method.
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
+            $this->deltas[] = new Bold($quill['insert']);
+        }
     }
 
-    public function attributeHeader()
+    public function attributeHeader($quill)
     {
-        // TODO: Implement attributeHeader() method.
+        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
+            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            unset($this->deltas[count($this->deltas) - 1]);
+            $this->deltas[] = new Header($insert, $quill['attributes']);
+            // Reorder the array
+            $this->deltas = array_values($this->deltas);
+        }
     }
 
-    public function attributeItalic()
+    public function attributeItalic($quill)
     {
-        // TODO: Implement attributeItalic() method.
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
+            $this->deltas[] = new Italic($quill['insert']);
+        }
     }
 
-    public function attributeLink()
+    public function attributeLink($quill)
     {
-        // TODO: Implement attributeLink() method.
+        if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
+            $this->deltas[] = new Link(
+                $quill['insert'],
+                $quill['attributes']
+            );
+        }
     }
 
-    public function attributeList()
+    public function attributeList($quill)
     {
-        // TODO: Implement attributeList() method.
+        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
+            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            unset($this->deltas[count($this->deltas) - 1]);
+            $this->deltas[] = new ListItem($insert, $quill['attributes']);
+            $this->deltas = array_values($this->deltas);
+
+            $index = count($this->deltas) - 1;
+            $previous_index = $index -1;
+
+            if ($previous_index < 0) {
+                $this->deltas[$index]->setFirstChild();
+            } else {
+                if ($this->deltas[$previous_index]->isChild() === true) {
+                    $this->deltas[$index]->setLastChild();
+                    $this->deltas[$previous_index]->setLastChild(false);
+                } else {
+                    $this->deltas[$index]->setFirstChild();
+                }
+            }
+        }
     }
 
-    public function attributeScript()
+    public function attributeScript($quill)
     {
-        // TODO: Implement attributeScript() method.
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUB) {
+            $this->deltas[] = new SubScript($quill['insert']);
+        }
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUPER) {
+            $this->deltas[] = new SuperScript($quill['insert']);
+        }
     }
 
-    public function attributeStrike()
+    public function attributeStrike($quill)
     {
-        // TODO: Implement attributeStrike() method.
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_STRIKE] === true) {
+            $this->deltas[] = new Strike($quill['insert']);
+        }
     }
 
-    public function attributeUnderline()
+    public function attributeUnderline($quill)
     {
-        // TODO: Implement attributeUnderline() method.
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_UNDERLINE] === true) {
+            $this->deltas[] = new Underline($quill['insert']);
+        }
     }
 
-    public function insert()
+    public function insert($quill)
     {
-        // TODO: Implement insert() method.
+        $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
     }
 
-    public function compoundInsert()
+    public function compoundInsert($quill)
     {
-        // TODO: Implement compoundInsert() method.
+        if (count($quill['attributes']) > 0) {
+            if (is_array($quill['insert']) === false) {
+                $delta = new Compound($quill['insert']);
+            } else {
+                $delta = new CompoundImage($quill['insert']['image']);
+            }
+            foreach ($quill['attributes'] as $attribute => $value) {
+                $delta->setAttribute($attribute, $value);
+            }
+
+            $this->deltas[] = $delta;
+        }
     }
 
-    public function image()
+    public function image($quill)
     {
-        // TODO: Implement image() method.
+        $this->deltas[] = new Image($quill['insert']['image']);
+    }
+
+    public function extendedInsert($quill)
+    {
+        $inserts = $this->splitInsertsOnNewLines($quill['insert']);
+
+        foreach ($inserts as $insert) {
+            $delta = new Insert($insert['insert']);
+            if ($insert['close'] === true) {
+                $delta->setClose();
+            }
+            if ($insert['new_line'] === true) {
+                $delta->setNewLine();
+            }
+
+            $this->deltas[] = $delta;
+        }
     }
 }

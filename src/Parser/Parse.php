@@ -5,6 +5,7 @@ namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Delta;
 use DBlackborough\Quill\Interfaces\ParserInterface;
+use DBlackborough\Quill\Options;
 
 /**
  * Quill parser, parses deltas json array and generates an array of Delta objects for use by the relevant renderer
@@ -115,7 +116,78 @@ abstract class Parse implements ParserInterface
      *
      * @return boolean
      */
-    abstract public function parse(): bool;
+    public function parse(): bool
+    {
+        if (
+            $this->valid === true &&
+            array_key_exists('ops', $this->quill_json) === true
+        ) {
+            $this->quill_json = $this->quill_json['ops'];
+
+            foreach ($this->quill_json as $quill) {
+
+                if ($quill['insert'] !== null) {
+                    if (
+                        array_key_exists('attributes', $quill) === true &&
+                        is_array($quill['attributes']) === true
+                    ) {
+                        if (count($quill['attributes']) === 1) {
+                            foreach ($quill['attributes'] as $attribute => $value) {
+                                switch ($attribute) {
+                                    case Options::ATTRIBUTE_BOLD:
+                                        $this->attributeBold($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_HEADER:
+                                        $this->attributeHeader($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_ITALIC:
+                                        $this->attributeItalic($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_LINK:
+                                        $this->attributeLink($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_LIST:
+                                        $this->attributeList($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_SCRIPT:
+                                        $this->attributeScript($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_STRIKE:
+                                        $this->attributeStrike($quill);
+                                        break;
+
+                                    case Options::ATTRIBUTE_UNDERLINE:
+                                        $this->attributeUnderline($quill);
+                                        break;
+
+                                    default:
+                                        $this->insert($quill);
+                                        break;
+                                }
+                            }
+                        } else {
+                            $this->compoundInsert($quill);
+                        }
+                    } else {
+                        if (is_string($quill['insert']) === true) {
+                            $this->extendedInsert($quill);
+                        } else {
+                            $this->image($quill);
+                        }
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Parse the $quill_json_stack arrays and generate an indexed array of
@@ -170,4 +242,6 @@ abstract class Parse implements ParserInterface
             );
         }
     }
+
+    // Add the abstract methods, extend the same interface?
 }
