@@ -67,9 +67,9 @@ class ListItem extends Delta
     public function render(): string
     {
         if ($this->token === null) {
-            return $this->counter . ". " . $this->insert . "\n";
+            return $this->counter . ". " . trim($this->insert) . "\n";
         } else {
-            return $this->token . $this->insert . "\n";
+            return $this->token . trim($this->insert) . "\n";
         }
     }
 }

@@ -155,7 +155,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function attributeScript(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -168,7 +168,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function attributeStrike(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -181,7 +181,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function attributeUnderline(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -205,7 +205,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function compoundInsert(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -230,6 +230,32 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function extendedInsert(array $quill)
     {
-        $this->deltas[] = new Insert($quill['insert']);
+        if (preg_match("/[\n]{2,}/", $quill['insert']) !== 0) {
+            $sub_inserts = preg_split("/[\n]{2,}/", $quill['insert']);
+            $i = 0;
+            foreach ($sub_inserts as $match) {
+                $append = "\n\n";
+                if ($i === (count($sub_inserts)-1)) {
+                    $append = null;
+                }
+                $this->deltas[] = new Insert($match . $append);
+                $i++;
+            }
+        } else {
+            if (preg_match("/[\n]{1}/", $quill['insert']) !== 0) {
+                $sub_inserts = preg_split("/[\n]{1}/", $quill['insert']);
+                $i = 0;
+                foreach ($sub_inserts as $match) {
+                    $append = "\n";
+                    if ($i === (count($sub_inserts)-1)) {
+                        $append = null;
+                    }
+                    $this->deltas[] = new Insert($match . $append);
+                    $i++;
+                }
+            } else {
+                $this->deltas[] = new Insert($quill['insert']);
+            }
+        }
     }
 }

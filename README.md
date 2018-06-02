@@ -18,8 +18,8 @@ supported are listed in the table below, the goal is to eventually support every
 
 Over the next few weeks/months I want to continue adding support for additional 
 [Quill](https://github.com/quilljs/quill) features and add, flesh out additional 
-output formats, after Markdown I'm planning on plain txt, GitHUb flavoured Markdown 
-and possible RTF/PDF. 
+output formats, after Markdown I'm planning on plain txt, GitHub flavoured Markdown 
+and possibly RTF/PDF. 
 
 ## Installation
  
@@ -86,24 +86,24 @@ Attribute | v1+ | v2+ | v3 HTML | v3 Markdown
 Bold | Yes | Yes | Yes | Yes
 Italic | Yes | Yes | Yes | Yes
 Link | Yes | Yes | Yes | Yes
-Strike | Yes | Yes | Yes | N/K
-Script:Sub | Yes | Yes | Yes | N/K
-Script:Super | Yes | Yes | Yes | N/K
-Underline | Yes | Yes | Yes | N/K
+Strike | Yes | Yes | Yes | N/A
+Script:Sub | Yes | Yes | Yes | N/A
+Script:Super | Yes | Yes | Yes | N/A
+Underline | Yes | Yes | Yes | N/A
 Header | Yes | Yes | Yes | Yes
 Image | Yes | Yes | Yes | Yes
-List | Yes | Yes | Yes | Planned
+List | Yes | Yes | Yes | Yes
 Child lists | No | No | Planned | Planned
-Indent/Outdent | No| No | Planned | N/K
-Text direction | No | No | Planned | N/K
+Indent/Outdent | No| No | Planned | Planned
+Text direction | No | No | Planned | N/A
 Color | No | No | Planned | N/K
 Font | No | No | Planned | N/K
-Text align | No | No | Planned | N/K
+Text align | No | No | Planned | N/A
 Block quote | No | No | Planned | Planned
 Code block | No | No | Planned | Planned
-Custom attributes | No | No | Yes | N/K
-Line breaks | No | No | Yes | N/A
-Paragraphs | Yes | Yes | Yes | N/A
+Custom attributes | No | No | Yes | N/A
+Line breaks | No | No | Yes | Yes
+Paragraphs | Yes | Yes | Yes | Yes
 
 Attribute | HTML Tag | Markdown Token
 --- | --- | ---
