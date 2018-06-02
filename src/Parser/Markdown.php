@@ -11,6 +11,7 @@ use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
 use DBlackborough\Quill\Delta\Markdown\ListItem;
+use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Options;
 
 /**
@@ -21,7 +22,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Markdown extends Parse
+class Markdown extends Parse implements ParserAttributeInterface
 {
     /**
      * Deltas array after parsing, array of Delta objects
@@ -30,120 +31,205 @@ class Markdown extends Parse
      */
     protected $deltas;
 
+    protected $counter;
+
     /**
      * Renderer constructor.
      */
     public function __construct()
     {
         parent::__construct();
+
+        $this->counter = 1;
     }
 
     /**
-     * Parse the $quill_json array and generate an array of Delta[] objects
+     * Bold Quill attribute, assign the relevant Delta class and set up
+     * the data
      *
-     * @return boolean
+     * @param array $quill
+     *
+     * @return void
      */
-    public function parse(): bool
+    public function attributeBold($quill)
     {
-        if (
-            $this->valid === true &&
-            array_key_exists('ops', $this->quill_json) === true
-        ) {
-            $this->quill_json = $this->quill_json['ops'];
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
+            $this->deltas[] = new Bold($quill['insert']);
+        }
+    }
 
-            $counter = 1;
+    /**
+     * Header Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeHeader($quill)
+    {
+        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
+            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            unset($this->deltas[count($this->deltas) - 1]);
+            $this->deltas[] = new Header($insert, $quill['attributes']);
+            // Reorder the array
+            $this->deltas = array_values($this->deltas);
+        }
+    }
 
-            foreach ($this->quill_json as $quill) {
-                if ($quill['insert'] !== null) {
-                    if (
-                        array_key_exists('attributes', $quill) === true &&
-                        is_array($quill['attributes']) === true
-                    ) {
-                        if (count($quill['attributes']) === 1) {
-                            foreach ($quill['attributes'] as $attribute => $value) {
-                                switch ($attribute) {
-                                    case Options::ATTRIBUTE_BOLD:
-                                        if ($value === true) {
-                                            $this->deltas[] = new Bold($quill['insert']);
-                                        }
-                                        break;
+    /**
+     * Italic Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeItalic($quill)
+    {
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
+            $this->deltas[] = new Italic($quill['insert']);
+        }
+    }
 
-                                    case Options::ATTRIBUTE_HEADER:
-                                        if (in_array($value, array(1, 2, 3, 4, 5, 6, 7)) === true) {
-                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-                                            unset($this->deltas[count($this->deltas) - 1]);
-                                            $this->deltas[] = new Header($insert, $quill['attributes']);
-                                            // Reorder the array
-                                            $this->deltas = array_values($this->deltas);
-                                        }
-                                        break;
+    /**
+     * Link Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeLink($quill)
+    {
+        if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
+            $this->deltas[] = new Link(
+                $quill['insert'],
+                $quill['attributes']
+            );
+        }
+    }
 
-                                    case Options::ATTRIBUTE_ITALIC:
-                                        if ($value === true) {
-                                            $this->deltas[] = new Italic($quill['insert']);
-                                        }
-                                        break;
+    /**
+     * Quill list assign the relevant Delta class and set up the data, needs to
+     * modify/remove previous Deltas
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeList($quill)
+    {
+        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
+            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            unset($this->deltas[count($this->deltas) - 1]);
+            $this->deltas[] = new ListItem($insert, $quill['attributes']);
+            $this->deltas = array_values($this->deltas);
 
-                                    case Options::ATTRIBUTE_LINK:
-                                        if (strlen($value) > 0) {
-                                            $this->deltas[] = new Link(
-                                                $quill['insert'],
-                                                $quill['attributes']
-                                            );
-                                        }
-                                        break;
+            $index = count($this->deltas) - 1;
+            $previous_index = $index -1;
 
-                                    case Options::ATTRIBUTE_LIST:
-                                        if (in_array($value, array('ordered', 'bullet')) === true) {
-                                            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-                                            unset($this->deltas[count($this->deltas) - 1]);
-                                            $this->deltas[] = new ListItem($insert, $quill['attributes']);
-                                            $this->deltas = array_values($this->deltas);
-
-                                            $index = count($this->deltas) - 1;
-                                            $previous_index = $index -1;
-
-                                            if ($previous_index < 0) {
-                                                $counter = 1;
-                                                $this->deltas[$index]->setFirstChild()->setCounter($counter);
-                                            } else {
-                                                if ($this->deltas[$previous_index]->isChild() === true) {
-                                                    $counter++;
-                                                    $this->deltas[$index]->setLastChild()->setCounter($counter);
-                                                    $this->deltas[$previous_index]->setLastChild(false);
-                                                } else {
-                                                    $counter = 1;
-                                                    $this->deltas[$index]->setFirstChild()->setCounter($counter);
-                                                }
-                                            }
-                                        }
-                                        break;
-
-                                    default:
-                                        $this->deltas[] = new Insert(
-                                            $quill['insert'],
-                                            $quill['attributes']
-                                        );
-                                        break;
-                                }
-                            }
-                        } else {
-                            if (count($quill['attributes']) > 0) {
-                                // Compound delta?
-                            }
-                        }
-                    } else {
-                        if (is_string($quill['insert']) === true) {
-                            $this->deltas[] = new Insert($quill['insert']);
-                        } else {
-                            $this->deltas[] = new Image($quill['insert']['image']);
-                        }
-                    }
+            if ($previous_index < 0) {
+                $this->counter = 1;
+                $this->deltas[$index]->setFirstChild()->setCounter($this->counter);
+            } else {
+                if ($this->deltas[$previous_index]->isChild() === true) {
+                    $this->counter++;
+                    $this->deltas[$index]->setLastChild()->setCounter($this->counter);
+                    $this->deltas[$previous_index]->setLastChild(false);
+                } else {
+                    $this->counter = 1;
+                    $this->deltas[$index]->setFirstChild()->setCounter($this->counter);
                 }
             }
-            return true;
-        } else {
-            return false;
         }
+    }
+
+    /**
+     * Script Quill attribute, assign the relevant Delta class and set up
+     * the data, script could be sub or super
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeScript($quill)
+    {
+        // Not applicable to this parser
+    }
+
+    /**
+     * Strike Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeStrike($quill)
+    {
+        // Not applicable to this parser
+    }
+
+    /**
+     * Underline Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeUnderline($quill)
+    {
+        // Not applicable to this parser
+    }
+
+    /**
+     * Basic Quill insert
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function insert($quill)
+    {
+        $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
+    }
+
+    /**
+     * Multiple attributes set, handle accordingly
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function compoundInsert($quill)
+    {
+        // Not applicable to this parser
+    }
+
+    /**
+     * Image, assign to the image Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function image($quill)
+    {
+        $this->deltas[] = new Image($quill['insert']['image']);
+    }
+
+    /**
+     * Extended Quill insert, insert will need to be split before creation
+     * of Deltas
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function extendedInsert($quill)
+    {
+        $this->deltas[] = new Insert($quill['insert']);
     }
 }
