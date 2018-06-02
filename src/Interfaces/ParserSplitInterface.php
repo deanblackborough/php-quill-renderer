@@ -19,7 +19,7 @@ interface ParserSplitInterface
      *
      * @return array array of inserts, two indexes, insert and close
      */
-    function splitInsertsOnNewLines($insert): array;
+    public function splitInsertsOnNewLines($insert): array;
 
     /**
      * Split an insert on a single new line and handle accordingly
@@ -28,5 +28,5 @@ interface ParserSplitInterface
      *
      * @return array array of inserts, three indexes, insert, close and new_line
      */
-    function splitInsertsOnNewLine($insert): array;
+    public function splitInsertsOnNewLine($insert): array;
 }
