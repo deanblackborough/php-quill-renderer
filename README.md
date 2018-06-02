@@ -7,7 +7,7 @@
 
 # PHP Quill Renderer
 
-Render quill insert deltas to HTML and Markdown
+Render quill insert deltas to HTML and Markdown (Markdown support still in testing)
 
 ## Description
 
@@ -21,12 +21,6 @@ Over the next few weeks/months I want to continue adding support for additional
 output formats, after Markdown I'm planning on plain txt, GitHUb flavoured Markdown 
 and possible RTF/PDF. 
 
-## PHP < 7.2
-
-Please use version v1.01.1 or v2.03.1 if you are using a version of PHP below 7.2, 
-versions 1 and 2 are not feature complete with version 3 and are unlikely to ever 
-be updated, the v3 code is so much more flexible, consider 1 and 2 unsupported.
-
 ## Installation
  
 The easiest way to use the `PHP Quill Renderer` is via composer. 
@@ -34,16 +28,10 @@ The easiest way to use the `PHP Quill Renderer` is via composer.
 alternatively you can include the classes in my src/ directory directly in 
 your library or app.
 
-### Legacy entry points
-
-The `Render` and `RenderMultiple` classes are marked as deprecated, there is a 
-now a single entry point, `Quill`. The `Render` and `RenderMultiple` classes 
-will remain but should be considered legacy.
- 
 ## Usage via API, single $quill_json
 ```
 try {
-    $quill = new \DBlackborough\Quill\Render($quill_json, 'HTML');
+    $quill = new \DBlackborough\Quill\Render($quill_json);
     $result = $quill->render();
 } catch (\Exception $e) {
     echo $e->getMessage();
@@ -137,3 +125,4 @@ List | `<ul>` `<ol>` | `* ` & `[n]`
 * [Mark Davison](https://github.com/markdavison) - Pushed me in the right direction for v3.00.0
 * [tominventisbe](https://github.com/tominventisbe) [Issue #54] v3.01.0 - Parser::load() does not reset the deltas array
 * [tominventisbe](https://github.com/tominventisbe) [Issue #55] v3.01.0 - Image deltas with multiple attributes incorrectly being passed to Compound delta
+* [bcorcoran](https://github.com/bcorcoran) [Issue #81] - Suggested reverting requirements to necessary requirements
