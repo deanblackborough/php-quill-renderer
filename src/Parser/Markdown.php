@@ -43,6 +43,14 @@ class Markdown extends Parse implements ParserAttributeInterface
         $this->counter = 1;
     }
 
+    /**
+     * Bold Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeBold($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
@@ -50,6 +58,14 @@ class Markdown extends Parse implements ParserAttributeInterface
         }
     }
 
+    /**
+     * Header Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeHeader($quill)
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
@@ -61,6 +77,14 @@ class Markdown extends Parse implements ParserAttributeInterface
         }
     }
 
+    /**
+     * Italic Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeItalic($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
@@ -68,6 +92,14 @@ class Markdown extends Parse implements ParserAttributeInterface
         }
     }
 
+    /**
+     * Link Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeLink($quill)
     {
         if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
@@ -78,6 +110,14 @@ class Markdown extends Parse implements ParserAttributeInterface
         }
     }
 
+    /**
+     * Quill list assign the relevant Delta class and set up the data, needs to
+     * modify/remove previous Deltas
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeList($quill)
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
@@ -105,36 +145,89 @@ class Markdown extends Parse implements ParserAttributeInterface
         }
     }
 
+    /**
+     * Script Quill attribute, assign the relevant Delta class and set up
+     * the data, script could be sub or super
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeScript($quill)
     {
         // Not applicable to this parser
     }
 
+    /**
+     * Strike Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeStrike($quill)
     {
         // Not applicable to this parser
     }
 
+    /**
+     * Underline Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeUnderline($quill)
     {
         // Not applicable to this parser
     }
 
+    /**
+     * Basic Quill insert
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function insert($quill)
     {
         $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
     }
 
+    /**
+     * Multiple attributes set, handle accordingly
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function compoundInsert($quill)
     {
         // Not applicable to this parser
     }
 
+    /**
+     * Image, assign to the image Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function image($quill)
     {
         $this->deltas[] = new Image($quill['insert']['image']);
     }
 
+    /**
+     * Extended Quill insert, insert will need to be split before creation
+     * of Deltas
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function extendedInsert($quill)
     {
         $this->deltas[] = new Insert($quill['insert']);

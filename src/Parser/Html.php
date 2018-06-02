@@ -146,6 +146,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         return $inserts;
     }
 
+    /**
+     * Bold Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeBold($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
@@ -153,6 +161,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Header Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeHeader($quill)
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
@@ -164,6 +180,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Italic Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeItalic($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
@@ -171,6 +195,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Link Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeLink($quill)
     {
         if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
@@ -181,6 +213,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Quill list assign the relevant Delta class and set up the data, needs to
+     * modify/remove previous Deltas
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeList($quill)
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
@@ -205,6 +245,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Script Quill attribute, assign the relevant Delta class and set up
+     * the data, script could be sub or super
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeScript($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUB) {
@@ -215,6 +263,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Strike Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeStrike($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_STRIKE] === true) {
@@ -222,6 +278,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Underline Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function attributeUnderline($quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_UNDERLINE] === true) {
@@ -229,11 +293,25 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Basic Quill insert
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function insert($quill)
     {
         $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
     }
 
+    /**
+     * Multiple attributes set, handle accordingly
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function compoundInsert($quill)
     {
         if (count($quill['attributes']) > 0) {
@@ -250,11 +328,26 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
     }
 
+    /**
+     * Image, assign to the image Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function image($quill)
     {
         $this->deltas[] = new Image($quill['insert']['image']);
     }
 
+    /**
+     * Extended Quill insert, insert will need to be split before creation
+     * of Deltas
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
     public function extendedInsert($quill)
     {
         $inserts = $this->splitInsertsOnNewLines($quill['insert']);

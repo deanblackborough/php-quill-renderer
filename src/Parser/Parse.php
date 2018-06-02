@@ -242,6 +242,4 @@ abstract class Parse implements ParserInterface
             );
         }
     }
-
-    // Add the abstract methods, extend the same interface?
 }
