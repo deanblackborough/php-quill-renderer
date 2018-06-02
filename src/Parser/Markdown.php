@@ -51,7 +51,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeBold($quill)
+    public function attributeBold(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
             $this->deltas[] = new Bold($quill['insert']);
@@ -66,7 +66,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeHeader($quill)
+    public function attributeHeader(array $quill)
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
@@ -85,7 +85,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeItalic($quill)
+    public function attributeItalic(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
             $this->deltas[] = new Italic($quill['insert']);
@@ -100,7 +100,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeLink($quill)
+    public function attributeLink(array $quill)
     {
         if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
             $this->deltas[] = new Link(
@@ -118,7 +118,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeList($quill)
+    public function attributeList(array $quill)
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
@@ -153,7 +153,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeScript($quill)
+    public function attributeScript(array $quill)
     {
         // Not applicable to this parser
     }
@@ -166,7 +166,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeStrike($quill)
+    public function attributeStrike(array $quill)
     {
         // Not applicable to this parser
     }
@@ -179,7 +179,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function attributeUnderline($quill)
+    public function attributeUnderline(array $quill)
     {
         // Not applicable to this parser
     }
@@ -191,7 +191,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function insert($quill)
+    public function insert(array $quill)
     {
         $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
     }
@@ -203,7 +203,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function compoundInsert($quill)
+    public function compoundInsert(array $quill)
     {
         // Not applicable to this parser
     }
@@ -215,7 +215,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function image($quill)
+    public function image(array $quill)
     {
         $this->deltas[] = new Image($quill['insert']['image']);
     }
@@ -228,7 +228,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      *
      * @return void
      */
-    public function extendedInsert($quill)
+    public function extendedInsert(array $quill)
     {
         $this->deltas[] = new Insert($quill['insert']);
     }

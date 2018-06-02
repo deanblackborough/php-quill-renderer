@@ -110,7 +110,7 @@ interface ParserAttributeInterface
      *
      * @return void
      */
-    public function extendedInsert($quill);
+    public function extendedInsert(array $quill);
 
     /**
      * Multiple attributes set, handle accordingly
