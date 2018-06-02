@@ -3,6 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.12.0 - 2018-06-02
+
+* Added new Interfaces, will simplify additional of new parsers.
+* Initial Markdown development, not complete, no escaping yet and not fully tested.
+* Reverted requirements to 7.1, turns out there isn't currently a hard requirement for 7.2.
+* General refactoring, also, improved list handling.
+
 ## v3.11.0 - 2018-05-29
 
 * `load()` and `loadMultple()` now support method chaining, closes #72, required 
