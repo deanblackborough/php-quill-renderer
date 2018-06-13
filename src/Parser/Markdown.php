@@ -11,6 +11,7 @@ use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
 use DBlackborough\Quill\Delta\Markdown\ListItem;
+use DBlackborough\Quill\Delta\Markdown\Video;
 use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Options;
 
@@ -155,7 +156,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function attributeScript(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -168,7 +169,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function attributeStrike(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -181,7 +182,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function attributeUnderline(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -205,7 +206,7 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function compoundInsert(array $quill)
     {
-        // Not applicable to this parser
+        $this->deltas[] = new Insert($quill['insert']);
     }
 
     /**
@@ -221,6 +222,18 @@ class Markdown extends Parse implements ParserAttributeInterface
     }
 
     /**
+     * Video, assign to the video Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function video(array $quill)
+    {
+        $this->deltas[] = new Video($quill['insert']['video']);
+    }
+
+    /**
      * Extended Quill insert, insert will need to be split before creation
      * of Deltas
      *
@@ -230,6 +243,32 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function extendedInsert(array $quill)
     {
-        $this->deltas[] = new Insert($quill['insert']);
+        if (preg_match("/[\n]{2,}/", $quill['insert']) !== 0) {
+            $sub_inserts = preg_split("/[\n]{2,}/", $quill['insert']);
+            $i = 0;
+            foreach ($sub_inserts as $match) {
+                $append = "\n\n";
+                if ($i === (count($sub_inserts)-1)) {
+                    $append = null;
+                }
+                $this->deltas[] = new Insert($match . $append);
+                $i++;
+            }
+        } else {
+            if (preg_match("/[\n]{1}/", $quill['insert']) !== 0) {
+                $sub_inserts = preg_split("/[\n]{1}/", $quill['insert']);
+                $i = 0;
+                foreach ($sub_inserts as $match) {
+                    $append = "\n";
+                    if ($i === (count($sub_inserts)-1)) {
+                        $append = null;
+                    }
+                    $this->deltas[] = new Insert($match . $append);
+                    $i++;
+                }
+            } else {
+                $this->deltas[] = new Insert($quill['insert']);
+            }
+        }
     }
 }

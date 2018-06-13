@@ -7,7 +7,7 @@
 
 # PHP Quill Renderer
 
-Render quill insert deltas to HTML and Markdown (Markdown support still in testing)
+Render quill insert deltas to HTML and Markdown
 
 ## Description
 
@@ -18,8 +18,8 @@ supported are listed in the table below, the goal is to eventually support every
 
 Over the next few weeks/months I want to continue adding support for additional 
 [Quill](https://github.com/quilljs/quill) features and add, flesh out additional 
-output formats, after Markdown I'm planning on plain txt, GitHUb flavoured Markdown 
-and possible RTF/PDF. 
+output formats, after Markdown I'm planning on plain txt, GitHub flavoured Markdown 
+and possibly RTF/PDF. 
 
 ## Installation
  
@@ -86,24 +86,25 @@ Attribute | v1+ | v2+ | v3 HTML | v3 Markdown
 Bold | Yes | Yes | Yes | Yes
 Italic | Yes | Yes | Yes | Yes
 Link | Yes | Yes | Yes | Yes
-Strike | Yes | Yes | Yes | N/K
-Script:Sub | Yes | Yes | Yes | N/K
-Script:Super | Yes | Yes | Yes | N/K
-Underline | Yes | Yes | Yes | N/K
+Strike | Yes | Yes | Yes | N/A
+Script:Sub | Yes | Yes | Yes | N/A
+Script:Super | Yes | Yes | Yes | N/A
+Underline | Yes | Yes | Yes | N/A
 Header | Yes | Yes | Yes | Yes
 Image | Yes | Yes | Yes | Yes
-List | Yes | Yes | Yes | Planned
+Video | No | No | Yes | Yes
+List | Yes | Yes | Yes | Yes
 Child lists | No | No | Planned | Planned
-Indent/Outdent | No| No | Planned | N/K
-Text direction | No | No | Planned | N/K
+Indent/Outdent | No| No | Planned | Planned
+Text direction | No | No | Planned | N/A
 Color | No | No | Planned | N/K
 Font | No | No | Planned | N/K
-Text align | No | No | Planned | N/K
+Text align | No | No | Planned | N/A
 Block quote | No | No | Planned | Planned
 Code block | No | No | Planned | Planned
-Custom attributes | No | No | Yes | N/K
-Line breaks | No | No | Yes | N/A
-Paragraphs | Yes | Yes | Yes | N/A
+Custom attributes | No | No | Yes | N/A
+Line breaks | No | No | Yes | Yes
+Paragraphs | Yes | Yes | Yes | Yes
 
 Attribute | HTML Tag | Markdown Token
 --- | --- | ---
@@ -116,13 +117,17 @@ Script:Super | `<sup>` |
 Underline | `<u>` |
 Header | `<h[n]>` | `#[n]`
 Image | `<img>` | `![Image](\path\to\image)`
+Video | `<iframe>` | `![Video](\path\to\video)`
 List | `<ul>` `<ol>` | `* ` & `[n]`
 
 ## Credits
 
 * [carlos](https://github.com/sald19) [Bugfix] v1.01.0
-* [pdiveris](https://github.com/pdiveris) [Issue #43] v2.03.1 - Null inserts
+* [pdiveris](https://github.com/pdiveris) [Issue #43] - Null inserts
 * [Mark Davison](https://github.com/markdavison) - Pushed me in the right direction for v3.00.0
-* [tominventisbe](https://github.com/tominventisbe) [Issue #54] v3.01.0 - Parser::load() does not reset the deltas array
-* [tominventisbe](https://github.com/tominventisbe) [Issue #55] v3.01.0 - Image deltas with multiple attributes incorrectly being passed to Compound delta
+* [tominventisbe](https://github.com/tominventisbe) [Issue #54] - Parser::load() does not reset the deltas array
+* [tominventisbe](https://github.com/tominventisbe) [Issue #55] - Image deltas with multiple attributes incorrectly being passed to Compound delta
 * [bcorcoran](https://github.com/bcorcoran) [Issue #81] - Suggested reverting requirements to necessary requirements
+* [kingga](https://github.com/kingga) [Issue #86] - Video support
+* [Jonathanm10](https://github.com/Jonathanm10) [Issue #87] - Newlines proceeding inserts ignored, bug report
+* [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location

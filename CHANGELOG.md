@@ -3,6 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.13.0 - 2018-06-14
+
+* Added video support to HTML and Markdown parsers.
+* Newlines before inserts were being ignore, closes #87. 
+* Minor corrections to README.
+* Added test coverage.
+
 ## v3.12.0 - 2018-06-02
 
 * Added new Interfaces, will simplify additional of new parsers.
