@@ -178,7 +178,13 @@ abstract class Parse implements ParserInterface
                         if (is_string($quill['insert']) === true) {
                             $this->extendedInsert($quill);
                         } else {
-                            $this->image($quill);
+                            if (is_array($quill['insert']) === true) {
+                                if (array_key_exists('image', $quill['insert']) === true) {
+                                    $this->image($quill);
+                                } else if (array_key_exists('video', $quill['insert']) === true) {
+                                    $this->video($quill);
+                                }
+                            }
                         }
                     }
                 }

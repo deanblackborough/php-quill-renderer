@@ -11,6 +11,7 @@ use DBlackborough\Quill\Delta\Markdown\Insert;
 use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
 use DBlackborough\Quill\Delta\Markdown\ListItem;
+use DBlackborough\Quill\Delta\Markdown\Video;
 use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Options;
 
@@ -218,6 +219,18 @@ class Markdown extends Parse implements ParserAttributeInterface
     public function image(array $quill)
     {
         $this->deltas[] = new Image($quill['insert']['image']);
+    }
+
+    /**
+     * Video, assign to the video Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function video(array $quill)
+    {
+        $this->deltas[] = new Video($quill['insert']['video']);
     }
 
     /**

@@ -92,6 +92,7 @@ Script:Super | Yes | Yes | Yes | N/A
 Underline | Yes | Yes | Yes | N/A
 Header | Yes | Yes | Yes | Yes
 Image | Yes | Yes | Yes | Yes
+Video | No | No | Yes | Yes
 List | Yes | Yes | Yes | Yes
 Child lists | No | No | Planned | Planned
 Indent/Outdent | No| No | Planned | Planned
@@ -116,6 +117,7 @@ Script:Super | `<sup>` |
 Underline | `<u>` |
 Header | `<h[n]>` | `#[n]`
 Image | `<img>` | `![Image](\path\to\image)`
+Video | `<iframe>` | `![Video](\path\to\video)`
 List | `<ul>` `<ol>` | `* ` & `[n]`
 
 ## Credits
@@ -126,3 +128,4 @@ List | `<ul>` `<ol>` | `* ` & `[n]`
 * [tominventisbe](https://github.com/tominventisbe) [Issue #54] v3.01.0 - Parser::load() does not reset the deltas array
 * [tominventisbe](https://github.com/tominventisbe) [Issue #55] v3.01.0 - Image deltas with multiple attributes incorrectly being passed to Compound delta
 * [bcorcoran](https://github.com/bcorcoran) [Issue #81] - Suggested reverting requirements to necessary requirements
+* [kingga](https://github.com/kingga) [Issue #86] - Video support

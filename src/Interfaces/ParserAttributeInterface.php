@@ -129,4 +129,13 @@ interface ParserAttributeInterface
      * @return void
      */
     public function image(array $quill);
+
+    /**
+     * Video, assign to the video Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function video(array $quill);
 }

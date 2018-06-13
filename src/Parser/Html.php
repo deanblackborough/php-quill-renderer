@@ -17,6 +17,7 @@ use DBlackborough\Quill\Delta\Html\Strike;
 use DBlackborough\Quill\Delta\Html\SubScript;
 use DBlackborough\Quill\Delta\Html\SuperScript;
 use DBlackborough\Quill\Delta\Html\Underline;
+use DBlackborough\Quill\Delta\Html\Video;
 use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
@@ -338,6 +339,18 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function image(array $quill)
     {
         $this->deltas[] = new Image($quill['insert']['image']);
+    }
+
+    /**
+     * Video, assign to the video Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function video(array $quill)
+    {
+        $this->deltas[] = new Video($quill['insert']['video']);
     }
 
     /**
