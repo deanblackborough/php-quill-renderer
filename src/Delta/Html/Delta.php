@@ -18,6 +18,8 @@ abstract class Delta extends BaseDelta
     public CONST DISPLAY_BLOCK = 'block';
     public CONST DISPLAY_INLINE = 'inline';
 
+    private $pre_new_line = false;
+
     /**
      * @var string|null The HTML tag for the delta when rendered as HTML
      */
@@ -75,6 +77,16 @@ abstract class Delta extends BaseDelta
     }
 
     /**
+     * Return whether or not a pre new line needs to be added
+     *
+     * @return boolean
+     */
+    public function preNewLine(): bool
+    {
+        return $this->pre_new_line;
+    }
+
+    /**
      * Set the close attribute
      *
      * @return void
@@ -94,6 +106,20 @@ abstract class Delta extends BaseDelta
     public function setNewLine(bool $value = true): Delta
     {
         $this->new_line = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the pre new line state
+     *
+     * @var boolean $value Set the value of $this->pre_new_line, defaults to true
+     *
+     * @return Delta
+     */
+    public function setPreNewLine(bool $value = true): Delta
+    {
+        $this->pre_new_line = $value;
 
         return $this;
     }

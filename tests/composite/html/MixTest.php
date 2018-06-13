@@ -70,7 +70,8 @@ final class MixTest extends \PHPUnit\Framework\TestCase
 
     private $expected_paragraph_after_two_headers = '<h1>Primary Header</h1>
 <h2>Secondary header</h2>
-<p>A paragraph.</p>';
+<p><br />
+A paragraph.</p>';
     private $expected_list_and_header = '<ul>
 <li>Another list</li>
 <li>List item two entry two</li>

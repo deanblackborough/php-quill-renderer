@@ -77,14 +77,16 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                         $inserts[] = [
                             'insert' => $sub_inserts[0]['insert'],
                             'close' => $close,
-                            'new_line' => false
+                            'new_line' => false,
+                            'pre_new_line' => false
                         ];
                     } else {
                         foreach ($sub_inserts as $sub_insert) {
                             $inserts[] = [
                                 'insert' => $sub_insert['insert'],
                                 'close' => $sub_insert['close'],
-                                'new_line' => $sub_insert['new_line']
+                                'new_line' => $sub_insert['new_line'],
+                                'pre_new_line' => $sub_insert['pre_new_line']
                             ];
                         }
                     }
@@ -98,7 +100,8 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                 $inserts[] = [
                     'insert' => $sub_insert['insert'],
                     'close' => $sub_insert['close'],
-                    'new_line' => $sub_insert['new_line']
+                    'new_line' => $sub_insert['new_line'],
+                    'pre_new_line' => $sub_insert['pre_new_line']
                 ];
             }
         }
@@ -121,17 +124,23 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         if (preg_match("/[\n]{1}/", rtrim($insert, "\n")) !== 0) {
             $matches = preg_split("/[\n]{1}/", rtrim($insert, "\n"));
             $i = 0;
+
             foreach ($matches as $match) {
                 if (strlen(trim($match)) > 0) {
                     $sub_insert = str_replace("\n", '', $match);
                     $new_line = true;
+                    $pre_new_line = false;
                     if ($i === (count($matches) - 1)) {
                         $new_line = false;
+                    }
+                    if ($i === 1 && count($inserts) === 0) {
+                        $pre_new_line = true;
                     }
                     $inserts[] = [
                         'insert' => $sub_insert,
                         'close' => false,
-                        'new_line' => $new_line
+                        'new_line' => $new_line,
+                        'pre_new_line' => $pre_new_line
                     ];
                 }
                 $i++;
@@ -140,7 +149,8 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
             $inserts[] = [
                 'insert' => str_replace("\n", '', $insert),
                 'close' => false,
-                'new_line' => false
+                'new_line' => false,
+                'pre_new_line' => false
             ];
         }
 
@@ -372,6 +382,9 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
             }
             if ($insert['new_line'] === true) {
                 $delta->setNewLine();
+            }
+            if (array_key_exists('pre_new_line', $insert) === true && $insert['pre_new_line'] === true) {
+                $delta->setPreNewLine();
             }
 
             $this->deltas[] = $delta;

@@ -34,15 +34,21 @@ class Insert extends Delta
      */
     public function render(): string
     {
+        $html = '';
+
         $add_span = false;
         if (count($this->attributes) > 0) {
             $add_span = true;
         }
 
+        if ($this->preNewLine() === true) {
+            $html .= "<br />\n";
+        }
+
         if ($add_span === false) {
-            $html = $this->insert;
+            $html .= $this->insert;
         } else {
-            $html = '<span';
+            $html .= '<span';
             foreach($this->attributes as $attribute => $value) {
                 $html .= " {$attribute}=\"{$value}\"";
             }
