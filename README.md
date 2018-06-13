@@ -7,7 +7,7 @@
 
 # PHP Quill Renderer
 
-Render quill insert deltas to HTML and Markdown (Markdown support still in testing)
+Render quill insert deltas to HTML and Markdown
 
 ## Description
 
@@ -123,9 +123,11 @@ List | `<ul>` `<ol>` | `* ` & `[n]`
 ## Credits
 
 * [carlos](https://github.com/sald19) [Bugfix] v1.01.0
-* [pdiveris](https://github.com/pdiveris) [Issue #43] v2.03.1 - Null inserts
+* [pdiveris](https://github.com/pdiveris) [Issue #43] - Null inserts
 * [Mark Davison](https://github.com/markdavison) - Pushed me in the right direction for v3.00.0
-* [tominventisbe](https://github.com/tominventisbe) [Issue #54] v3.01.0 - Parser::load() does not reset the deltas array
-* [tominventisbe](https://github.com/tominventisbe) [Issue #55] v3.01.0 - Image deltas with multiple attributes incorrectly being passed to Compound delta
+* [tominventisbe](https://github.com/tominventisbe) [Issue #54] - Parser::load() does not reset the deltas array
+* [tominventisbe](https://github.com/tominventisbe) [Issue #55] - Image deltas with multiple attributes incorrectly being passed to Compound delta
 * [bcorcoran](https://github.com/bcorcoran) [Issue #81] - Suggested reverting requirements to necessary requirements
 * [kingga](https://github.com/kingga) [Issue #86] - Video support
+* [Jonathanm10](https://github.com/Jonathanm10) [Issue #87] - Newlines proceeding inserts ignored, bug report
+* [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location
