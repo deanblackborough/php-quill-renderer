@@ -240,17 +240,30 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
             $this->deltas[] = new ListItem($insert, $quill['attributes']);
             $this->deltas = array_values($this->deltas);
 
-            $index = count($this->deltas) - 1;
-            $previous_index = $index -1;
+            $current_index = count($this->deltas) - 1;
+
+            for ($i = $current_index - 1; $i >= 0; $i--) {
+                $this_delta = $this->deltas[$i];
+                if ($this_delta->displayType() === Delta::DISPLAY_BLOCK || $this_delta->newLine() === true) {
+                    break;
+                } else {
+                    $this->deltas[$current_index]->addChild($this->deltas[$i]);
+                    unset($this->deltas[$i]);
+                }
+            }
+
+            $this->deltas = array_values($this->deltas);
+            $current_index = count($this->deltas) - 1;
+            $previous_index = $current_index -1;
 
             if ($previous_index < 0) {
-                $this->deltas[$index]->setFirstChild();
+                $this->deltas[$current_index]->setFirstChild();
             } else {
                 if ($this->deltas[$previous_index]->isChild() === true) {
-                    $this->deltas[$index]->setLastChild();
+                    $this->deltas[$current_index]->setLastChild();
                     $this->deltas[$previous_index]->setLastChild(false);
                 } else {
-                    $this->deltas[$index]->setFirstChild();
+                    $this->deltas[$current_index]->setFirstChild();
                 }
             }
         }

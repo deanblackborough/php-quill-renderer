@@ -13,6 +13,18 @@ final class ListTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_ordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_unordered = '{"ops":[{"insert":"Item 1"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 2"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"Item 3"},{"attributes":{"list":"bullet"},"insert":"\n"}]}';
+    private $delta_list_with_attribute = '{
+        "ops":[
+            {"insert":"List item 1"},
+            {"attributes":{"list":"bullet"},"insert":"\n"},
+            {"insert":"List "},
+            {"attributes":{"bold":true},"insert":"item"},
+            {"insert":" 2"},
+            {"attributes":{"list":"bullet"},"insert":"\n"},
+            {"insert":"List item 2"},
+            {"attributes":{"list":"bullet"},"insert":"\n"}
+        ]
+    }';
 
     private $expected_ordered = '<ol>
 <li>Item 1</li>
@@ -23,6 +35,11 @@ final class ListTest extends \PHPUnit\Framework\TestCase
 <li>Item 1</li>
 <li>Item 2</li>
 <li>Item 3</li>
+</ul>';
+    private $expected_list_with_attribute = '<ul>
+<li>List item 1</li>
+<li>List <strong>item</strong> 2</li>
+<li>List item 2</li>
 </ul>';
 
     /**
@@ -63,5 +80,25 @@ final class ListTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_unordered, trim($result), __METHOD__ . ' Unordered list failure');
+    }
+
+    /**
+     * Unordered list
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testListWithAttribute()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_list_with_attribute);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals($this->expected_list_with_attribute, trim($result), __METHOD__ . ' Unordered list failure');
     }
 }

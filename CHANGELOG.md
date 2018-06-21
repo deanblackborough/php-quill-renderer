@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.13.1 - 2018-06-22
+
+* Lists no longer break if a list item contains formatted text, closes #89.
+* Initial support for child deltas.
+
 ## v3.13.0 - 2018-06-14
 
 * Added video support to HTML and Markdown parsers.
