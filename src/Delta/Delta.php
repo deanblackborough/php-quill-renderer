@@ -36,6 +36,47 @@ abstract class Delta implements DeltaInterface
     protected $is_last_child = false;
 
     /**
+     * @var Delta[] $children Child delta objects
+     */
+    protected $children = [];
+
+    /**
+     * Add a child delta
+     *
+     * @param Delta $delta
+     *
+     * @return void
+     */
+    public function addChild(Delta $delta): void
+    {
+        $this->children[] = $delta;
+    }
+
+    /**
+     * Return the child deltas
+     *
+     * @return Delta[]
+     */
+    public function children(): array
+    {
+        return array_reverse($this->children);
+    }
+
+    /**
+     * Does the delta have any children
+     *
+     * @return boolean
+     */
+    public function hasChildren(): bool
+    {
+        if (count($this->children) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Is the delta a child?
      *
      * @return boolean

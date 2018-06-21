@@ -16,6 +16,29 @@ use DBlackborough\Quill\Delta\Delta;
 Interface DeltaInterface
 {
     /**
+     * Add a child delta
+     *
+     * @param Delta $delta
+     *
+     * @return void
+     */
+    public function addChild(Delta $delta): void;
+
+    /**
+     * Return the child deltas
+     *
+     * @return Delta[]
+     */
+    public function children(): array;
+
+    /**
+     * Does the delta have any children
+     *
+     * @return boolean
+     */
+    public function hasChildren(): bool;
+
+    /**
      * Is the delta a child?
      *
      * @return boolean
