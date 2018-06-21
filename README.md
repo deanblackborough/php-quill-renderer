@@ -94,7 +94,7 @@ Header | Yes | Yes | Yes | Yes
 Image | Yes | Yes | Yes | Yes
 Video | No | No | Yes | Yes
 List | Yes | Yes | Yes | Yes
-Child lists | No | No | Planned | Planned
+Child lists | No | No | In Development | In Development
 Indent/Outdent | No| No | Planned | Planned
 Text direction | No | No | Planned | N/A
 Color | No | No | Planned | N/K
