@@ -244,7 +244,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
 
             for ($i = $current_index - 1; $i >= 0; $i--) {
                 $this_delta = $this->deltas[$i];
-                if ($this_delta->displayType() === Delta::DISPLAY_BLOCK || $this_delta->newLine() === true) {
+                if ($this_delta->displayType() === Delta::DISPLAY_BLOCK || $this_delta->newLine() === true || $this_delta->close() === true) {
                     break;
                 } else {
                     $this->deltas[$current_index]->addChild($this->deltas[$i]);
