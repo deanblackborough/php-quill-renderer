@@ -3,6 +3,15 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.13.2 - 2018-07-01
+
+* List parsing code was ignoring previous items that were closed, incorrectly adding them as children.
+* Single item lists not correctly ending.
+* Lists where the last character or the entire list item was a non insert delta type rendered incorrectly. 
+* Deltas can now return their assigned attributes.
+* Pass attributes into each HTML delta.
+* A slew of tests to test lists.
+
 ## v3.13.1 - 2018-06-22
 
 * Lists no longer break if a list item contains formatted text, closes #89.
