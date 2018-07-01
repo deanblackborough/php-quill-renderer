@@ -107,6 +107,16 @@ abstract class Delta implements DeltaInterface
     }
 
     /**
+     * Return the attributes for the delta
+     *
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
      * Return the plain insert string prior to any parsing
      *
      * @return string

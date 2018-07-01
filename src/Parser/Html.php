@@ -168,7 +168,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function attributeBold(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
-            $this->deltas[] = new Bold($quill['insert']);
+            $this->deltas[] = new Bold($quill['insert'], $quill['attributes']);
         }
     }
 
@@ -202,7 +202,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function attributeItalic(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
-            $this->deltas[] = new Italic($quill['insert']);
+            $this->deltas[] = new Italic($quill['insert'], $quill['attributes']);
         }
     }
 
@@ -236,15 +236,64 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            $attributes = $this->deltas[count($this->deltas) - 1]->getAttributes();
+
             unset($this->deltas[count($this->deltas) - 1]);
-            $this->deltas[] = new ListItem($insert, $quill['attributes']);
+
+            if (count($attributes) === 0) {
+                $this->deltas[] = new ListItem($insert, $quill['attributes']);
+            } else {
+                $delta = new ListItem("", $quill['attributes']);
+
+                foreach ($attributes as $attribute_name => $value) {
+                    switch ($attribute_name) {
+                        case Options::ATTRIBUTE_BOLD:
+                            $delta->addChild(new Bold($insert));
+                            break;
+
+                        case Options::ATTRIBUTE_ITALIC:
+                            $delta->addChild(new Italic($insert));
+                            break;
+
+                        case Options::ATTRIBUTE_LINK:
+                            $delta->addChild(new Link($insert, $attributes));
+                            break;
+
+                        case Options::ATTRIBUTE_SCRIPT:
+                            if ($attributes[OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUB) {
+                                $delta->addChild(new SubScript($insert));
+                            }
+                            if ($attributes[OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUPER) {
+                                $delta->addChild(new SuperScript($insert));
+                            }
+                            break;
+
+                        case Options::ATTRIBUTE_STRIKE:
+                            $delta->addChild(new Strike($insert));
+                            break;
+
+                        case Options::ATTRIBUTE_UNDERLINE:
+                            $delta->addChild(new Underline($insert));
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                $this->deltas[] = $delta;
+            }
+
             $this->deltas = array_values($this->deltas);
 
             $current_index = count($this->deltas) - 1;
 
             for ($i = $current_index - 1; $i >= 0; $i--) {
                 $this_delta = $this->deltas[$i];
-                if ($this_delta->displayType() === Delta::DISPLAY_BLOCK || $this_delta->newLine() === true) {
+                if (
+                    $this_delta->displayType() === Delta::DISPLAY_BLOCK ||
+                    $this_delta->newLine() === true ||
+                    $this_delta->close() === true
+                ) {
                     break;
                 } else {
                     $this->deltas[$current_index]->addChild($this->deltas[$i]);
@@ -258,12 +307,14 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
 
             if ($previous_index < 0) {
                 $this->deltas[$current_index]->setFirstChild();
+                $this->deltas[$current_index]->setLastChild();
             } else {
                 if ($this->deltas[$previous_index]->isChild() === true) {
                     $this->deltas[$current_index]->setLastChild();
                     $this->deltas[$previous_index]->setLastChild(false);
                 } else {
                     $this->deltas[$current_index]->setFirstChild();
+                    $this->deltas[$current_index]->setLastChild();
                 }
             }
         }
@@ -280,10 +331,10 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function attributeScript(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUB) {
-            $this->deltas[] = new SubScript($quill['insert']);
+            $this->deltas[] = new SubScript($quill['insert'], $quill['attributes']);
         }
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUPER) {
-            $this->deltas[] = new SuperScript($quill['insert']);
+            $this->deltas[] = new SuperScript($quill['insert'], $quill['attributes']);
         }
     }
 
@@ -298,7 +349,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function attributeStrike(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_STRIKE] === true) {
-            $this->deltas[] = new Strike($quill['insert']);
+            $this->deltas[] = new Strike($quill['insert'], $quill['attributes']);
         }
     }
 
@@ -313,7 +364,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function attributeUnderline(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_UNDERLINE] === true) {
-            $this->deltas[] = new Underline($quill['insert']);
+            $this->deltas[] = new Underline($quill['insert'], $quill['attributes']);
         }
     }
 
