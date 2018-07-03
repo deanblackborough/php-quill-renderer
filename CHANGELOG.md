@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.13.3 - 2018-07-04
+
+* The Markdown list parsing now correctly using child deltas and matches the HTML parser.
+* Added additional list tests, Markdown versions of the HTML list tests.
+
 ## v3.13.2 - 2018-07-01
 
 * List parsing code was ignoring previous items that were closed, incorrectly adding them as children.
