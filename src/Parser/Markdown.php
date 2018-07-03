@@ -42,21 +42,8 @@ class Markdown extends Parse implements ParserAttributeInterface
         parent::__construct();
 
         $this->counter = 1;
-    }
 
-    /**
-     * Bold Quill attribute, assign the relevant Delta class and set up
-     * the data
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function attributeBold(array $quill)
-    {
-        if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
-            $this->deltas[] = new Bold($quill['insert'], $quill['attributes']);
-        }
+        $this->class_delta_bold = 'DBlackborough\Quill\Delta\Markdown\Bold';
     }
 
     /**

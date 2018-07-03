@@ -45,6 +45,9 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     public function __construct()
     {
         parent::__construct();
+
+
+        $this->class_delta_bold = 'DBlackborough\Quill\Delta\Html\Bold';
     }
 
     /**
@@ -155,21 +158,6 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
 
         return $inserts;
-    }
-
-    /**
-     * Bold Quill attribute, assign the relevant Delta class and set up
-     * the data
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function attributeBold(array $quill)
-    {
-        if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
-            $this->deltas[] = new Bold($quill['insert'], $quill['attributes']);
-        }
     }
 
     /**

@@ -51,6 +51,8 @@ abstract class Parse implements ParserInterface
      */
     protected $valid = false;
 
+    protected $class_delta_bold;
+
     /**
      * Renderer constructor.
      */
@@ -246,6 +248,21 @@ abstract class Parse implements ParserInterface
             throw new \OutOfRangeException(
                 'Deltas array does not exist for the given index: ' . $index
             );
+        }
+    }
+
+    /**
+     * Bold Quill attribute, assign the relevant Delta class and set up
+     * the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeBold(array $quill)
+    {
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
+            $this->deltas[] = new $this->class_delta_bold($quill['insert'], $quill['attributes']);
         }
     }
 }
