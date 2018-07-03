@@ -55,7 +55,7 @@ class Markdown extends Parse implements ParserAttributeInterface
     public function attributeBold(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
-            $this->deltas[] = new Bold($quill['insert']);
+            $this->deltas[] = new Bold($quill['insert'], $quill['attributes']);
         }
     }
 
@@ -89,7 +89,7 @@ class Markdown extends Parse implements ParserAttributeInterface
     public function attributeItalic(array $quill)
     {
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
-            $this->deltas[] = new Italic($quill['insert']);
+            $this->deltas[] = new Italic($quill['insert'], $quill['attributes']);
         }
     }
 
@@ -123,24 +123,67 @@ class Markdown extends Parse implements ParserAttributeInterface
     {
         if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            $attributes = $this->deltas[count($this->deltas) - 1]->getAttributes();
+
             unset($this->deltas[count($this->deltas) - 1]);
-            $this->deltas[] = new ListItem($insert, $quill['attributes']);
+
+            if (count($attributes) === 0) {
+                $this->deltas[] = new ListItem($insert . "\n", $quill['attributes']);
+            } else {
+                $delta = new ListItem("\n", $quill['attributes']);
+
+                foreach ($attributes as $attribute_name => $value) {
+                    switch ($attribute_name) {
+                        case Options::ATTRIBUTE_BOLD:
+                            $delta->addChild(new Bold($insert));
+                            break;
+
+                        case Options::ATTRIBUTE_ITALIC:
+                            $delta->addChild(new Italic($insert));
+                            break;
+
+                        case Options::ATTRIBUTE_LINK:
+                            $delta->addChild(new Link($insert, $attributes));
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                $this->deltas[] = $delta;
+            }
+
             $this->deltas = array_values($this->deltas);
 
-            $index = count($this->deltas) - 1;
-            $previous_index = $index -1;
+            $current_index = count($this->deltas) - 1;
+
+            for ($i = $current_index - 1; $i >= 0; $i--) {
+                $this_delta = $this->deltas[$i]->setNewLine();
+                if ($this_delta->newLine() === true) {
+                    break;
+                } else {
+                    $this->deltas[$current_index]->addChild($this->deltas[$i]);
+                    unset($this->deltas[$i]);
+                }
+            }
+
+            $this->deltas = array_values($this->deltas);
+            $current_index = count($this->deltas) - 1;
+            $previous_index = $current_index -1;
 
             if ($previous_index < 0) {
                 $this->counter = 1;
-                $this->deltas[$index]->setFirstChild()->setCounter($this->counter);
+                $this->deltas[$current_index]->setFirstChild()->setCounter($this->counter);
+                $this->deltas[$current_index]->setLastChild();
             } else {
                 if ($this->deltas[$previous_index]->isChild() === true) {
                     $this->counter++;
-                    $this->deltas[$index]->setLastChild()->setCounter($this->counter);
+                    $this->deltas[$current_index]->setLastChild()->setCounter($this->counter);
                     $this->deltas[$previous_index]->setLastChild(false);
                 } else {
                     $this->counter = 1;
-                    $this->deltas[$index]->setFirstChild()->setCounter($this->counter);
+                    $this->deltas[$current_index]->setFirstChild()->setCounter($this->counter);
+                    $this->deltas[$current_index]->setLastChild();
                 }
             }
         }
