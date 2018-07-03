@@ -66,10 +66,22 @@ class ListItem extends Delta
      */
     public function render(): string
     {
+        $output = '';
+
         if ($this->token === null) {
-            return $this->counter . ". " . trim($this->insert) . "\n";
+            $output .= $this->counter . ". ";
         } else {
-            return $this->token . trim($this->insert) . "\n";
+            $output .= $this->token;
         }
+
+        if ($this->hasChildren() === true) {
+            foreach ($this->children() as $child) {
+                $output .= $child->render();
+            }
+        }
+
+        $output .= $this->insert;
+
+        return $output;
     }
 }
