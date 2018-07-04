@@ -46,8 +46,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     {
         parent::__construct();
 
-
-        $this->class_delta_bold = 'DBlackborough\Quill\Delta\Html\Bold';
+        $this->class_delta_bold = Bold::Class;
     }
 
     /**

@@ -43,7 +43,7 @@ class Markdown extends Parse implements ParserAttributeInterface
 
         $this->counter = 1;
 
-        $this->class_delta_bold = 'DBlackborough\Quill\Delta\Markdown\Bold';
+        $this->class_delta_bold = Bold::Class;
     }
 
     /**
