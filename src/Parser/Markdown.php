@@ -43,59 +43,13 @@ class Markdown extends Parse implements ParserAttributeInterface
 
         $this->counter = 1;
 
-        $this->class_delta_bold = Bold::Class;
-    }
-
-    /**
-     * Header Quill attribute, assign the relevant Delta class and set up
-     * the data
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function attributeHeader(array $quill)
-    {
-        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
-            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-            unset($this->deltas[count($this->deltas) - 1]);
-            $this->deltas[] = new Header($insert, $quill['attributes']);
-            // Reorder the array
-            $this->deltas = array_values($this->deltas);
-        }
-    }
-
-    /**
-     * Italic Quill attribute, assign the relevant Delta class and set up
-     * the data
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function attributeItalic(array $quill)
-    {
-        if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
-            $this->deltas[] = new Italic($quill['insert'], $quill['attributes']);
-        }
-    }
-
-    /**
-     * Link Quill attribute, assign the relevant Delta class and set up
-     * the data
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function attributeLink(array $quill)
-    {
-        if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
-            $this->deltas[] = new Link(
-                $quill['insert'],
-                $quill['attributes']
-            );
-        }
+        $this->class_delta_bold = Bold::class;
+        $this->class_delta_header = Header::class;
+        $this->class_delta_image = Image::class;
+        $this->class_delta_insert = Insert::class;
+        $this->class_delta_italic = Italic::class;
+        $this->class_delta_link = Link::class;
+        $this->class_delta_video = Video::class;
     }
 
     /**
@@ -216,18 +170,6 @@ class Markdown extends Parse implements ParserAttributeInterface
     }
 
     /**
-     * Basic Quill insert
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function insert(array $quill)
-    {
-        $this->deltas[] = new Insert($quill['insert'], $quill['attributes']);
-    }
-
-    /**
      * Multiple attributes set, handle accordingly
      *
      * @param array $quill
@@ -237,30 +179,6 @@ class Markdown extends Parse implements ParserAttributeInterface
     public function compoundInsert(array $quill)
     {
         $this->deltas[] = new Insert($quill['insert']);
-    }
-
-    /**
-     * Image, assign to the image Delta
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function image(array $quill)
-    {
-        $this->deltas[] = new Image($quill['insert']['image']);
-    }
-
-    /**
-     * Video, assign to the video Delta
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function video(array $quill)
-    {
-        $this->deltas[] = new Video($quill['insert']['video']);
     }
 
     /**

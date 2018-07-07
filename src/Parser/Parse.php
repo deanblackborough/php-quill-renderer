@@ -52,6 +52,12 @@ abstract class Parse implements ParserInterface
     protected $valid = false;
 
     protected $class_delta_bold;
+    protected $class_delta_header;
+    protected $class_delta_image;
+    protected $class_delta_insert;
+    protected $class_delta_italic;
+    protected $class_delta_link;
+    protected $class_delta_video;
 
     /**
      * Renderer constructor.
@@ -252,8 +258,7 @@ abstract class Parse implements ParserInterface
     }
 
     /**
-     * Bold Quill attribute, assign the relevant Delta class and set up
-     * the data
+     * Bold Quill attribute, assign the relevant Delta class and set up the data
      *
      * @param array $quill
      *
@@ -264,5 +269,90 @@ abstract class Parse implements ParserInterface
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_BOLD] === true) {
             $this->deltas[] = new $this->class_delta_bold($quill['insert'], $quill['attributes']);
         }
+    }
+
+    /**
+     * Header Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeHeader(array $quill)
+    {
+        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
+            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
+            unset($this->deltas[count($this->deltas) - 1]);
+            $this->deltas[] = new $this->class_delta_header($insert, $quill['attributes']);
+            // Reorder the array
+            $this->deltas = array_values($this->deltas);
+        }
+    }
+
+    /**
+     * Italic Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeItalic(array $quill)
+    {
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_ITALIC] === true) {
+            $this->deltas[] = new $this->class_delta_italic($quill['insert'], $quill['attributes']);
+        }
+    }
+
+    /**
+     * Link Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeLink(array $quill)
+    {
+        if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_LINK]) > 0) {
+            $this->deltas[] = new $this->class_delta_link(
+                $quill['insert'],
+                $quill['attributes']
+            );
+        }
+    }
+
+    /**
+     * Image, assign to the image Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function image(array $quill)
+    {
+        $this->deltas[] = new $this->class_delta_image($quill['insert']['image']);
+    }
+
+    /**
+     * Basic Quill insert
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function insert(array $quill)
+    {
+        $this->deltas[] = new $this->class_delta_insert($quill['insert'], $quill['attributes']);
+    }
+
+    /**
+     * Video, assign to the video Delta
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function video(array $quill)
+    {
+        $this->deltas[] = new $this->class_delta_video($quill['insert']['video']);
     }
 }
