@@ -11,9 +11,8 @@ Render quill insert deltas to HTML and Markdown
 
 ## Description
 
-[Quill](https://github.com/quilljs/quill)  deltas renderer, converts deltas to HTML and Markdown, the  
-[Quill](https://github.com/quilljs/quill) attributes supported are listed in the table below, the goal is to 
-eventually support every Quill feature.
+[Quill](https://github.com/quilljs/quill)  deltas renderer, converts deltas to HTML and Markdown, the [Quill](https://github.com/quilljs/quill) attributes 
+supported are listed in the table below, the goal is to eventually support every Quill feature.
 
 [Quill](https://github.com/quilljs/quill) is a modern WYSIWYG editor built for compatibility and extensibility.
 
@@ -28,8 +27,7 @@ and possibly RTF/PDF.
  
 The easiest way to use the `PHP Quill Renderer` is via composer. 
 ```composer require deanblackborough/php-quill-renderer```, 
-alternatively you can include the classes in my src/ directory directly in 
-your library or app.
+alternatively you can include the classes in my src/ directory directly in your library or app.
 
 ## Usage via API, single $quill_json
 ```
@@ -84,44 +82,44 @@ echo $renderer->load($parser->deltasByIndex('two'))->render();
 
 ## Quill attributes and text flow support
 
-Attribute | v1+ | v2+ | v3 HTML | v3 Markdown
---- | --- | --- | --- | ---
-Bold | Yes | Yes | Yes | Yes
-Italic | Yes | Yes | Yes | Yes
-Link | Yes | Yes | Yes | Yes
-Strike | Yes | Yes | Yes | N/A
-Script:Sub | Yes | Yes | Yes | N/A
-Script:Super | Yes | Yes | Yes | N/A
-Underline | Yes | Yes | Yes | N/A
-Header | Yes | Yes | Yes | Yes
-Image | Yes | Yes | Yes | Yes
-Video | No | No | Yes | Yes
-List | Yes | Yes | Yes | Yes
-Child lists | No | No | In Development | In Development
-Indent/Outdent | No| No | Planned | Planned
-Text direction | No | No | Planned | N/A
-Color | No | No | Planned | N/K
-Font | No | No | Planned | N/K
-Text align | No | No | Planned | N/A
-Block quote | No | No | Planned | Planned
-Code block | No | No | Planned | Planned
-Custom attributes | No | No | Yes | N/A
-Line breaks | No | No | Yes | Yes
-Paragraphs | Yes | Yes | Yes | Yes
+| Attribute | v1+ | v2+ | v3 HTML | v3 Markdown
+| :---: | :---: | :---: | :---: | :---:
+| Bold | Yes | Yes | Yes | Yes
+| Italic | Yes | Yes | Yes | Yes
+| Link | Yes | Yes | Yes | Yes
+| Strike | Yes | Yes | Yes | N/A
+| Script:Sub | Yes | Yes | Yes | N/A
+| Script:Super | Yes | Yes | Yes | N/A
+| Underline | Yes | Yes | Yes | N/A
+| Header | Yes | Yes | Yes | Yes
+| Image | Yes | Yes | Yes | Yes
+| Video | No | No | Yes | Yes
+| List | Yes | Yes | Yes | Yes
+| Child lists | No | No | In Development | In Development
+| Indent/Outdent | No| No | Planned | Planned
+| Text direction | No | No | Planned | N/A
+| Color | No | No | Planned | N/K
+| Font | No | No | Planned | N/K
+| Text align | No | No | Planned | N/A
+| Block quote | No | No | Planned | Planned
+| Code block | No | No | Planned | Planned
+| Custom attributes | No | No | Yes | N/A
+| Line breaks | No | No | Yes | Yes
+| Paragraphs | Yes | Yes | Yes | Yes
 
-Attribute | HTML Tag | Markdown Token
---- | --- | ---
-Bold | `<strong>` | `**`
-Italic | `<em>` | `*`
-Link | `<a>` | `[Text](Link)`
-Strike | `<s>` |
-Script:Sub | `<sub>` |
-Script:Super | `<sup>` |
-Underline | `<u>` |
-Header | `<h[n]>` | `#[n]`
-Image | `<img>` | `![Image](\path\to\image)`
-Video | `<iframe>` | `![Video](\path\to\video)`
-List | `<ul>` `<ol>` | `* ` & `[n]`
+| Attribute | HTML Tag | Markdown Token
+| :---: | :---: | :---:
+| Bold | `<strong>` | `**`
+| Italic | `<em>` | `*`
+| Link | `<a>` | `[Text](Link)`
+| Strike | `<s>` |
+| Script:Sub | `<sub>` |
+| Script:Super | `<sup>` |
+| Underline | `<u>` |
+| Header | `<h[n]>` | `#[n]`
+| Image | `<img>` | `![Image](\path\to\image)`
+| Video | `<iframe>` | `![Video](\path\to\video)`
+| List | `<ul>` `<ol>` | `* ` & `[n]`
 
 ## Credits
 
