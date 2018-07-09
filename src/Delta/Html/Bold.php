@@ -23,7 +23,7 @@ class Bold extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = Options::TAG_BOLD;
+        $this->tag = Options::HTML_TAG_BOLD;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

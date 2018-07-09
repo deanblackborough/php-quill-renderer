@@ -23,7 +23,7 @@ class Underline extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = Options::TAG_UNDERLINE;
+        $this->tag = Options::HTML_TAG_UNDERLINE;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

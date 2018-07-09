@@ -23,7 +23,7 @@ class Strike extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = Options::TAG_STRIKE;
+        $this->tag = Options::HTML_TAG_STRIKE;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

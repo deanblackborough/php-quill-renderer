@@ -23,7 +23,7 @@ class SubScript extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = Options::TAG_SUB_SCRIPT;
+        $this->tag = Options::HTML_TAG_SUB_SCRIPT;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

@@ -23,7 +23,7 @@ class Italic extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->token = Options::TOKEN_ITALIC;
+        $this->token = Options::MARKDOWN_TOKEN_ITALIC;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

@@ -26,7 +26,7 @@ class Header extends Delta
         $this->insert = $insert;
         $this->attributes = $attributes;
 
-        $this->token = Options::TOKEN_HEADER;
+        $this->token = Options::MARKDOWN_TOKEN_HEADER;
     }
 
     /**

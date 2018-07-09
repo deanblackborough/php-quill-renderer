@@ -23,7 +23,7 @@ class Italic extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = Options::TAG_ITALIC;
+        $this->tag = Options::HTML_TAG_ITALIC;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

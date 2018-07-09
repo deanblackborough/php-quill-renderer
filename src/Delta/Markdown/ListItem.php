@@ -31,7 +31,7 @@ class ListItem extends Delta
         $this->token = null;
 
         if ($this->attributes['list'] === 'bullet') {
-            $this->token = Options::TOKEN_LIST_ITEM_UNORDERED;
+            $this->token = Options::MARKDOWN_TOKEN_LIST_ITEM_UNORDERED;
         }
     }
 

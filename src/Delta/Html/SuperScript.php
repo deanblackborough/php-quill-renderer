@@ -23,7 +23,7 @@ class SuperScript extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = Options::TAG_SUPER_SCRIPT;
+        $this->tag = Options::HTML_TAG_SUPER_SCRIPT;
 
         $this->insert = $insert;
         $this->attributes = $attributes;

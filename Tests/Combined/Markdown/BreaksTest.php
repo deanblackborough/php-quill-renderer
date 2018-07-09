@@ -1,30 +1,36 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Composite\Html;
+namespace DBlackborough\Quill\Tests\Composite\Markdown;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 
+use DBlackborough\Quill\Options;
 use DBlackborough\Quill\Render as QuillRender;
 
 /**
  * Paragraph tests
  */
-final class ParagraphTest extends \PHPUnit\Framework\TestCase
+final class BreaksTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_paragraphs_with_attributes = '{"ops":[{"insert":"This is a three "},{"attributes":{"bold":true},"insert":"paragraph"},{"insert":" test\n\nthe "},{"attributes":{"strike":true},"insert":"difference"},{"insert":" being this time we \n\nare "},{"attributes":{"underline":true},"insert":"going to add"},{"insert":" attributes.\n"}]}';
     private $delta_single_paragraph = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
     private $delta_two_paragraphs = '{"ops":[{"insert":"Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet."}]}';
     private $delta_three_paragraphs = '{"ops":[{"insert":"This is a single entry that \n\nshould create three paragraphs \n\nof HTML.\n"}]}';
 
-    private $expected_paragraphs_with_attributes = "<p>This is a three <strong>paragraph</strong> test</p>
-<p>the <s>difference</s> being this time we </p>
-<p>are <u>going to add</u> attributes.</p>";
-    private $expected_single_paragraph = '<p>Lorem ipsum dolor sit amet</p>';
-    private $expected_two_paragraphs = '<p>Lorem ipsum dolor sit amet.</p>
-<p>Lorem ipsum dolor sit amet.</p>';
-    private $expected_three_paragraphs = '<p>This is a single entry that </p>
-<p>should create three paragraphs </p>
-<p>of HTML.</p>';
+    private $expected_paragraphs_with_attributes = "This is a three **paragraph** test
+
+the difference being this time we 
+
+are going to add attributes.";
+    private $expected_single_paragraph = 'Lorem ipsum dolor sit amet';
+    private $expected_two_paragraphs = 'Lorem ipsum dolor sit amet.
+
+Lorem ipsum dolor sit amet.';
+    private $expected_three_paragraphs = 'This is a single entry that 
+
+should create three paragraphs 
+
+of HTML.';
 
     /**
      * Test paragraphs with attributes
@@ -37,7 +43,10 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
         $result = null;
 
         try {
-            $quill = new QuillRender($this->delta_paragraphs_with_attributes);
+            $quill = new QuillRender(
+                $this->delta_paragraphs_with_attributes,
+                OPTIONS::FORMAT_MARKDOWN
+            );
             $result = $quill->render();
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
@@ -61,7 +70,10 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
         $result = null;
 
         try {
-            $quill = new QuillRender($this->delta_single_paragraph);
+            $quill = new QuillRender(
+                $this->delta_single_paragraph,
+                OPTIONS::FORMAT_MARKDOWN
+            );
             $result = $quill->render();
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
@@ -85,7 +97,10 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
         $result = null;
 
         try {
-            $quill = new QuillRender($this->delta_two_paragraphs);
+            $quill = new QuillRender(
+                $this->delta_two_paragraphs,
+                OPTIONS::FORMAT_MARKDOWN
+            );
             $result = $quill->render();
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
@@ -109,7 +124,10 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
         $result = null;
 
         try {
-            $quill = new QuillRender($this->delta_three_paragraphs);
+            $quill = new QuillRender(
+                $this->delta_three_paragraphs,
+                OPTIONS::FORMAT_MARKDOWN
+            );
             $result = $quill->render();
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());

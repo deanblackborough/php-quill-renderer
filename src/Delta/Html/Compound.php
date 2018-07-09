@@ -52,11 +52,11 @@ class Compound extends Delta
         foreach ($this->attributes as $attribute => $value) {
             switch ($attribute) {
                 case Options::ATTRIBUTE_BOLD:
-                    $this->tags[] = Options::TAG_BOLD;
+                    $this->tags[] = Options::HTML_TAG_BOLD;
                     break;
 
                 case Options::ATTRIBUTE_ITALIC:
-                    $this->tags[] = Options::TAG_ITALIC;
+                    $this->tags[] = Options::HTML_TAG_ITALIC;
                     break;
 
                 case Options::ATTRIBUTE_SCRIPT:
@@ -64,11 +64,11 @@ class Compound extends Delta
                     break;
 
                 case Options::ATTRIBUTE_STRIKE:
-                    $this->tags[] = Options::TAG_STRIKE;
+                    $this->tags[] = Options::HTML_TAG_STRIKE;
                     break;
 
                 case Options::ATTRIBUTE_UNDERLINE:
-                    $this->tags[] = Options::TAG_UNDERLINE;
+                    $this->tags[] = Options::HTML_TAG_UNDERLINE;
                     break;
 
                 default:

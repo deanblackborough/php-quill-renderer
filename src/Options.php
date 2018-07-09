@@ -14,23 +14,24 @@ class Options
 {
     public const FORMAT_HTML = 'HTML';
     public const FORMAT_MARKDOWN = 'Markdown';
+    public const FORMAT_GITHUB_MARKDOWN = 'GithubMarkdown'; // Github flavoured markdown
 
-    public const TAG_BOLD = 'strong';
-    public const TAG_HEADER = 'h';
-    public const TAG_ITALIC = 'em';
-    public const TAG_LIST_ITEM = 'li';
-    public const TAG_STRIKE = 's';
-    public const TAG_SUB_SCRIPT = 'sub';
-    public const TAG_SUPER_SCRIPT = 'sup';
-    public const TAG_UNDERLINE = 'u';
+    public const HTML_TAG_BOLD = 'strong';
+    public const HTML_TAG_HEADER = 'h';
+    public const HTML_TAG_ITALIC = 'em';
+    public const HTML_TAG_LIST_ITEM = 'li';
+    public const HTML_TAG_STRIKE = 's';
+    public const HTML_TAG_SUB_SCRIPT = 'sub';
+    public const HTML_TAG_SUPER_SCRIPT = 'sup';
+    public const HTML_TAG_UNDERLINE = 'u';
 
-    public const TOKEN_BOLD = '**';
-    public const TOKEN_HEADER = '#';
-    public const TOKEN_ITALIC = '*';
-    public const TOKEN_LIST_ITEM_UNORDERED = '* ';
+    public const MARKDOWN_TOKEN_BOLD = '**';
+    public const MARKDOWN_TOKEN_HEADER = '#';
+    public const MARKDOWN_TOKEN_ITALIC = '*';
+    public const MARKDOWN_TOKEN_LIST_ITEM_UNORDERED = '* ';
 
-    public const TAG_LIST_ORDERED = 'ol';
-    public const TAG_LIST_UNORDERED = 'ul';
+    public const HTML_TAG_LIST_ORDERED = 'ol';
+    public const HTML_TAG_LIST_UNORDERED = 'ul';
 
     public const ATTRIBUTE_BOLD = 'bold';
     public const ATTRIBUTE_HEADER = 'header';

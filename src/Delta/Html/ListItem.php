@@ -26,7 +26,7 @@ class ListItem extends Delta
         $this->insert = $insert;
         $this->attributes = $attributes;
 
-        $this->tag = Options::TAG_LIST_ITEM;
+        $this->tag = Options::HTML_TAG_LIST_ITEM;
     }
 
     /**
@@ -58,14 +58,14 @@ class ListItem extends Delta
     {
         switch ($this->attributes['list']) {
             case Options::ATTRIBUTE_LIST_ORDERED:
-                return Options::TAG_LIST_ORDERED;
+                return Options::HTML_TAG_LIST_ORDERED;
                 break;
             case Options::ATTRIBUTE_LIST_BULLET:
-                return Options::TAG_LIST_UNORDERED;
+                return Options::HTML_TAG_LIST_UNORDERED;
                 break;
 
             default:
-                return Options::TAG_LIST_UNORDERED;
+                return Options::HTML_TAG_LIST_UNORDERED;
                 break;
         }
     }
