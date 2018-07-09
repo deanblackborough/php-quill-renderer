@@ -3,6 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.13.4 - 2018-07-09
+
+* Removed duplication in HTMl and Markdown parser, moved similar logic to the base parser class.
+* Updated composer dependencies.
+* Added additional Quill info to README.
+
 ## v3.13.3 - 2018-07-04
 
 * The Markdown list parsing now correctly using child deltas and matches the HTML parser.

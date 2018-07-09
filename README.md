@@ -11,8 +11,11 @@ Render quill insert deltas to HTML and Markdown
 
 ## Description
 
-Quill deltas renderer, converts deltas to HTML and Markdown, the Quill attributes 
-supported are listed in the table below, the goal is to eventually support every Quill feature.
+[Quill](https://github.com/quilljs/quill)  deltas renderer, converts deltas to HTML and Markdown, the  
+[Quill](https://github.com/quilljs/quill) attributes supported are listed in the table below, the goal is to 
+eventually support every Quill feature.
+
+[Quill](https://github.com/quilljs/quill) is a modern WYSIWYG editor built for compatibility and extensibility.
 
 ## Planned features
 
