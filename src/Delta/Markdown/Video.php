@@ -33,6 +33,6 @@ class Video extends Delta
      */
     public function render(): string
     {
-        return "![Video]({$this->insert})";
+        return "![Video]({$this->escape($this->insert)})";
     }
 }

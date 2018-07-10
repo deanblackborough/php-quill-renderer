@@ -34,6 +34,6 @@ class Insert extends Delta
      */
     public function render(): string
     {
-        return $this->insert;
+        return $this->escape($this->insert);
     }
 }

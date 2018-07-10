@@ -26,7 +26,7 @@ class Header extends Delta
         $this->insert = $insert;
         $this->attributes = $attributes;
 
-        $this->token = Options::TOKEN_HEADER;
+        $this->token = Options::MARKDOWN_TOKEN_HEADER;
     }
 
     /**
@@ -37,6 +37,6 @@ class Header extends Delta
     public function render(): string
     {
         return str_repeat('#', intval($this->attributes['header'])) .
-            " {$this->insert}";
+            " {$this->escape($this->insert)}";
     }
 }

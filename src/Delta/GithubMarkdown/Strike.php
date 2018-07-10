@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace DBlackborough\Quill\Delta\Html;
+namespace DBlackborough\Quill\Delta\GithubMarkdown;
+
+use DBlackborough\Quill\Options;
 
 /**
- * Delta class for video inserts
+ * Delta class for inserts with the 'italic' attribute
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Video extends Delta
+class Strike extends Delta
 {
     /**
      * Set the initial properties for the delta
@@ -21,7 +23,7 @@ class Video extends Delta
      */
     public function __construct(string $insert, array $attributes = [])
     {
-        $this->tag = null;
+        $this->token = Options::GITHUB_MARKDOWN_TOKEN_STRIKE;
 
         $this->insert = $insert;
         $this->attributes = $attributes;
@@ -34,6 +36,6 @@ class Video extends Delta
      */
     public function render(): string
     {
-        return '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' . $this->escape($this->insert) . '"></iframe>';
+        return $this->token . $this->escape($this->insert) . $this->token;
     }
 }

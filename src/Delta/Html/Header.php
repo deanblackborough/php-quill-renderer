@@ -26,7 +26,7 @@ class Header extends Delta
         $this->insert = $insert;
         $this->attributes = $attributes;
 
-        $this->tag = Options::TAG_HEADER . $this->attributes['header'];
+        $this->tag = Options::HTML_TAG_HEADER . $this->attributes['header'];
     }
 
     /**
@@ -46,6 +46,6 @@ class Header extends Delta
      */
     public function render(): string
     {
-        return $this->renderSimpleTag($this->tag, $this->insert, true);
+        return $this->renderSimpleTag($this->tag, $this->escape($this->insert), true);
     }
 }

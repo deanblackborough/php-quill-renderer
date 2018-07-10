@@ -34,6 +34,6 @@ class Link extends Delta
      */
     public function render(): string
     {
-        return "<{$this->tag} href=\"{$this->attributes['link']}\">{$this->insert}</{$this->tag}>";
+        return "<{$this->tag} href=\"{$this->attributes['link']}\">{$this->escape($this->insert)}</{$this->tag}>";
     }
 }

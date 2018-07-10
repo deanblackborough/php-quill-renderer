@@ -34,6 +34,6 @@ class Link extends Delta
     {
         $append = str_replace(trim($this->insert), '', $this->insert);
 
-        return "[" . trim($this->insert) . "]({$this->attributes['link']})" . $append;
+        return "[" . trim($this->escape($this->insert)) . "]({$this->attributes['link']})" . $append;
     }
 }

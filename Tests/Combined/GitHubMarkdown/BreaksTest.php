@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Composite\Markdown;
+namespace DBlackborough\Quill\Tests\Composite\GitHubMarkdown;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 
@@ -10,7 +10,7 @@ use DBlackborough\Quill\Render as QuillRender;
 /**
  * Paragraph tests
  */
-final class ParagraphTest extends \PHPUnit\Framework\TestCase
+final class BreaksTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_paragraphs_with_attributes = '{"ops":[{"insert":"This is a three "},{"attributes":{"bold":true},"insert":"paragraph"},{"insert":" test\n\nthe "},{"attributes":{"strike":true},"insert":"difference"},{"insert":" being this time we \n\nare "},{"attributes":{"underline":true},"insert":"going to add"},{"insert":" attributes.\n"}]}';
     private $delta_single_paragraph = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
@@ -19,7 +19,7 @@ final class ParagraphTest extends \PHPUnit\Framework\TestCase
 
     private $expected_paragraphs_with_attributes = "This is a three **paragraph** test
 
-the difference being this time we 
+the ~~difference~~ being this time we 
 
 are going to add attributes.";
     private $expected_single_paragraph = 'Lorem ipsum dolor sit amet';
@@ -45,7 +45,7 @@ of HTML.';
         try {
             $quill = new QuillRender(
                 $this->delta_paragraphs_with_attributes,
-                OPTIONS::FORMAT_MARKDOWN
+                OPTIONS::FORMAT_GITHUB_MARKDOWN
             );
             $result = $quill->render();
         } catch (\Exception $e) {
@@ -72,7 +72,7 @@ of HTML.';
         try {
             $quill = new QuillRender(
                 $this->delta_single_paragraph,
-                OPTIONS::FORMAT_MARKDOWN
+                OPTIONS::FORMAT_GITHUB_MARKDOWN
             );
             $result = $quill->render();
         } catch (\Exception $e) {
@@ -99,7 +99,7 @@ of HTML.';
         try {
             $quill = new QuillRender(
                 $this->delta_two_paragraphs,
-                OPTIONS::FORMAT_MARKDOWN
+                OPTIONS::FORMAT_GITHUB_MARKDOWN
             );
             $result = $quill->render();
         } catch (\Exception $e) {
@@ -126,7 +126,7 @@ of HTML.';
         try {
             $quill = new QuillRender(
                 $this->delta_three_paragraphs,
-                OPTIONS::FORMAT_MARKDOWN
+                OPTIONS::FORMAT_GITHUB_MARKDOWN
             );
             $result = $quill->render();
         } catch (\Exception $e) {

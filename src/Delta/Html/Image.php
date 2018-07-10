@@ -34,6 +34,6 @@ class Image extends Delta
      */
     public function render(): string
     {
-        return "<img src=\"{$this->insert}\" />";
+        return "<img src=\"{$this->escape($this->insert)}\" />";
     }
 }
