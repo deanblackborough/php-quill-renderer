@@ -115,7 +115,7 @@ class Compound extends Delta
             }
         }
 
-        $this->html .= $this->insert;
+        $this->html .= $this->escape($this->insert);
 
         foreach (array_reverse($this->tags) as $tag) {
             $this->html .= "</{$tag}>";

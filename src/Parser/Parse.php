@@ -57,10 +57,11 @@ abstract class Parse implements ParserInterface
     protected $class_delta_insert;
     protected $class_delta_italic;
     protected $class_delta_link;
+    protected $class_delta_strike;
     protected $class_delta_video;
 
     /**
-     * Renderer constructor.
+     * Constructor.
      */
     public function __construct()
     {
@@ -317,6 +318,20 @@ abstract class Parse implements ParserInterface
                 $quill['insert'],
                 $quill['attributes']
             );
+        }
+    }
+
+    /**
+     * Strike Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeStrike(array $quill)
+    {
+        if ($quill['attributes'][OPTIONS::ATTRIBUTE_STRIKE] === true) {
+            $this->deltas[] = new $this->class_delta_strike($quill['insert'], $quill['attributes']);
         }
     }
 

@@ -80,7 +80,7 @@ class ListItem extends Delta
             }
         }
 
-        $output .= $this->insert;
+        $output .= $this->escape($this->insert);
 
         return $output;
     }

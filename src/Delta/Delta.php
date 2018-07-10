@@ -163,4 +163,13 @@ abstract class Delta implements DeltaInterface
 
         return $this;
     }
+
+    /**
+     * Escape the given insert string
+     *
+     * @param string $insert Insert string to escape
+     *
+     * @return string
+     */
+    abstract protected function escape(string $insert): string;
 }

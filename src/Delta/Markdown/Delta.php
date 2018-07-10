@@ -45,4 +45,16 @@ abstract class Delta extends BaseDelta
 
         return $this;
     }
+
+    /**
+     * Escape the given insert string
+     *
+     * @param string $insert Insert string to escape
+     *
+     * @return string
+     */
+    protected function escape(string $insert): string
+    {
+        return str_replace(['*', '#'], ['\*', '\#'], $insert);
+    }
 }

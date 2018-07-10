@@ -37,6 +37,6 @@ class Header extends Delta
     public function render(): string
     {
         return str_repeat('#', intval($this->attributes['header'])) .
-            " {$this->insert}";
+            " {$this->escape($this->insert)}";
     }
 }

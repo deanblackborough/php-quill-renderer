@@ -7,7 +7,7 @@
 
 # PHP Quill Renderer
 
-Render quill insert deltas to HTML and Markdown
+Render quill insert deltas to HTML, Markdown and GitHub flavoured Markdown.
 
 ## Description
 

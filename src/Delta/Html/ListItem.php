@@ -84,7 +84,7 @@ class ListItem extends Delta
                 $html .= $child->render();
             }
         }
-        $html .= "{$this->insert}</{$this->tag}>\n";
+        $html .= "{$this->escape($this->insert)}</{$this->tag}>\n";
 
         return $html;
     }

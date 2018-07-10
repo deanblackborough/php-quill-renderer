@@ -33,6 +33,9 @@ class Render
     public function __construct(string $quill_json, string $format = Options::FORMAT_HTML)
     {
         switch ($format) {
+            case Options::FORMAT_GITHUB_MARKDOWN:
+                $this->parser = new Parser\GithubMarkdown();
+                break;
             case Options::FORMAT_HTML:
                 $this->parser = new Parser\Html();
                 break;
@@ -72,6 +75,9 @@ class Render
     {
         if ($this->parser->parse() === true) {
             switch ($this->format) {
+                case Options::FORMAT_GITHUB_MARKDOWN:
+                    $renderer = new Renderer\GithubMarkdown();
+                    break;
                 case Options::FORMAT_HTML:
                     $renderer = new Renderer\Html();
                     break;

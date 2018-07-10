@@ -137,4 +137,16 @@ abstract class Delta extends BaseDelta
     {
         return "<{$tag}>{$insert}</{$tag}>" . ($new_line === true ? "\n" : null);
     }
+
+    /**
+     * Escape the given insert string
+     *
+     * @param string $insert Insert string to escape
+     *
+     * @return string
+     */
+    protected function escape(string $insert): string
+    {
+        return htmlspecialchars($insert, ENT_COMPAT, 'UTF-8');
+    }
 }

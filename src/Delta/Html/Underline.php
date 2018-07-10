@@ -36,6 +36,6 @@ class Underline extends Delta
      */
     public function render(): string
     {
-        return $this->renderSimpleTag($this->tag, $this->insert);
+        return $this->renderSimpleTag($this->tag, $this->escape($this->insert));
     }
 }

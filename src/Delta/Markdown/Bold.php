@@ -36,6 +36,6 @@ class Bold extends Delta
      */
     public function render(): string
     {
-        return $this->token . $this->insert . $this->token;
+        return $this->token . $this->escape($this->insert) . $this->token;
     }
 }

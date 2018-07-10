@@ -3,6 +3,12 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.14.0 - 2018-07-xx 
+
+* Initial support for GitHub flavoured Markdown, extends Markdown and adds support for strike through text.
+* Added basic escaping for HTML and Markdown.
+* Reorganised the tests ready for additional file support and features.
+
 ## v3.13.4 - 2018-07-09
 
 * Removed duplication in HTMl and Markdown parser, moved similar logic to the base parser class.

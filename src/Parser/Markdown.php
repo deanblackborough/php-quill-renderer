@@ -35,7 +35,7 @@ class Markdown extends Parse implements ParserAttributeInterface
     protected $counter;
 
     /**
-     * Renderer constructor.
+     * Constructor.
      */
     public function __construct()
     {

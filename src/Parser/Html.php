@@ -40,7 +40,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     protected $deltas;
 
     /**
-     * Renderer constructor.
+     * Constructor.
      */
     public function __construct()
     {
@@ -52,6 +52,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         $this->class_delta_insert = Insert::class;
         $this->class_delta_italic = Italic::class;
         $this->class_delta_link = Link::class;
+        $this->class_delta_strike = Strike::class;
         $this->class_delta_video = Video::class;
     }
 
@@ -276,21 +277,6 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         }
         if ($quill['attributes'][OPTIONS::ATTRIBUTE_SCRIPT] === Options::ATTRIBUTE_SCRIPT_SUPER) {
             $this->deltas[] = new SuperScript($quill['insert'], $quill['attributes']);
-        }
-    }
-
-    /**
-     * Strike Quill attribute, assign the relevant Delta class and set up
-     * the data
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function attributeStrike(array $quill)
-    {
-        if ($quill['attributes'][OPTIONS::ATTRIBUTE_STRIKE] === true) {
-            $this->deltas[] = new Strike($quill['insert'], $quill['attributes']);
         }
     }
 

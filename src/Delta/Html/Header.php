@@ -46,6 +46,6 @@ class Header extends Delta
      */
     public function render(): string
     {
-        return $this->renderSimpleTag($this->tag, $this->insert, true);
+        return $this->renderSimpleTag($this->tag, $this->escape($this->insert), true);
     }
 }
