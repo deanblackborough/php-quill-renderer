@@ -29,7 +29,9 @@ The easiest way to use the `PHP Quill Renderer` is via composer.
 ```composer require deanblackborough/php-quill-renderer```, 
 alternatively you can include the classes in my src/ directory directly in your library or app.
 
-## Usage via API, single $quill_json
+## Usage
+
+### Via API, single $quill_json
 ```
 try {
     $quill = new \DBlackborough\Quill\Render($quill_json);
@@ -41,7 +43,7 @@ try {
 echo $result;
 ```
 
-## Usage via API, multiple $quill_json, passed in via array
+### Via API, multiple $quill_json, passed in via array
 
 ```
 try {
@@ -57,7 +59,7 @@ echo $result_one;
 echo $result_two;
 ```
 
-## Usage, direct, parse and then render, single $quill_json - updated in v3.10.0
+### Direct, parse and then render, single $quill_json - updated in v3.10.0
 
 ```
 $parser = new \DBlackborough\Quill\Parser\Html();
@@ -68,7 +70,7 @@ $parser->load($quill_json)->parse();
 echo $renderer->load($parser->deltas())->render();
 ```
 
-## Usage, direct, parse and then render, multiple $quill_json - updated in v3.10.0
+### Direct, parse and then render, multiple $quill_json - updated in v3.10.0
 
 ```
 $parser = new \DBlackborough\Quill\Parser\Html();
@@ -120,6 +122,11 @@ echo $renderer->load($parser->deltasByIndex('two'))->render();
 | Image | `<img>` | `![Image](\path\to\image)`
 | Video | `<iframe>` | `![Video](\path\to\video)`
 | List | `<ul>` `<ol>` | `* ` & `[n]`
+
+## Copyright and license
+The [deanblackborough/php-quill-renderer](https://github.com/deanblackborough/php-quill-renderer) library is copyright 
+© Dean Blackborough and [licensed](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE) 
+for use under the MIT License (MIT). 
 
 ## Credits
 
