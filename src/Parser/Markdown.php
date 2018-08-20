@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Markdown\Bold;
+use DBlackborough\Quill\Delta\Markdown\Compound;
 use DBlackborough\Quill\Delta\Markdown\Delta;
 use DBlackborough\Quill\Delta\Markdown\Header;
 use DBlackborough\Quill\Delta\Markdown\Image;
@@ -178,7 +179,17 @@ class Markdown extends Parse implements ParserAttributeInterface
      */
     public function compoundInsert(array $quill)
     {
-        $this->deltas[] = new Insert($quill['insert']);
+        if (count($quill['attributes']) > 0) {
+            if (is_array($quill['insert']) === false) {
+                $delta = new Compound($quill['insert']);
+
+                foreach ($quill['attributes'] as $attribute => $value) {
+                    $delta->setAttribute($attribute, $value);
+                }
+
+                $this->deltas[] = $delta;
+            }
+        }
     }
 
     /**
