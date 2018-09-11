@@ -11,7 +11,7 @@ use DBlackborough\Quill\Render as QuillRender;
  */
 final class BreaksTest extends \PHPUnit\Framework\TestCase
 {
-    private $delta_paragraphs_with_attributes = '{"ops":[{"insert":"This is a three "},{"attributes":{"bold":true},"insert":"paragraph"},{"insert":" test\n\nthe "},{"attributes":{"strike":true},"insert":"difference"},{"insert":" being this time we \n\nare "},{"attributes":{"underline":true},"insert":"going to add"},{"insert":" attributes.\n"}]}';
+    private $delta_paragraphs_with_attributes = '{"ops":[{"insert":"This is a three "},{"attributes":{"bold":true},"insert":"paragraph"},{"insert":" test\n\nthe "},{"attributes":{"strike":true},"insert":"difference"},{"insert":" being this time we \n\nare "},{"attributes":{"underline":true},"insert":"going to add"},{"insert":" attributes."}]}';
     private $delta_single_paragraph = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
     private $delta_two_paragraphs = '{"ops":[{"insert":"Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet."}]}';
     private $delta_three_paragraphs = '{"ops":[{"insert":"This is a single entry that \n\nshould create three paragraphs \n\nof HTML.\n"}]}';

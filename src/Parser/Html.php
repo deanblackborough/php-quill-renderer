@@ -155,10 +155,15 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                 $i++;
             }
         } else {
+            $new_line = false;
+            if (strpos($insert, "\n") !== FALSE) {
+                $new_line = true;
+            }
+
             $inserts[] = [
                 'insert' => str_replace("\n", '', $insert),
                 'close' => false,
-                'new_line' => false,
+                'new_line' => $new_line,
                 'pre_new_line' => false
             ];
         }
