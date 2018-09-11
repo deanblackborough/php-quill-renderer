@@ -130,12 +130,13 @@ for use under the MIT License (MIT).
 
 ## Credits
 
-* [carlos](https://github.com/sald19) [Bugfix] v1.01.0
-* [pdiveris](https://github.com/pdiveris) [Issue #43] - Null inserts
-* [Mark Davison](https://github.com/markdavison) - Pushed me in the right direction for v3.00.0
-* [tominventisbe](https://github.com/tominventisbe) [Issue #54] - Parser::load() does not reset the deltas array
-* [tominventisbe](https://github.com/tominventisbe) [Issue #55] - Image deltas with multiple attributes incorrectly being passed to Compound delta
-* [bcorcoran](https://github.com/bcorcoran) [Issue #81] - Suggested reverting requirements to necessary requirements
-* [kingga](https://github.com/kingga) [Issue #86] - Video support
-* [Jonathanm10](https://github.com/Jonathanm10) [Issue #87] - Newlines proceeding inserts ignored, bug report
-* [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location
+* [carlos](https://github.com/sald19) [Bugfix] v1.01.0.
+* [pdiveris](https://github.com/pdiveris) [Issue #43] - Null inserts.
+* [Mark Davison](https://github.com/markdavison) - Pushed me in the right direction for v3.00.0.
+* [tominventisbe](https://github.com/tominventisbe) [Issue #54] - Parser::load() does not reset the deltas array.
+* [tominventisbe](https://github.com/tominventisbe) [Issue #55] - Image deltas with multiple attributes incorrectly being passed to Compound delta.
+* [bcorcoran](https://github.com/bcorcoran) [Issue #81] - Suggested reverting requirements to necessary requirements.
+* [kingga](https://github.com/kingga) [Issue #86] - Video support.
+* [Jonathanm10](https://github.com/Jonathanm10) [Issue #87] - Newlines proceeding inserts ignored, bug report.
+* [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location.
+* [Basil](https://github.com/nadar) [Issue #101] - Newline only inserts being ignored by parser.
