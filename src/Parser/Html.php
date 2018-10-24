@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Html\Bold;
+use DBlackborough\Quill\Delta\Html\Color;
 use DBlackborough\Quill\Delta\Html\Compound;
 use DBlackborough\Quill\Delta\Html\CompoundImage;
 use DBlackborough\Quill\Delta\Html\Delta;
@@ -47,6 +48,7 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         parent::__construct();
 
         $this->class_delta_bold = Bold::class;
+        $this->class_delta_color = Color::class;
         $this->class_delta_header = Header::class;
         $this->class_delta_image = Image::class;
         $this->class_delta_insert = Insert::class;
@@ -198,6 +200,10 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                             $delta->addChild(new Bold($insert));
                             break;
 
+                        case Options::ATTRIBUTE_COLOR:
+                            $delta->addChild(new Color($insert, $attributes));
+                            break;
+
                         case Options::ATTRIBUTE_ITALIC:
                             $delta->addChild(new Italic($insert));
                             break;
@@ -264,6 +270,20 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                     $this->deltas[$current_index]->setLastChild();
                 }
             }
+        }
+    }
+
+    /**
+     * Color Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeColor(array $quill)
+    {
+        if (strlen($quill['attributes'][OPTIONS::ATTRIBUTE_COLOR]) > 0) {
+            $this->deltas[] = new $this->class_delta_color($quill['insert'], $quill['attributes']);
         }
     }
 

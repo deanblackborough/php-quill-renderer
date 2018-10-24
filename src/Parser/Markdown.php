@@ -132,6 +132,18 @@ class Markdown extends Parse implements ParserAttributeInterface
     }
 
     /**
+     * Color Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeColor(array $quill)
+    {
+        $this->deltas[] = new Insert($quill['insert']);
+    }
+
+    /**
      * Script Quill attribute, assign the relevant Delta class and set up
      * the data, script could be sub or super
      *
