@@ -14,6 +14,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
     private $delta_bold = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"bold":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_bold_with_attributes = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"bold":true, "class":"bold_attributes"},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_bold_with_following_break = '{"ops":[{"attributes":{"bold":true},"insert":"Bold text"},{"insert":"\nAny text\n"}]}';
+    private $delta_color = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"color":"#e60000"},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_italic = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"italic":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_strike = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"strike":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_sub_script = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"sub"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas."}]}';
@@ -25,6 +26,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
     private $expected_bold_with_attributes = '<p>Lorem ipsum dolor sit amet <strong class="bold_attributes">sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_bold_with_following_break = '<p><strong>Bold text</strong><br />
 Any text</p>';
+    private $expected_color = '<p>Lorem ipsum dolor sit amet <span style="color: #e60000;">sollicitudin</span> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_italic = '<p>Lorem ipsum dolor sit amet <em>sollicitudin</em> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_strike = '<p>Lorem ipsum dolor sit amet <s>sollicitudin</s> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_sub_script = '<p>Lorem ipsum dolor sit<sub>x</sub> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
@@ -90,6 +92,26 @@ Any text</p>';
         }
 
         $this->assertEquals($this->expected_bold_with_following_break, trim($result), __METHOD__ . ' - Bold attribute, text following with leading break');
+    }
+
+    /**
+     * Test color attribute
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testColor()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_color);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals($this->expected_color, trim($result), __METHOD__ . ' - Color attribute failure');
     }
 
     /**

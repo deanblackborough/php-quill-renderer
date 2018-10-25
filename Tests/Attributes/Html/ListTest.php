@@ -26,6 +26,7 @@ final class ListTest extends \PHPUnit\Framework\TestCase
         ]
     }';
     private $delta_single_item_list_bold = '{"ops":[{"attributes":{"bold":true},"insert":"List item 1"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
+    private $delta_single_item_list_color = '{"ops":[{"attributes":{"color":"#ff0000"},"insert":"List item 1"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_single_item_list_italic = '{"ops":[{"attributes":{"italic":true},"insert":"List item 1"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_single_item_list_strike = '{"ops":[{"attributes":{"strike":true},"insert":"List item 1"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
     private $delta_single_item_list_sub_script = '{"ops":[{"attributes":{"script":"sub"},"insert":"List item 1"},{"attributes":{"list":"ordered"},"insert":"\n"}]}';
@@ -50,6 +51,9 @@ final class ListTest extends \PHPUnit\Framework\TestCase
 </ul>';
     private $expected_single_item_list_bold = '<ol>
 <li><strong>List item 1</strong></li>
+</ol>';
+    private $expected_single_item_list_color = '<ol>
+<li><span style="color: #ff0000;">List item 1</span></li>
 </ol>';
     private $expected_single_item_list_italic = '<ol>
 <li><em>List item 1</em></li>
@@ -148,6 +152,26 @@ final class ListTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_single_item_list_bold, trim($result), __METHOD__ . ' Single list item failure');
+    }
+
+    /**
+     * Single item list, entire list item color
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testSingleListItemColor()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_single_item_list_color);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals($this->expected_single_item_list_color, trim($result), __METHOD__ . ' Single list item failure');
     }
 
     /**
