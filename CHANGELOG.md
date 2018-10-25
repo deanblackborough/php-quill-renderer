@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.14.3 - 2018-10-25
+
+* New paragraph not correctly being created for final sub insert when insert split on multiple newlines.
+
 ## v3.14.2 - 2018-09-11
 
 * New line only inserts no longer ignored by parser, updated a couple of tests because of logic update.

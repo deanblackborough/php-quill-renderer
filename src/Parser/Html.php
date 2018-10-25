@@ -90,13 +90,16 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                             'pre_new_line' => false
                         ];
                     } else {
+                        $count = count($sub_inserts);
+                        $i = 0;
                         foreach ($sub_inserts as $sub_insert) {
                             $inserts[] = [
                                 'insert' => $sub_insert['insert'],
-                                'close' => $sub_insert['close'],
+                                'close' => (($count - 1) === $i ? true : $sub_insert['close']),
                                 'new_line' => $sub_insert['new_line'],
                                 'pre_new_line' => $sub_insert['pre_new_line']
                             ];
+                            $i++;
                         }
                     }
                 }

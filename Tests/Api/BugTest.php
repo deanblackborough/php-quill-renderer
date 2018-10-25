@@ -5,7 +5,6 @@ namespace DBlackborough\Quill\Tests\Api;
 require __DIR__ . '../../../vendor/autoload.php';
 
 use DBlackborough\Quill\Render as QuillRender;
-use DBlackborough\Quill\RenderMultiple as QuillRenderMultiple;
 
 /**
  * Specific tests for raised bugs
@@ -47,12 +46,18 @@ final class BugTest extends \PHPUnit\Framework\TestCase
   ]
 }';
 
+    private $delta_bug_external_3 = '{"ops":[{"insert":"Lorem ipsum\nLorem ipsum\n\nLorem ipsum\n"}]}';
+
     private $expected_bug_101 = "<h1>Hallo</h1>
 <p>Das ist ein normaler Text:</p>
 <p><strong>Test: Eintrag</strong><br />
 <strong>Test: Zwei</strong></p>
 <p>https://heartbeat.gmbh</p>
 <p></p>";
+
+    private $expected_bug_external_3 = "<p>Lorem ipsum<br />
+Lorem ipsum</p>
+<p>Lorem ipsum</p>";
 
     /**
      * Inserts with just a new line are being ignored
@@ -77,6 +82,31 @@ final class BugTest extends \PHPUnit\Framework\TestCase
             $this->expected_bug_101,
             trim($result),
             __METHOD__ . ' newline only inserts ignored failure'
+        );
+    }
+
+    /**
+     * Newlines still proving to be an issue
+     * Bug report https://github.com/nadar/quill-delta-parser/issues/3     *
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testNewlinesNotGeneratingNewParagraph()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_bug_external_3);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals(
+            $this->expected_bug_external_3,
+            trim($result),
+            __METHOD__ . ' newline issues, no new paragraph'
         );
     }
 }
