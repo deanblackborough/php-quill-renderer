@@ -3,6 +3,20 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.15.0 - 2018-10-25
+
+* Added support for `Color` delta type, it creates a span with a style="color: #xxx" definition, 
+thank you (https://github.com/on2)
+
+Notes
+
+The implementation works and does not break anything, however, I will extend the feature in the future. 
+It should really be handled in the same way unknown attributes are handled in the plain Insert `delta`. 
+The Insert delta only deals with a simple key and value, it needs to be extended to allow complex values, 
+that way an attribute like `{"attributes":{"style":{"color": #e60000"}}` could generate the same output 
+and allow much more flexibility. I'm happy to leave the `Color` delta in until the next major version as I 
+believe it is a feature other people may use. 
+
 ## v3.14.3 - 2018-10-25
 
 * New paragraph not correctly being created for final sub insert when insert split on multiple newlines.

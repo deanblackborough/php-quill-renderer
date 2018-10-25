@@ -140,3 +140,4 @@ for use under the MIT License (MIT).
 * [Jonathanm10](https://github.com/Jonathanm10) [Issue #87] - Newlines proceeding inserts ignored, bug report.
 * [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location.
 * [Basil](https://github.com/nadar) [Issue #101] - Newline only inserts being ignored by parser.
+* [Lee Hesselden](https://github.com/on2) [PR #104] - Color delta to allowing spans with a style:color="#xxx" definition. (Feature will be extended by [Issue #106]) 
