@@ -121,6 +121,41 @@ abstract class Parse implements ParserInterface
         }
     }
 
+    public function splitInsertsByNewline(array $inserts): array
+    {
+        $separated_inserts = [];
+
+        foreach ($inserts as $insert) {
+            if ($insert['insert'] !== null) {
+                if (array_key_exists('attributes', $insert) === false) {
+                    if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
+                        foreach (preg_split("/[\n]{2,}/", $insert['insert']) as $match) {
+                            if (preg_match("/[\n]{1}/", $match) !== 0) {
+                                foreach (preg_split("/[\n]{1,}/", $match) as $sub_match) {
+                                    $separated_inserts[] = ['insert' => $sub_match];
+                                }
+                            } else {
+                                $separated_inserts[] = ['insert'=>$match];
+                            }
+                        }
+                    } else if (preg_match("/[\n]{1}/", $insert['insert']) !== 0) {
+                        foreach (preg_split("/[\n]{2,}/", $insert['insert']) as $match) {
+                            $separated_inserts[] = ['insert'=>$match];
+                        }
+                    } else {
+                        $separated_inserts[] = $insert;
+                    }
+                } else {
+                    $separated_inserts[] = $insert;
+                }
+            } else {
+                $separated_inserts[] = $insert;
+            }
+        }
+
+        return $separated_inserts;
+    }
+
     /**
      * Parse the $quill_json array and generate an array of Delta[] objects
      *
@@ -132,7 +167,7 @@ abstract class Parse implements ParserInterface
             $this->valid === true &&
             array_key_exists('ops', $this->quill_json) === true
         ) {
-            $this->quill_json = $this->quill_json['ops'];
+            $this->quill_json = $this->splitInsertsByNewline($this->quill_json['ops']);
 
             foreach ($this->quill_json as $quill) {
 
