@@ -129,27 +129,31 @@ abstract class Parse implements ParserInterface
             if ($insert['insert'] !== null) {
                 if (array_key_exists('attributes', $insert) === false) {
                     if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
-                        foreach (preg_split("/[\n]{2,}/", $insert['insert']) as $match) {
+                        $multiple_new_line_matches = preg_split("/[\n]{2,}/", $insert['insert']);
+                        foreach ($multiple_new_line_matches as $match) {
                             if (preg_match("/[\n]{1}/", $match) !== 0) {
-                                foreach (preg_split("/[\n]{1,}/", $match) as $sub_match) {
-                                    $separated_inserts[] = ['insert' => $sub_match];
+
+                                $new_line_matches = preg_split("/[\n]{1,}/", $match);
+                                foreach ($new_line_matches as $sub_match) {
+                                    $separated_inserts[] = ['insert' => $sub_match . "\n"];
                                 }
                             } else {
-                                $separated_inserts[] = ['insert'=>$match];
+                                $separated_inserts[] = ['insert'=>$match . "\n\n"];
                             }
                         }
                     } else if (preg_match("/[\n]{1}/", $insert['insert']) !== 0) {
-                        foreach (preg_split("/[\n]{2,}/", $insert['insert']) as $match) {
-                            $separated_inserts[] = ['insert'=>$match];
+                        $new_line_matches = preg_split("/[\n]{1,}/", $insert['insert']);
+                        foreach ($new_line_matches as $match) {
+                            $separated_inserts[] = ['insert'=>$match . "\n"];
                         }
                     } else {
-                        $separated_inserts[] = $insert;
+                        $separated_inserts[] = trim($insert);
                     }
                 } else {
-                    $separated_inserts[] = $insert;
+                    $separated_inserts[] = trim($insert);
                 }
             } else {
-                $separated_inserts[] = $insert;
+                $separated_inserts[] = trim($insert);
             }
         }
 
@@ -225,7 +229,7 @@ abstract class Parse implements ParserInterface
                         }
                     } else {
                         if (is_string($quill['insert']) === true) {
-                            $this->extendedInsert($quill);
+                            $this->insert($quill);
                         } else {
                             if (is_array($quill['insert']) === true) {
                                 if (array_key_exists('image', $quill['insert']) === true) {
@@ -396,7 +400,20 @@ abstract class Parse implements ParserInterface
      */
     public function insert(array $quill)
     {
-        $this->deltas[] = new $this->class_delta_insert($quill['insert'], $quill['attributes']);
+        $insert = $quill['insert'];
+        if (strlen(trim($insert)) > 0) {
+            $delta = new $this->class_delta_insert(trim($insert), (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
+
+            if (preg_match("/[\n]{2,}/", $insert) !== 0) {
+                $delta->setClose();
+            } else {
+                if (preg_match("/[\n]{1}/", $insert) !== 0) {
+                    $delta->setNewLine();
+                }
+            }
+
+            $this->deltas[] = $delta;
+        }
     }
 
     /**
