@@ -147,13 +147,11 @@ abstract class Parse implements ParserInterface
                             $separated_inserts[] = ['insert'=>$match . "\n"];
                         }
                     } else {
-                        $separated_inserts[] = trim($insert);
+                        $separated_inserts[] = $insert;
                     }
                 } else {
-                    $separated_inserts[] = trim($insert);
+                    $separated_inserts[] = $insert;
                 }
-            } else {
-                $separated_inserts[] = trim($insert);
             }
         }
 
@@ -402,7 +400,7 @@ abstract class Parse implements ParserInterface
     {
         $insert = $quill['insert'];
         if (strlen(trim($insert)) > 0) {
-            $delta = new $this->class_delta_insert(trim($insert), (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
+            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
             if (preg_match("/[\n]{2,}/", $insert) !== 0) {
                 $delta->setClose();
