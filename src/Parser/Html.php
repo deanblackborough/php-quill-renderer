@@ -24,8 +24,9 @@ use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
 
 /**
- * HTML parser, parses the deltas, create an array of HTMl Delta objects which
- * will be passed to the HTML renderer
+ * HTML deltas parser, iterates though the deltas array and creates an array of
+ * HTML delta objects, these will be passed to the HTML renderer to render and
+ * create the expected output
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
