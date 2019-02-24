@@ -121,41 +121,61 @@ abstract class Parse implements ParserInterface
         }
     }
 
+    /**
+     * Iterate over the deltas, create new deltas each time a new line is found,
+     * this should make it simpler o work out which delta belongs to which attribute
+     *
+     * @param array $inserts
+     *
+     * @return array
+     */
     public function splitInsertsByNewline(array $inserts): array
     {
-        $separated_inserts = [];
+        $new_deltas = [];
 
         foreach ($inserts as $insert) {
             if ($insert['insert'] !== null) {
-                if (array_key_exists('attributes', $insert) === false) {
-                    if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
-                        $multiple_new_line_matches = preg_split("/[\n]{2,}/", $insert['insert']);
-                        foreach ($multiple_new_line_matches as $match) {
-                            if (preg_match("/[\n]{1}/", $match) !== 0) {
 
-                                $new_line_matches = preg_split("/[\n]{1,}/", $match);
-                                foreach ($new_line_matches as $sub_match) {
-                                    $separated_inserts[] = ['insert' => $sub_match . "\n"];
+                // Check to see if we are dealing with a media based insert
+                if (is_array($insert['insert']) === false) {
+
+                    // We only want to split if there are no attributes
+                    if (array_key_exists('attributes', $insert) === false) {
+                        if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
+                            $multiple_new_line_matches = preg_split("/[\n]{2,}/", $insert['insert']);
+                            foreach ($multiple_new_line_matches as $match) {
+                                if (preg_match("/[\n]{1}/", $match) !== 0) {
+
+                                    $new_line_matches = preg_split("/[\n]{1,}/", $match);
+                                    foreach ($new_line_matches as $sub_match) {
+                                        $separated_inserts[] = ['insert' => $sub_match . "\n"];
+                                    }
+                                } else {
+                                    $separated_inserts[] = ['insert' => $match . "\n\n"];
+                                }
+                            }
+                        } else {
+                            if (preg_match("/[\n]{1}/", $insert['insert']) !== 0) {
+                                $new_line_matches = preg_split("/[\n]{1,}/", $insert['insert']);
+                                foreach ($new_line_matches as $match) {
+                                    $separated_inserts[] = ['insert' => $match . "\n"];
                                 }
                             } else {
-                                $separated_inserts[] = ['insert'=>$match . "\n\n"];
+                                $separated_inserts[] = $insert;
                             }
                         }
-                    } else if (preg_match("/[\n]{1}/", $insert['insert']) !== 0) {
-                        $new_line_matches = preg_split("/[\n]{1,}/", $insert['insert']);
-                        foreach ($new_line_matches as $match) {
-                            $separated_inserts[] = ['insert'=>$match . "\n"];
-                        }
                     } else {
-                        $separated_inserts[] = $insert;
+                        // Attributes, for now return unaffected
+                        $new_deltas[] = $insert;
                     }
                 } else {
-                    $separated_inserts[] = $insert;
+                    // Media based insert, return unaffected
+                    $new_deltas = $insert;
                 }
             }
         }
 
-        return $separated_inserts;
+        return $new_deltas;
     }
 
     /**
@@ -169,6 +189,11 @@ abstract class Parse implements ParserInterface
             $this->valid === true &&
             array_key_exists('ops', $this->quill_json) === true
         ) {
+            /**
+             * Before processing through the deltas, generate new deltas by splliting
+             * on all new lines, will make it much simpler to work out which
+             * delta belong to headings, lists etc.
+             */
             $this->quill_json = $this->splitInsertsByNewline($this->quill_json['ops']);
 
             foreach ($this->quill_json as $quill) {
