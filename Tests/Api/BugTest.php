@@ -13,8 +13,11 @@ final class BugTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_bug_external_3 = '{"ops":[{"insert":"Lorem ipsum\nLorem ipsum\n\nLorem ipsum\n"}]}';
 
-    private $expected_bug_external_3 = "<p>Lorem ipsum<br />
-Lorem ipsum</p>
+    private $expected_bug_external_3 = "<p>Lorem ipsum
+<br />
+Lorem ipsum
+
+</p>
 <p>Lorem ipsum
 <br />
 </p>";
