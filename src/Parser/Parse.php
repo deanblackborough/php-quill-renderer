@@ -141,27 +141,26 @@ abstract class Parse implements ParserInterface
 
                     // We only want to split if there are no attributes
                     if (array_key_exists('attributes', $insert) === false) {
-                        if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
-                            $multiple_new_line_matches = preg_split("/[\n]{2,}/", $insert['insert']);
-                            foreach ($multiple_new_line_matches as $match) {
-                                if (preg_match("/[\n]{1}/", $match) !== 0) {
 
-                                    $new_line_matches = preg_split("/[\n]{1,}/", $match);
-                                    foreach ($new_line_matches as $sub_match) {
-                                        $separated_inserts[] = ['insert' => $sub_match . "\n"];
-                                    }
+                        // First check for multiple newlines
+                        if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
+
+                            $multiple_matches = preg_split("/[\n]{2,}/", $insert['insert']);
+                            foreach ($multiple_matches as $match) {
+
+                                // Now check for single new matches
+                                if (preg_match("/[\n]{1}/", $match) !== 0) {
+                                    $new_deltas = $this->splitOnSingleNewlineOccurrences($match);
                                 } else {
-                                    $separated_inserts[] = ['insert' => $match . "\n\n"];
+                                    $new_deltas[] = ['insert' => $match . "\n\n"];
                                 }
                             }
                         } else {
+                            // No multiple newlines detected, check for single new line matches
                             if (preg_match("/[\n]{1}/", $insert['insert']) !== 0) {
-                                $new_line_matches = preg_split("/[\n]{1,}/", $insert['insert']);
-                                foreach ($new_line_matches as $match) {
-                                    $separated_inserts[] = ['insert' => $match . "\n"];
-                                }
+                                $new_deltas = $this->splitOnSingleNewlineOccurrences($insert['insert']);
                             } else {
-                                $separated_inserts[] = $insert;
+                                $new_deltas[] = $insert;
                             }
                         }
                     } else {
@@ -173,6 +172,25 @@ abstract class Parse implements ParserInterface
                     $new_deltas = $insert;
                 }
             }
+        }
+
+        return $new_deltas;
+    }
+
+    /**
+     * Check and split on single new line occurrences
+     *
+     * @param string $insert
+     *
+     * @return array
+     */
+    public function splitOnSingleNewlineOccurrences(string $insert): array
+    {
+        $new_deltas = [];
+
+        $single_matches = preg_split("/[\n]{1,}/", $insert);
+        foreach ($single_matches as $sub_match) {
+            $new_deltas[] = ['insert' => $sub_match . "\n"];
         }
 
         return $new_deltas;
