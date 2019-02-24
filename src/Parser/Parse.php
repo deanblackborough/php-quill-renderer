@@ -147,13 +147,18 @@ abstract class Parse implements ParserInterface
                         if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
 
                             $multiple_matches = preg_split("/[\n]{2,}/", $insert['insert']);
-                            foreach ($multiple_matches as $match) {
+                            foreach ($multiple_matches as $k => $match) {
+
+                                $newlines = false;
+                                if ($k !== count($multiple_matches) - 1) {
+                                    $newlines = true;
+                                }
 
                                 // Now check for single new matches
                                 if (preg_match("/[\n]{1}/", $match) !== 0) {
                                     $new_deltas = array_merge(
                                         $new_deltas,
-                                        $this->splitOnSingleNewlineOccurrences($match)
+                                        $this->splitOnSingleNewlineOccurrences($match, $newlines)
                                     );
                                 } else {
                                     $new_deltas[] = ['insert' => $match . "\n\n"];
@@ -188,17 +193,31 @@ abstract class Parse implements ParserInterface
      * Check and split on single new line occurrences
      *
      * @param string $insert
+     * @param boolean $newlines Append multiple new lines
      *
      * @return array
      */
-    public function splitOnSingleNewlineOccurrences(string $insert): array
+    public function splitOnSingleNewlineOccurrences(string $insert, bool $newlines = false): array
     {
         $new_deltas = [];
 
         $single_matches = preg_split("/[\n]{1,}/", $insert);
 
         foreach ($single_matches as $k => $sub_match) {
-            $new_deltas[] = ['insert' => $sub_match . (($k !== count($single_matches) -1) ? "\n" : null)];
+
+            $final_append = null;
+            if ($k === count($single_matches) - 1 && $newlines === true) {
+                $final_append = "\n\n";
+            }
+
+            $append = null;
+            if ($k !== count($single_matches) - 1) {
+                $append = "\n";
+            }
+
+            $new_deltas[] = [
+                'insert' => $sub_match . ($final_append !== null ? $final_append : $append)
+            ];
         }
 
         return $new_deltas;
