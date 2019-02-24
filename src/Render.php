@@ -101,4 +101,14 @@ class Render
             throw new \Exception('Failed to parse the supplied $quill_json array');
         }
     }
+
+    /**
+     * Return the generated deltas array
+     *
+     * @return array|null
+     */
+    public function deltas(): ?array
+    {
+        return $this->parser->deltas();
+    }
 }

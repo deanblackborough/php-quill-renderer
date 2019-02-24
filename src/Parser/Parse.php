@@ -134,6 +134,7 @@ abstract class Parse implements ParserInterface
         $new_deltas = [];
 
         foreach ($inserts as $insert) {
+
             if ($insert['insert'] !== null) {
 
                 // Check to see if we are dealing with a media based insert
@@ -150,7 +151,10 @@ abstract class Parse implements ParserInterface
 
                                 // Now check for single new matches
                                 if (preg_match("/[\n]{1}/", $match) !== 0) {
-                                    $new_deltas = $this->splitOnSingleNewlineOccurrences($match);
+                                    $new_deltas = array_merge(
+                                        $new_deltas,
+                                        $this->splitOnSingleNewlineOccurrences($match)
+                                    );
                                 } else {
                                     $new_deltas[] = ['insert' => $match . "\n\n"];
                                 }
@@ -158,7 +162,10 @@ abstract class Parse implements ParserInterface
                         } else {
                             // No multiple newlines detected, check for single new line matches
                             if (preg_match("/[\n]{1}/", $insert['insert']) !== 0) {
-                                $new_deltas = $this->splitOnSingleNewlineOccurrences($insert['insert']);
+                                $new_deltas = array_merge(
+                                    $new_deltas,
+                                    $this->splitOnSingleNewlineOccurrences($insert['insert'])
+                                );
                             } else {
                                 $new_deltas[] = $insert;
                             }
@@ -169,7 +176,7 @@ abstract class Parse implements ParserInterface
                     }
                 } else {
                     // Media based insert, return unaffected
-                    $new_deltas = $insert;
+                    $new_deltas[] = $insert;
                 }
             }
         }
@@ -189,8 +196,9 @@ abstract class Parse implements ParserInterface
         $new_deltas = [];
 
         $single_matches = preg_split("/[\n]{1,}/", $insert);
-        foreach ($single_matches as $sub_match) {
-            $new_deltas[] = ['insert' => $sub_match . "\n"];
+
+        foreach ($single_matches as $k => $sub_match) {
+            $new_deltas[] = ['insert' => $sub_match . (($k !== count($single_matches) -1) ? "\n" : null)];
         }
 
         return $new_deltas;
@@ -442,6 +450,7 @@ abstract class Parse implements ParserInterface
     public function insert(array $quill)
     {
         $insert = $quill['insert'];
+
         if (strlen(trim($insert)) > 0) {
             $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
