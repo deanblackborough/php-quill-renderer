@@ -374,4 +374,31 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
             $this->deltas[] = $delta;
         }
     }
+
+    /**
+     * Quill HTML insert, override DBlackborough\Quill\Delta\Delta::insert
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function insert(array $quill)
+    {
+        $insert = $quill['insert'];
+
+        /**
+         * @var Delta
+         */
+        $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
+
+        if (preg_match("/[\n]{2,}/", $insert) !== 0) {
+            $delta->setClose();
+        } else {
+            if (preg_match("/[\n]{1}/", $insert) !== 0) {
+                $delta->setNewLine();
+            }
+        }
+
+        $this->deltas[] = $delta;
+    }
 }
