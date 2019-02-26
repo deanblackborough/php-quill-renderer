@@ -147,11 +147,12 @@ abstract class Parse implements ParserInterface
                         if (preg_match("/[\n]{2,}/", $insert['insert']) !== 0) {
 
                             $multiple_matches = preg_split("/[\n]{2,}/", $insert['insert']);
+
                             foreach ($multiple_matches as $k => $match) {
 
-                                $newlines = false;
-                                if ($k !== count($multiple_matches) - 1) {
-                                    $newlines = true;
+                                $newlines = true;
+                                if ($k === count($multiple_matches) - 1) {
+                                    $newlines = false;
                                 }
 
                                 // Now check for single new matches
@@ -161,7 +162,7 @@ abstract class Parse implements ParserInterface
                                         $this->splitOnSingleNewlineOccurrences($match, $newlines)
                                     );
                                 } else {
-                                    $new_deltas[] = ['insert' => $match . "\n\n"];
+                                    $new_deltas[] = ['insert' => $match . ($newlines === true ? "\n\n" : null)];
                                 }
                             }
                         } else {
