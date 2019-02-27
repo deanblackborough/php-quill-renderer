@@ -9,6 +9,7 @@ Full changelog for PHP Quill Renderer
 * Return deltas exactly as defined, all the extra new lines intact, strict mode will be added later to 
 remove unnecessary new lines.
 * Update to README explaining plan for v4.
+* Coding standard correction thanks to [Lode Claassen](https://github.com/lode)
 
 ## v3.15.0 - 2018-10-25
 
