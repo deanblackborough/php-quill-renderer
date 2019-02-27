@@ -13,7 +13,7 @@ use DBlackborough\Quill\Delta\Delta;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-Interface DeltaInterface
+interface DeltaInterface
 {
     /**
      * Add a child delta
