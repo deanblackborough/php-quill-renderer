@@ -16,7 +16,8 @@ final class ListTest extends \PHPUnit\Framework\TestCase
     private $delta_paragraph_then_list_then_paragraph_final_list_character_bold = '{"ops":[{"insert":"This is a paragraph.\n\nList item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"List item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"List item "},{"attributes":{"bold":true},"insert":"3"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"\nThis is another paragraph.\n"}]}';
 
     /** @var string Not keen on the new line in this result, will deal with it at ome point  */
-    private $expected_paragraph_then_list = '<p>This is a single line of text.<br />
+    private $expected_paragraph_then_list = '<p>This is a single line of text.
+<br />
 </p>
 <ul>
 <li>Bullet 1</li>
@@ -24,23 +25,33 @@ final class ListTest extends \PHPUnit\Framework\TestCase
 <li>Bullet 3</li>
 </ul>';
 
-    private $expected_paragraph_then_list_then_paragraph = '<p>This is a paragraph.</p>
+    private $expected_paragraph_then_list_then_paragraph = '<p>This is a paragraph.
+
+</p>
 <ul>
 <li>List item 1</li>
 <li>List item 2 </li>
 <li>List item 3</li>
 </ul>
-<p><br />
-This is another paragraph</p>';
+<p>
+<br />
+This is another paragraph
+<br />
+</p>';
 
-    private $expected_paragraph_then_list_then_paragraph_final_list_character_bold = '<p>This is a paragraph.</p>
+    private $expected_paragraph_then_list_then_paragraph_final_list_character_bold = '<p>This is a paragraph.
+
+</p>
 <ol>
 <li>List item 1</li>
 <li>List item 2</li>
 <li>List item <strong>3</strong></li>
 </ol>
-<p><br />
-This is another paragraph.</p>';
+<p>
+<br />
+This is another paragraph.
+<br />
+</p>';
 
     /**
      * Test a paragraph followed by a list
