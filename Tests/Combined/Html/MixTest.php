@@ -155,9 +155,7 @@ final class MixTest extends \PHPUnit\Framework\TestCase
 
     private $expected_paragraph_after_two_headers = '<h1>Primary Header</h1>
 <h2>Secondary header</h2>
-<p>
-
-A paragraph.
+<p>A paragraph.
 <br />
 </p>';
     private $expected_list_and_header = '<ul>
@@ -171,10 +169,7 @@ Donec sollicitudin, lacus sed luctus ultricies, <s><em>quam sapien </em></s><str
     private $expected_multiple_unknown_attributes_image = '<p>Text 1 <strong>assumenda</strong> Text 2.
 
 </p>
-<p><img src="data:image/png;base64,ImageDataOmittedforSize" width="214" style="display: inline; float: right; margin: 0px 0px 1em 1em;" />
-
-</p>
-<p>Text 3.</p>';
+<p><img src="data:image/png;base64,ImageDataOmittedforSize" width="214" style="display: inline; float: right; margin: 0px 0px 1em 1em;" />Text 3.</p>';
 
     /**
      * Test for issue #64, opening p tag between two opening headers

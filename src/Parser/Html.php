@@ -389,16 +389,19 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
         /**
          * @var Delta
          */
-        $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
+        if (strlen(trim($insert)) > 0) {
+            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
-        if (preg_match("/[\n]{2,}/", $insert) !== 0) {
-            $delta->setClose();
-        } else {
-            if (preg_match("/[\n]{1}/", $insert) !== 0) {
-                $delta->setNewLine();
+
+            if (preg_match("/[\n]{2,}/", $insert) !== 0) {
+                $delta->setClose();
+            } else {
+                if (preg_match("/[\n]{1}/", $insert) !== 0) {
+                    $delta->setNewLine();
+                }
             }
-        }
 
-        $this->deltas[] = $delta;
+            $this->deltas[] = $delta;
+        }
     }
 }

@@ -33,9 +33,7 @@ final class ListTest extends \PHPUnit\Framework\TestCase
 <li>List item 2 </li>
 <li>List item 3</li>
 </ul>
-<p>
-<br />
-This is another paragraph
+<p>This is another paragraph
 <br />
 </p>';
 
@@ -47,9 +45,7 @@ This is another paragraph
 <li>List item 2</li>
 <li>List item <strong>3</strong></li>
 </ol>
-<p>
-<br />
-This is another paragraph.
+<p>This is another paragraph.
 <br />
 </p>';
 
