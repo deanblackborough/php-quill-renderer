@@ -24,8 +24,9 @@ use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
 
 /**
- * HTML parser, parses the deltas, create an array of HTMl Delta objects which
- * will be passed to the HTML renderer
+ * HTML deltas parser, iterates though the deltas array and creates an array of
+ * HTML delta objects, these will be passed to the HTML renderer to render and
+ * create the expected output
  *
  * @author Dean Blackborough <dean@g3d-development.com>
  * @copyright Dean Blackborough
@@ -368,6 +369,36 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
             }
             if (array_key_exists('pre_new_line', $insert) === true && $insert['pre_new_line'] === true) {
                 $delta->setPreNewLine();
+            }
+
+            $this->deltas[] = $delta;
+        }
+    }
+
+    /**
+     * Quill HTML insert, override DBlackborough\Quill\Delta\Delta::insert
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function insert(array $quill)
+    {
+        $insert = $quill['insert'];
+
+        /**
+         * @var Delta
+         */
+        if (strlen(trim($insert)) > 0) {
+            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
+
+
+            if (preg_match("/[\n]{2,}/", $insert) !== 0) {
+                $delta->setClose();
+            } else {
+                if (preg_match("/[\n]{1}/", $insert) !== 0) {
+                    $delta->setNewLine();
+                }
             }
 
             $this->deltas[] = $delta;

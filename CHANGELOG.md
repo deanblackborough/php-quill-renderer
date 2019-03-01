@@ -3,6 +3,15 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.16.0 - 2019-02-28
+
+* Reworked the parser, split deltas much sooner to try and simplify some of the later logic.
+* Return deltas pretty much exactly as defined, most of the new lines intact, I'm thinking about 
+adding a `strict` mode that will generate what I consider to be better HTML.
+* Update to the README explaining my plans for v4.
+* Reworked a couple of tests and removed one or two that I did not consider to be useful.
+* Coding standard correction thanks to [Lode Claassen](https://github.com/lode)
+
 ## v3.15.0 - 2018-10-25
 
 * Added support for `Color` delta type, it creates a span with a style="color: #xxx" definition, 

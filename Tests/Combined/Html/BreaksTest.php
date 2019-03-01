@@ -15,25 +15,54 @@ final class BreaksTest extends \PHPUnit\Framework\TestCase
     private $delta_single_paragraph = '{"ops":[{"insert":"Lorem ipsum dolor sit amet"}]}';
     private $delta_two_paragraphs = '{"ops":[{"insert":"Lorem ipsum dolor sit amet.\n\nLorem ipsum dolor sit amet."}]}';
     private $delta_three_paragraphs = '{"ops":[{"insert":"This is a single entry that \n\nshould create three paragraphs \n\nof HTML.\n"}]}';
-    private $delta_line_breaks = '{"ops":[{"insert":"Line 1, should have a BR\nLine 2, should have a BR\nLine 3\n"}]}';
+    private $delta_line_breaks = '
+    {
+        "ops":[
+            {
+                "insert":"Line 1, should have a BR\nLine 2, should have a BR\nLine 3\n"
+            }
+        ]
+    }';
     private $delta_paragraph_then_line_breaks = '{"ops":[{"insert":"Paragraph\n\nLine 1, should have a BR\nLine 2, should have a BR\nLine 3\n"}]}';
 
-    private $expected_paragraphs_with_attributes = "<p>This is a three <strong>paragraph</strong> test</p>
-<p>the <s>difference</s> being this time we </p>
+    private $expected_paragraphs_with_attributes = "<p>This is a three <strong>paragraph</strong> test
+
+</p>
+<p>the <s>difference</s> being this time we 
+
+</p>
 <p>are <u>going to add</u> attributes.</p>";
     private $expected_single_paragraph = '<p>Lorem ipsum dolor sit amet</p>';
-    private $expected_two_paragraphs = '<p>Lorem ipsum dolor sit amet.</p>
+    private $expected_two_paragraphs = '<p>Lorem ipsum dolor sit amet.
+
+</p>
 <p>Lorem ipsum dolor sit amet.</p>';
-    private $expected_three_paragraphs = '<p>This is a single entry that </p>
-<p>should create three paragraphs </p>
-<p>of HTML.</p>';
-    private $expected_line_breaks = "<p>Line 1, should have a BR<br />
-Line 2, should have a BR<br />
-Line 3</p>";
-    private $expected_paragraph_then_line_breaks = "<p>Paragraph</p>
-<p>Line 1, should have a BR<br />
-Line 2, should have a BR<br />
-Line 3</p>";
+    private $expected_three_paragraphs = '<p>This is a single entry that 
+
+</p>
+<p>should create three paragraphs 
+
+</p>
+<p>of HTML.
+<br />
+</p>';
+    private $expected_line_breaks = "<p>Line 1, should have a BR
+<br />
+Line 2, should have a BR
+<br />
+Line 3
+<br />
+</p>";
+    private $expected_paragraph_then_line_breaks = "<p>Paragraph
+
+</p>
+<p>Line 1, should have a BR
+<br />
+Line 2, should have a BR
+<br />
+Line 3
+<br />
+</p>";
 
     /**
      * Test paragraphs with attributes

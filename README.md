@@ -18,16 +18,33 @@ supported are listed in the table below, the goal is to eventually support every
 
 ## Planned features
 
-Over the next few weeks/months I want to continue adding support for additional 
-[Quill](https://github.com/quilljs/quill) features and add, flesh out additional 
-output formats, after Markdown I'm planning on plain txt, GitHub flavoured Markdown 
-and possibly RTF/PDF. 
+The latest update, v3.16.0, took a while, after receiving many bug reports related 
+to mishandling of newlines I decided to do a minor refactor, mainly splitting the deltas 
+sooner. I'm hoping that by the v3.17.0 release I'll be done and can then concentrate on new features.
+
+If you check the table below you will note that I don't support all of Quills 
+features, that is definitely the plan, however, before I add support for new 
+attributes I want to add a major new feature.
+
+Plugins
+
+I'm planning to add support for plugins, all the existing features will become 
+plugins, therefore, based on your particular needs you will be able to disable plugins/deltas 
+you don't need, in addition, this will allow me to add support for third-party plugins.
+
+Plugin support, will, of course, be a breaking change so once I have resolved all 
+the known bugs and completed my planned refactoring I will start work on plugins 
+in the v4 branch. 
+
+I will continue to support v3 after the eventual release of v4, some features may 
+be backported, it very much depends on the particular feature. 
 
 ## Installation
  
 The easiest way to use the `PHP Quill Renderer` is via composer. 
 ```composer require deanblackborough/php-quill-renderer```, 
-alternatively you can include the classes in my src/ directory directly in your library or app.
+alternatively you can include the classes in my src/ directory directly in your 
+library or app.
 
 ## Usage
 
@@ -97,7 +114,7 @@ echo $renderer->load($parser->deltasByIndex('two'))->render();
 | Image | Yes | Yes | Yes | Yes
 | Video | No | No | Yes | Yes
 | List | Yes | Yes | Yes | Yes
-| Child lists | No | No | In Development | In Development
+| Child lists | No | No | Planned | Planned
 | Indent/Outdent | No| No | Planned | Planned
 | Text direction | No | No | Planned | N/A
 | Color | No | No | Planned | N/K
@@ -124,8 +141,9 @@ echo $renderer->load($parser->deltasByIndex('two'))->render();
 | List | `<ul>` `<ol>` | `* ` & `[n]`
 
 ## Copyright and license
-The [deanblackborough/php-quill-renderer](https://github.com/deanblackborough/php-quill-renderer) library is copyright 
-© Dean Blackborough and [licensed](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE) 
+The [deanblackborough/php-quill-renderer](https://github.com/deanblackborough/php-quill-renderer) 
+library is copyright © Dean Blackborough and 
+[licensed](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE) 
 for use under the MIT License (MIT). 
 
 ## Credits
@@ -140,4 +158,8 @@ for use under the MIT License (MIT).
 * [Jonathanm10](https://github.com/Jonathanm10) [Issue #87] - Newlines proceeding inserts ignored, bug report.
 * [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location.
 * [Basil](https://github.com/nadar) [Issue #101] - Newline only inserts being ignored by parser.
-* [Lee Hesselden](https://github.com/on2) [PR #104] - Color delta to allowing spans with a style:color="#xxx" definition. (Feature will be extended by [Issue #106]) 
+* [Lee Hesselden](https://github.com/on2) [PR #104] - Color delta to allowing spans with a style:color="#xxx" definition. (Feature will be extended by [Issue #106])
+
+## Coding standard credit
+
+* [Lode Claassen](https://github.com/lode) [PR#113] - Incorrect case in keyword. 

@@ -15,10 +15,13 @@ final class HeaderTest extends \PHPUnit\Framework\TestCase
     private $delta_header_then_text_then_header = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n\nNow another heading"},{"attributes":{"header":1},"insert":"\n"}]}';
 
     private $expected_header_then_text = "<h2>This is a heading</h2>
-<p><br />
-Now some normal text.</p>";
+<p>Now some normal text.
+<br />
+</p>";
     private $expected_header_then_text_then_header = "<h2>This is a heading</h2>
-<p>Now some normal text.</p>
+<p>Now some normal text.
+
+</p>
 <h1>Now another heading</h1>";
 
     /**
