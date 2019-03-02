@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Delta;
+use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Interfaces\ParserInterface;
 use DBlackborough\Quill\Options;
 
@@ -14,7 +15,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Parse implements ParserInterface
+abstract class Parse implements ParserInterface, ParserAttributeInterface
 {
     /**
      * The initial quill json string after it has been json decoded

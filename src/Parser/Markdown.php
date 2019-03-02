@@ -13,7 +13,6 @@ use DBlackborough\Quill\Delta\Markdown\Italic;
 use DBlackborough\Quill\Delta\Markdown\Link;
 use DBlackborough\Quill\Delta\Markdown\ListItem;
 use DBlackborough\Quill\Delta\Markdown\Video;
-use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Options;
 
 /**
@@ -24,7 +23,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Markdown extends Parse implements ParserAttributeInterface
+class Markdown extends Parse
 {
     /**
      * Deltas array after parsing, array of Delta objects
