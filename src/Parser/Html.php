@@ -20,7 +20,6 @@ use DBlackborough\Quill\Delta\Html\SuperScript;
 use DBlackborough\Quill\Delta\Html\Underline;
 use DBlackborough\Quill\Delta\Html\Video;
 use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
-use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
 
 /**
@@ -32,7 +31,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Html extends Parse implements ParserSplitInterface, ParserAttributeInterface
+class Html extends Parse implements ParserAttributeInterface
 {
     /**
      * Deltas array after parsing, array of Delta objects
