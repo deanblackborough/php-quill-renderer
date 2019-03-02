@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.17.0 - 2019-03-xx
+
+
+
 ## v3.16.0 - 2019-02-28
 
 * Reworked the parser, split deltas much sooner to try and simplify some of the later logic.
