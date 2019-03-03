@@ -188,7 +188,13 @@ class Html extends Parse
 
             for ($i = $current_index - 1; $i >= 0; $i--) {
                 $this_delta = $this->deltas[$i];
-                if ($this_delta->displayType() === Delta::DISPLAY_BLOCK) {
+                if (
+                    $this_delta->displayType() === Delta::DISPLAY_BLOCK
+                    ||
+                    $this_delta->newLine() === true
+                    ||
+                    $this_delta->close() === true
+                ) {
                     break;
                 } else if ($this_delta->hasAttributes() === true) {
                     $this->deltas[$current_index]->addChild($this->deltas[$i]);
