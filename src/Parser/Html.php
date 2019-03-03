@@ -151,12 +151,17 @@ class Html extends Parse
                 $this->deltas[$current_index]->setFirstChild();
                 $this->deltas[$current_index]->setLastChild();
             } else {
-                if ($this->deltas[$previous_index]->isChild() === true) {
-                    $this->deltas[$current_index]->setLastChild();
-                    $this->deltas[$previous_index]->setLastChild(false);
+                if ($this->deltas[$current_index]->parentTag() === $this->deltas[$previous_index]->parentTag()) {
+                    if ($this->deltas[$previous_index]->isChild() === true) {
+                        $this->deltas[$current_index]->setLastChild();
+                        $this->deltas[$previous_index]->setLastChild(false);
+                    } else {
+                        $this->deltas[$current_index]->setFirstChild();
+                        $this->deltas[$current_index]->setLastChild();
+                    }
                 } else {
+                    $this->deltas[$previous_index]->setLastChild();
                     $this->deltas[$current_index]->setFirstChild();
-                    $this->deltas[$current_index]->setLastChild();
                 }
             }
         }
