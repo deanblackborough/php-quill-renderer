@@ -395,10 +395,18 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
      */
     public function attributeHeader(array $quill)
     {
-        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
+        if (
+            in_array(
+                $quill['attributes'][OPTIONS::ATTRIBUTE_HEADER],
+                array(1, 2, 3, 4, 5, 6, 7)
+            ) === true
+        ) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
             unset($this->deltas[count($this->deltas) - 1]);
-            $this->deltas[] = new $this->class_delta_header($insert, $quill['attributes']);
+            $this->deltas[] = new $this->class_delta_header(
+                $insert,
+                $quill['attributes']
+            );
             // Reorder the array
             $this->deltas = array_values($this->deltas);
         }
