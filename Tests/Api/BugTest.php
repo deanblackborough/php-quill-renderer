@@ -22,7 +22,7 @@ final class BugTest extends \PHPUnit\Framework\TestCase
                 "attributes":{
                     "link":"https://link.com"
                 },
-                "insert":"head"
+                "insert":"header"
             },
             {
                 "insert":", it has a link within it."
@@ -44,7 +44,7 @@ Lorem ipsum
 <p>Lorem ipsum
 <br />
 </p>';
-    private $expected_bug_108_link_within_header = '';
+    private $expected_bug_108_link_within_header = '<h2>This is a <a href="https://link.com">header</a>, it has a link within it.</h2>';
 
     /**
      * Newlines still proving to be an issue

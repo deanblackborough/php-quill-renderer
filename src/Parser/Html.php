@@ -163,6 +163,51 @@ class Html extends Parse
     }
 
     /**
+     * Header Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeHeader(array $quill)
+    {
+        if (
+            in_array(
+                $quill['attributes'][OPTIONS::ATTRIBUTE_HEADER],
+                array(1, 2, 3, 4, 5, 6, 7)
+            ) === true
+        ) {
+            $insert[] = $quill['insert'];
+
+            $this->deltas = array_values($this->deltas);
+            $this->deltas[] = new $this->class_delta_header(
+                '',
+                $quill['attributes']
+            );
+            $current_index = count($this->deltas) - 1;
+
+            for ($i = $current_index - 1; $i >= 0; $i--) {
+                $this_delta = $this->deltas[$i];
+                if ($this_delta->displayType() === Delta::DISPLAY_BLOCK) {
+                    break;
+                } else if ($this_delta->hasAttributes() === true) {
+                    $this->deltas[$current_index]->addChild($this->deltas[$i]);
+                    unset($this->deltas[$i]);
+                } else {
+                    $this->deltas[$current_index]->addChild(
+                        new $this->class_delta_insert(
+                            $this->deltas[$i]->getInsert()
+                        )
+                    );
+                    unset($this->deltas[$i]);
+                }
+            }
+
+            $this->deltas = array_values($this->deltas);
+        }
+    }
+
+    /**
      * Color Quill attribute, assign the relevant Delta class and set up the data
      *
      * @param array $quill
