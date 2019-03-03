@@ -103,16 +103,6 @@ interface ParserAttributeInterface
     public function insert(array $quill);
 
     /**
-     * Extended Quill insert, insert will need to be split before creation
-     * of Deltas
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function extendedInsert(array $quill);
-
-    /**
      * Multiple attributes set, handle accordingly
      *
      * @param array $quill

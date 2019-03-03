@@ -5,7 +5,9 @@ Full changelog for PHP Quill Renderer
 
 ## v3.17.0 - 2019-03-xx
 
-
+* Removed the `ParserSplitInterface` interface, no use anymore.
+* Changed which class implements `ParserAttributeInterface` interface.
+* Removed redundant methods from parsers.
 
 ## v3.16.0 - 2019-02-28
 
