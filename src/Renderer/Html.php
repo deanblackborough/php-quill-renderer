@@ -43,7 +43,10 @@ class Html extends Render
         $block_open = false;
 
         foreach ($this->deltas as $i => $delta) {
-            if ($delta->displayType() === Delta::DISPLAY_INLINE && $block_open === false) {
+            if (
+                $delta->displayType() === Delta::DISPLAY_INLINE &&
+                $block_open === false
+            ) {
                 $block_open = true;
                 $this->output .= '<p>';
             }

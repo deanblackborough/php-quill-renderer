@@ -23,7 +23,8 @@ class Render
     private $format;
 
     /**
-     * Renderer constructor, pass in the $quill_json string and set the requested output format
+     * Renderer constructor, pass in the $quill_json string and set the requested
+     * output format
      *
      * @param string $quill_json
      * @param string $format Requested output format

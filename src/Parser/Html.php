@@ -67,7 +67,12 @@ class Html extends Parse
      */
     public function attributeList(array $quill)
     {
-        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
+        if (
+            in_array(
+                $quill['attributes'][OPTIONS::ATTRIBUTE_LIST],
+                array('ordered', 'bullet')
+            ) === true
+        ) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
             $attributes = $this->deltas[count($this->deltas) - 1]->getAttributes();
 
@@ -238,12 +243,12 @@ class Html extends Parse
     {
         $insert = $quill['insert'];
 
-        /**
-         * @var Delta
-         */
         if (strlen(trim($insert)) > 0) {
-            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
+            /**
+             * @var Delta
+             */
+            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
             if (preg_match("/[\n]{2,}/", $insert) !== 0) {
                 $delta->setClose();
