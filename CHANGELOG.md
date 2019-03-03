@@ -5,9 +5,11 @@ Full changelog for PHP Quill Renderer
 
 ## v3.17.0 - 2019-03-xx
 
+* Handle custom attributes in a better way, assign to style if sensible, thank you [Alex](https://github.com/AlexFence).
 * Removed the `ParserSplitInterface` interface, no use anymore.
 * Changed which class implements `ParserAttributeInterface` interface.
 * Removed redundant methods from parsers.
+* Code formatting and comment corrections.
 
 ## v3.16.0 - 2019-02-28
 
