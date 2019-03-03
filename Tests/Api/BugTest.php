@@ -35,6 +35,26 @@ final class BugTest extends \PHPUnit\Framework\TestCase
             }
         ]
     }';
+    private $delta_bug_108_link_end_of_header = '
+    {
+        "ops":[
+            {
+                "insert":"This is a header, with a link at the "
+            },
+            {
+                "attributes":{
+                    "link":"https://link.com"
+                },
+                "insert":"end"
+            },
+            {
+                "attributes":{
+                    "header":2
+                },
+                "insert":"\n"
+            }
+        ]
+    }';
 
     private $expected_bug_external_3 = '<p>Lorem ipsum
 <br />
@@ -45,6 +65,7 @@ Lorem ipsum
 <br />
 </p>';
     private $expected_bug_108_link_within_header = '<h2>This is a <a href="https://link.com">header</a>, it has a link within it.</h2>';
+    private $expected_bug_108_link_end_of_header = '<h2>This is a header, with a link at the <a href="https://link.com">end</a></h2>';
 
     /**
      * Newlines still proving to be an issue
@@ -72,8 +93,8 @@ Lorem ipsum
     }
 
     /**
-     * Newlines still proving to be an issue
-     * Bug report https://github.com/nadar/quill-delta-parser/issues/3
+     * Link within a header
+     * Bug report https://github.com/deanblackborough/php-quill-renderer/issues/108
      *
      * @return void
      * @throws \Exception
@@ -93,6 +114,31 @@ Lorem ipsum
             $this->expected_bug_108_link_within_header,
             trim($result),
             __METHOD__ . ' link with header'
+        );
+    }
+
+    /**
+     * Link at the end of a header
+     * Bug report https://github.com/deanblackborough/php-quill-renderer/issues/108
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testLinkAtEndOfHeader()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_bug_108_link_end_of_header);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals(
+            $this->expected_bug_108_link_end_of_header,
+            trim($result),
+            __METHOD__ . ' link at end of header'
         );
     }
 }

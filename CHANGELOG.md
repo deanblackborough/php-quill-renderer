@@ -9,6 +9,7 @@ Full changelog for PHP Quill Renderer
 * Removed the `ParserSplitInterface` interface, no use anymore.
 * Changed which class implements `ParserAttributeInterface` interface.
 * Removed redundant methods from parsers.
+* Fixed [#108](https://github.com/deanblackborough/php-quill-renderer/issues/108), links within headers not correctly rendering, headers now support children.
 * Code formatting and comment corrections.
 
 ## v3.16.0 - 2019-02-28
