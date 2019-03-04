@@ -3,13 +3,18 @@
 
 Full changelog for PHP Quill Renderer
 
-## v3.17.0 - 2019-03-xx
+## v3.17.0 - 2019-03-04
 
-* Handle custom attributes in a better way, assign to style if sensible, thank you [Alex](https://github.com/AlexFence).
+* Handle custom color attribute in a better way, assign to style attribute if sensible, 
+thank you [Alex](https://github.com/AlexFence). Accepted PR as is, only handles colour, 
+will extend feature in v3.18.0.
+* Fixed [#108](https://github.com/deanblackborough/php-quill-renderer/issues/108), 
+links within headers not correctly rendering, headers now support child deltas.
+* Fixed [#109](https://github.com/deanblackborough/php-quill-renderer/issues/109), 
+not correctly closing paragraphs or detecting list type change.
 * Removed the `ParserSplitInterface` interface, no use anymore.
 * Changed which class implements `ParserAttributeInterface` interface.
 * Removed redundant methods from parsers.
-* Fixed [#108](https://github.com/deanblackborough/php-quill-renderer/issues/108), links within headers not correctly rendering, headers now support children.
 * Code formatting and comment corrections.
 
 ## v3.16.0 - 2019-02-28

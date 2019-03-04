@@ -161,6 +161,7 @@ for use under the MIT License (MIT).
 * [Lee Hesselden](https://github.com/on2) [PR #104] - Color delta to allowing spans with a style:color="#xxx" definition. (Feature will be extended by [Issue #106])
 * [Alex](https://github.com/AlexFence) [PR112] - Custom attributes assigned to style attribute if sensible.
 * [davidraijmakers](https://github.com/davidraijmakers) [#Issue #108] - Children not supported with headers.
+* [philippkuehn](https://github.com/philippkuehn) [#Issue #109] - Multiple list output incorrect and paragraphs not being closed.
 
 ## Coding standard credit
 
