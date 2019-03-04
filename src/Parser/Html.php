@@ -19,8 +19,6 @@ use DBlackborough\Quill\Delta\Html\SubScript;
 use DBlackborough\Quill\Delta\Html\SuperScript;
 use DBlackborough\Quill\Delta\Html\Underline;
 use DBlackborough\Quill\Delta\Html\Video;
-use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
-use DBlackborough\Quill\Interfaces\ParserSplitInterface;
 use DBlackborough\Quill\Options;
 
 /**
@@ -32,7 +30,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-class Html extends Parse implements ParserSplitInterface, ParserAttributeInterface
+class Html extends Parse
 {
     /**
      * Deltas array after parsing, array of Delta objects
@@ -60,124 +58,6 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     }
 
     /**
-     * Split insert by new lines and optionally set whether or not the close()
-     * method needs to called on the Delta
-     *
-     * @param string $insert An insert string
-     *
-     * @return array array of inserts, two indexes, insert and close
-     */
-    public function splitInsertsOnNewLines($insert): array
-    {
-        $inserts = [];
-
-        if (preg_match("/[\n]{2,}/", $insert) !== 0) {
-            $splits = (preg_split("/[\n]{2,}/", $insert));
-            $i = 0;
-            foreach (preg_split("/[\n]{2,}/", $insert) as $match) {
-
-                $close = false;
-
-                $sub_inserts = $this->splitInsertsOnNewLine($match);
-
-                if (count($sub_inserts) > 0) {
-                    if (count($sub_inserts) === 1) {
-                        if ($i === 0 || $i !== count($splits) - 1) {
-                            $close = true;
-                        }
-
-                        $inserts[] = [
-                            'insert' => $sub_inserts[0]['insert'],
-                            'close' => $close,
-                            'new_line' => false,
-                            'pre_new_line' => false
-                        ];
-                    } else {
-                        $count = count($sub_inserts);
-                        $i = 0;
-                        foreach ($sub_inserts as $sub_insert) {
-                            $inserts[] = [
-                                'insert' => $sub_insert['insert'],
-                                'close' => (($count - 1) === $i ? true : $sub_insert['close']),
-                                'new_line' => $sub_insert['new_line'],
-                                'pre_new_line' => $sub_insert['pre_new_line']
-                            ];
-                            $i++;
-                        }
-                    }
-                }
-
-                $i++;
-            }
-        } else {
-            $sub_inserts = $this->splitInsertsOnNewLine($insert);
-            foreach ($sub_inserts as $sub_insert) {
-                $inserts[] = [
-                    'insert' => $sub_insert['insert'],
-                    'close' => $sub_insert['close'],
-                    'new_line' => $sub_insert['new_line'],
-                    'pre_new_line' => $sub_insert['pre_new_line']
-                ];
-            }
-        }
-
-        return $inserts;
-    }
-
-    /**
-     * Split insert by new line and optionally set whether or not the close()
-     * and newLine() methods needs to be called on the Delta
-     *
-     * @param string $insert An insert string
-     *
-     * @return array array of inserts, three indexes, insert, close and new_line
-     */
-    public function splitInsertsOnNewLine($insert): array
-    {
-        $inserts = [];
-
-        if (preg_match("/[\n]{1}/", rtrim($insert, "\n")) !== 0) {
-            $matches = preg_split("/[\n]{1}/", rtrim($insert, "\n"));
-            $i = 0;
-
-            foreach ($matches as $match) {
-                if (strlen(trim($match)) > 0) {
-                    $sub_insert = str_replace("\n", '', $match);
-                    $new_line = true;
-                    $pre_new_line = false;
-                    if ($i === (count($matches) - 1)) {
-                        $new_line = false;
-                    }
-                    if ($i === 1 && count($inserts) === 0) {
-                        $pre_new_line = true;
-                    }
-                    $inserts[] = [
-                        'insert' => $sub_insert,
-                        'close' => false,
-                        'new_line' => $new_line,
-                        'pre_new_line' => $pre_new_line
-                    ];
-                }
-                $i++;
-            }
-        } else {
-            $new_line = false;
-            if (strpos($insert, "\n") !== FALSE) {
-                $new_line = true;
-            }
-
-            $inserts[] = [
-                'insert' => str_replace("\n", '', $insert),
-                'close' => false,
-                'new_line' => $new_line,
-                'pre_new_line' => false
-            ];
-        }
-
-        return $inserts;
-    }
-
-    /**
      * Quill list assign the relevant Delta class and set up the data, needs to
      * modify/remove previous Deltas
      *
@@ -187,7 +67,12 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
      */
     public function attributeList(array $quill)
     {
-        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_LIST], array('ordered', 'bullet')) === true) {
+        if (
+            in_array(
+                $quill['attributes'][OPTIONS::ATTRIBUTE_LIST],
+                array('ordered', 'bullet')
+            ) === true
+        ) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
             $attributes = $this->deltas[count($this->deltas) - 1]->getAttributes();
 
@@ -266,14 +151,70 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
                 $this->deltas[$current_index]->setFirstChild();
                 $this->deltas[$current_index]->setLastChild();
             } else {
-                if ($this->deltas[$previous_index]->isChild() === true) {
-                    $this->deltas[$current_index]->setLastChild();
-                    $this->deltas[$previous_index]->setLastChild(false);
+                if ($this->deltas[$current_index]->parentTag() === $this->deltas[$previous_index]->parentTag()) {
+                    if ($this->deltas[$previous_index]->isChild() === true) {
+                        $this->deltas[$current_index]->setLastChild();
+                        $this->deltas[$previous_index]->setLastChild(false);
+                    } else {
+                        $this->deltas[$current_index]->setFirstChild();
+                        $this->deltas[$current_index]->setLastChild();
+                    }
                 } else {
+                    $this->deltas[$previous_index]->setLastChild();
                     $this->deltas[$current_index]->setFirstChild();
-                    $this->deltas[$current_index]->setLastChild();
                 }
             }
+        }
+    }
+
+    /**
+     * Header Quill attribute, assign the relevant Delta class and set up the data
+     *
+     * @param array $quill
+     *
+     * @return void
+     */
+    public function attributeHeader(array $quill)
+    {
+        if (
+            in_array(
+                $quill['attributes'][OPTIONS::ATTRIBUTE_HEADER],
+                array(1, 2, 3, 4, 5, 6, 7)
+            ) === true
+        ) {
+            $insert[] = $quill['insert'];
+
+            $this->deltas = array_values($this->deltas);
+            $this->deltas[] = new $this->class_delta_header(
+                '',
+                $quill['attributes']
+            );
+            $current_index = count($this->deltas) - 1;
+
+            for ($i = $current_index - 1; $i >= 0; $i--) {
+                $this_delta = $this->deltas[$i];
+                if (
+                    $this_delta->displayType() === Delta::DISPLAY_BLOCK
+                    ||
+                    $this_delta->newLine() === true
+                    ||
+                    $this_delta->close() === true
+                ) {
+                    break;
+                } else if ($this_delta->hasAttributes() === true) {
+                    $this->deltas[$current_index]->addChild($this->deltas[$i]);
+                    unset($this->deltas[$i]);
+                } else {
+                    $this->deltas[$current_index]->addChild(
+                        new $this->class_delta_insert(
+                            $this->deltas[$i]->getInsert()
+                        )
+                    );
+                    unset($this->deltas[$i]);
+                }
+            }
+
+            $this->deltas = array_values($this->deltas);
         }
     }
 
@@ -348,34 +289,6 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     }
 
     /**
-     * Extended Quill insert, insert will need to be split before creation
-     * of Deltas
-     *
-     * @param array $quill
-     *
-     * @return void
-     */
-    public function extendedInsert(array $quill)
-    {
-        $inserts = $this->splitInsertsOnNewLines($quill['insert']);
-
-        foreach ($inserts as $insert) {
-            $delta = new Insert($insert['insert']);
-            if ($insert['close'] === true) {
-                $delta->setClose();
-            }
-            if ($insert['new_line'] === true) {
-                $delta->setNewLine();
-            }
-            if (array_key_exists('pre_new_line', $insert) === true && $insert['pre_new_line'] === true) {
-                $delta->setPreNewLine();
-            }
-
-            $this->deltas[] = $delta;
-        }
-    }
-
-    /**
      * Quill HTML insert, override DBlackborough\Quill\Delta\Delta::insert
      *
      * @param array $quill
@@ -386,12 +299,12 @@ class Html extends Parse implements ParserSplitInterface, ParserAttributeInterfa
     {
         $insert = $quill['insert'];
 
-        /**
-         * @var Delta
-         */
         if (strlen(trim($insert)) > 0) {
-            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
+            /**
+             * @var Delta
+             */
+            $delta = new $this->class_delta_insert($insert, (array_key_exists('attributes', $quill) ? $quill['attributes'] : []));
 
             if (preg_match("/[\n]{2,}/", $insert) !== 0) {
                 $delta->setClose();

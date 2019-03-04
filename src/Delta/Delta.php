@@ -77,6 +77,20 @@ abstract class Delta implements DeltaInterface
     }
 
     /**
+     * Does the delta have any attributes
+     *
+     * @return boolean
+     */
+    public function hasAttributes(): bool
+    {
+        if (count($this->attributes) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Is the delta a child?
      *
      * @return boolean
@@ -162,6 +176,16 @@ abstract class Delta implements DeltaInterface
         $this->is_last_child = $value;
 
         return $this;
+    }
+
+    /**
+     * Set the insert string
+     *
+     * @param string $insert
+     */
+    public function setInsert(string $insert)
+    {
+        $this->insert = $insert;
     }
 
     /**

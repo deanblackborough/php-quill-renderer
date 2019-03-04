@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Parser;
 
 use DBlackborough\Quill\Delta\Delta;
+use DBlackborough\Quill\Interfaces\ParserAttributeInterface;
 use DBlackborough\Quill\Interfaces\ParserInterface;
 use DBlackborough\Quill\Options;
 
@@ -14,7 +15,7 @@ use DBlackborough\Quill\Options;
  * @copyright Dean Blackborough
  * @license https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE
  */
-abstract class Parse implements ParserInterface
+abstract class Parse implements ParserInterface, ParserAttributeInterface
 {
     /**
      * The initial quill json string after it has been json decoded
@@ -394,10 +395,18 @@ abstract class Parse implements ParserInterface
      */
     public function attributeHeader(array $quill)
     {
-        if (in_array($quill['attributes'][OPTIONS::ATTRIBUTE_HEADER], array(1, 2, 3, 4, 5, 6, 7)) === true) {
+        if (
+            in_array(
+                $quill['attributes'][OPTIONS::ATTRIBUTE_HEADER],
+                array(1, 2, 3, 4, 5, 6, 7)
+            ) === true
+        ) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
             unset($this->deltas[count($this->deltas) - 1]);
-            $this->deltas[] = new $this->class_delta_header($insert, $quill['attributes']);
+            $this->deltas[] = new $this->class_delta_header(
+                $insert,
+                $quill['attributes']
+            );
             // Reorder the array
             $this->deltas = array_values($this->deltas);
         }

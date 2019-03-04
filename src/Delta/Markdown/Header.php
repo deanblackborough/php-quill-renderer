@@ -30,13 +30,36 @@ class Header extends Delta
     }
 
     /**
+     * Return the display type
+     *
+     * @return string
+     */
+    public function displayType(): string
+    {
+        return parent::DISPLAY_BLOCK;
+    }
+
+    /**
      * Render the Markdown string
      *
      * @return string
      */
     public function render(): string
     {
-        return str_repeat('#', intval($this->attributes['header'])) .
-            " {$this->escape($this->insert)}";
+        $string = str_repeat('#', intval($this->attributes['header'])) . ' ';
+        if ($this->hasChildren() === true) {
+
+            foreach ($this->children() as $child) {
+                $string .= $child->render();
+            }
+        }
+        $string .= "{$this->escape($this->insert)}";
+
+        return $string;
+
+
+
+        /*return str_repeat('#', intval($this->attributes['header'])) .
+            " {$this->escape($this->insert)}";*/
     }
 }

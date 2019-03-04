@@ -104,7 +104,11 @@ class Compound extends Delta
 
         $element_attributes = '';
         foreach ($this->element_attributes as $attribute => $value) {
-            $element_attributes .= "{$attribute}=\"{$value}\" ";
+            if ($attribute == "color") {
+                $element_attributes .= "style=\"{$attribute}: $value\"";
+            } else {
+                $element_attributes .= "{$attribute}=\"{$value}\" ";
+            }
         }
 
         foreach ($this->tags as $i => $tag) {
