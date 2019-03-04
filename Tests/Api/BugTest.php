@@ -190,7 +190,24 @@ Lorem ipsum
 </p>';
     private $expected_bug_108_link_within_header = '<h2>This is a <a href="https://link.com">header</a>, it has a link within it.</h2>';
     private $expected_bug_108_link_end_of_header = '<h2>This is a header, with a link at the <a href="https://link.com">end</a></h2>';
-    private $expected_bug_109_list_outout_incorrect = '';
+    private $expected_bug_109_list_outout_incorrect = '<h1>Headline 1</h1>
+<p>Some text. <strong>Bold Text</strong>. <em>Italic Text</em>. <em><strong>Bold and italic Text</strong></em>. Here is a <a href="https://scrumpy.io">Link</a>. 
+<br />
+</p>
+<h2>Headline 2</h2>
+<ol>
+<li>ordered list item</li>
+<li>ordered list item</li>
+<li>ordered list item</li>
+</ol>
+<ul>
+<li>unordered list item</li>
+<li>unordered list item with <a href="https://scrumpy.io">link</a><strong>link</strong></li>
+<li>unordered list item</li>
+</ul>
+<p>Some Text.
+<br />
+</p>';
 
     /**
      * Newlines still proving to be an issue
