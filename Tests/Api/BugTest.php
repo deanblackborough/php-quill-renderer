@@ -179,6 +179,77 @@ final class BugTest extends \PHPUnit\Framework\TestCase
             }
         ]
     }';
+    private $delta_bug_117_links_deltas_with_attributes = '
+    {
+        "ops":[
+            {
+                "insert":"The "
+            },
+            {
+                "attributes":{
+                    "italic":true,
+                    "link":"https://www.google.com"
+                },
+                "insert":"quick"
+            },
+            {
+                "insert":" brown fox "
+            },
+            {
+                "attributes":{
+                    "bold":true,
+                    "link":"https://www.google.com"
+                },
+                "insert":"jumps"
+            },
+            {
+                "insert":" over t"
+            },
+            {
+                "attributes":{
+                    "link":"https://www.google.com"
+                },
+                "insert":"he "
+            },
+            {
+                "attributes":{
+                    "italic":true,
+                    "bold":true,
+                    "link":"https://www.google.com"
+                },
+                "insert":"lazy"
+            },
+            {
+                "attributes":{
+                    "link":"https://www.google.com"
+                },
+                "insert":" do"
+            },
+            {
+                "insert":"g... "
+            },
+            {
+                "attributes":{
+                    "italic":true,
+                    "link":"https://www.amazon.com"
+                },
+                "insert":"Space"
+            },
+            {
+                "insert":" "
+            },
+            {
+                "attributes":{
+                    "bold":true,
+                    "link":"https://www.yahoo.com"
+                },
+                "insert":"removed"
+            },
+            {
+                "insert":".\n"
+            }
+        ]
+    }';
 
     private $expected_bug_external_3 = '<p>Lorem ipsum
 <br />
@@ -190,7 +261,7 @@ Lorem ipsum
 </p>';
     private $expected_bug_108_link_within_header = '<h2>This is a <a href="https://link.com">header</a>, it has a link within it.</h2>';
     private $expected_bug_108_link_end_of_header = '<h2>This is a header, with a link at the <a href="https://link.com">end</a></h2>';
-    private $expected_bug_109_list_outout_incorrect = '<h1>Headline 1</h1>
+    private $expected_bug_109_list_output_incorrect = '<h1>Headline 1</h1>
 <p>Some text. <strong>Bold Text</strong>. <em>Italic Text</em>. <em><strong>Bold and italic Text</strong></em>. Here is a <a href="https://scrumpy.io">Link</a>. 
 <br />
 </p>
@@ -208,6 +279,7 @@ Lorem ipsum
 <p>Some Text.
 <br />
 </p>';
+    private $expected_bug_117_links_deltas_with_attributes = '';
 
     /**
      * Newlines still proving to be an issue
@@ -303,9 +375,34 @@ Lorem ipsum
         }
 
         $this->assertEquals(
-            $this->expected_bug_109_list_outout_incorrect,
+            $this->expected_bug_109_list_output_incorrect,
             trim($result),
             __METHOD__ . ' list output incorrect'
+        );
+    }
+
+    /**
+     * Links with attributes not being created correctly
+     * Bug report https://github.com/deanblackborough/php-quill-renderer/issues/117
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testLinkDeltasWithAdditionalAttributes()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_bug_117_links_deltas_with_attributes);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals(
+            $this->expected_bug_117_links_deltas_with_attributes,
+            trim($result),
+            __METHOD__ . ' link output incorrect'
         );
     }
 }
