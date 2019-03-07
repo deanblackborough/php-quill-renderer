@@ -3,6 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.17.1 - 2019-03-xx
+
+* Fixed [#117](https://github.com/deanblackborough/php-quill-renderer/issues/117), compound
+deltas not aware of the fact that they can also be links.
+* Fixed [#109](https://github.com/deanblackborough/php-quill-renderer/issues/109) again as it 
+appears I did not fix it correctly before.
+
 ## v3.17.0 - 2019-03-04
 
 * Handle custom color attribute in a better way, assign to style attribute if sensible, 

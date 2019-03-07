@@ -159,10 +159,11 @@ for use under the MIT License (MIT).
 * [raphaelsaunier](https://github.com/raphaelsaunier) [Issue #87] - Newlines proceeding inserts ignored, bug location.
 * [Basil](https://github.com/nadar) [Issue #101] - Newline only inserts being ignored by parser.
 * [Lee Hesselden](https://github.com/on2) [PR #104] - Color delta to allowing spans with a style:color="#xxx" definition. (Feature will be extended by [Issue #106])
-* [Alex](https://github.com/AlexFence) [PR112] - Custom attributes assigned to style attribute if sensible.
-* [davidraijmakers](https://github.com/davidraijmakers) [#Issue #108] - Children not supported with headers.
-* [philippkuehn](https://github.com/philippkuehn) [#Issue #109] - Multiple list output incorrect and paragraphs not being closed.
+* [Alex](https://github.com/AlexFence) [PR #112] - Custom attributes assigned to style attribute if sensible.
+* [davidraijmakers](https://github.com/davidraijmakers) [Issue #108] - Children not supported with headers.
+* [philippkuehn](https://github.com/philippkuehn) [Issue #109] - Multiple list output incorrect and paragraphs not being closed.
+* [mechanicalgux](https://github.com/mechanicalgux) [Issue #117] - Compound deltas don't know that they can be links.
 
 ## Coding standard credit
 
-* [Lode Claassen](https://github.com/lode) [PR#113] - Incorrect case in keyword. 
+* [Lode Claassen](https://github.com/lode) [PR #113] - Incorrect case in keyword. 
