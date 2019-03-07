@@ -31,6 +31,16 @@ class Compound extends Delta
     private $html;
 
     /**
+     * @var boolean Contains a link attribute
+     */
+    private $isLink = false;
+
+    /**
+     * @var string The link
+     */
+    private $link = null;
+
+    /**
      * Set the insert for the compound delta insert
      *
      * @param string $insert
@@ -88,7 +98,12 @@ class Compound extends Delta
      */
     public function setAttribute($attribute, $value): Compound
     {
-        $this->attributes[$attribute] = $value;
+        if ($attribute !== 'link') {
+            $this->attributes[$attribute] = $value;
+        } else {
+            $this->isLink = true;
+            $this->link = $value;
+        }
 
         return $this;
     }
@@ -101,6 +116,10 @@ class Compound extends Delta
     public function render(): string
     {
         $this->tags();
+
+        if ($this->isLink === true) {
+            $this->html .= "<a href=\"{$this->link}\">";
+        }
 
         $element_attributes = '';
         foreach ($this->element_attributes as $attribute => $value) {
@@ -123,6 +142,10 @@ class Compound extends Delta
 
         foreach (array_reverse($this->tags) as $tag) {
             $this->html .= "</{$tag}>";
+        }
+
+        if ($this->isLink === true) {
+            $this->html .= '</a>';
         }
 
         return $this->html;

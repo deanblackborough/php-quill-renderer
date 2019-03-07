@@ -273,13 +273,15 @@ Lorem ipsum
 </ol>
 <ul>
 <li>unordered list item</li>
-<li>unordered list item with <a href="https://scrumpy.io">link</a><strong>link</strong></li>
+<li>unordered list item with <a href="https://scrumpy.io"><strong>link</strong></a></li>
 <li>unordered list item</li>
 </ul>
 <p>Some Text.
 <br />
 </p>';
-    private $expected_bug_117_links_deltas_with_attributes = '';
+    private $expected_bug_117_links_deltas_with_attributes = '<p>The <a href="https://www.google.com"><em>quick</em></a> brown fox <a href="https://www.google.com"><strong>jumps</strong></a> over t<a href="https://www.google.com">he </a><a href="https://www.google.com"><em><strong>lazy</strong></em></a><a href="https://www.google.com"> do</a>g... <a href="https://www.amazon.com"><em>Space</em></a><a href="https://www.yahoo.com"><strong>removed</strong></a>.
+<br />
+</p>';
 
     /**
      * Newlines still proving to be an issue
