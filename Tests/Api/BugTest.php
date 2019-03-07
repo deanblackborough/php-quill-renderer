@@ -156,8 +156,8 @@ final class BugTest extends \PHPUnit\Framework\TestCase
                 "attributes": {
                     "bold": true,
                     "link": "https://scrumpy.io"
-              },
-              "insert": "link"
+                },
+                "insert": "link"
             },
             {
                 "attributes": {

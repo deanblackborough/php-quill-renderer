@@ -150,4 +150,22 @@ class Compound extends Delta
 
         return $this->html;
     }
+
+    /**
+     * Override the method to include the link in the attributes array if
+     * necessary as it will have be striped
+     *
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        if ($this->isLink === false) {
+            return $this->attributes;
+        } else {
+            return array_merge(
+                ['link' => $this->link],
+                $this->attributes
+            );
+        }
+    }
 }

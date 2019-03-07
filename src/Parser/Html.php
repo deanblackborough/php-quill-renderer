@@ -73,18 +73,20 @@ class Html extends Parse
                 array('ordered', 'bullet')
             ) === true
         ) {
-            $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
-            $attributes = $this->deltas[count($this->deltas) - 1]->getAttributes();
+            $previous_index = count($this->deltas) - 1;
 
-            unset($this->deltas[count($this->deltas) - 1]);
+            $insert = $this->deltas[$previous_index]->getInsert();
+            $attributes = $this->deltas[$previous_index]->getAttributes();
+
+            unset($this->deltas[$previous_index]);
 
             if (count($attributes) === 0) {
                 $this->deltas[] = new ListItem($insert, $quill['attributes']);
             } else {
                 $delta = new ListItem("", $quill['attributes']);
 
-                foreach ($attributes as $attribute_name => $value) {
-                    switch ($attribute_name) {
+                if (count($attributes) === 1) {
+                    switch(key($attributes)) {
                         case Options::ATTRIBUTE_BOLD:
                             $delta->addChild(new Bold($insert));
                             break;
@@ -121,7 +123,15 @@ class Html extends Parse
                         default:
                             break;
                     }
+                } else {
+                    $childDelta = new Compound($insert);
+                    foreach ($attributes as $attribute => $value) {
+                        $childDelta->setAttribute($attribute, $value);
+                    }
+
+                    $delta->addChild($childDelta);
                 }
+
                 $this->deltas[] = $delta;
             }
 
