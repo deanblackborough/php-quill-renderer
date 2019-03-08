@@ -250,6 +250,40 @@ final class BugTest extends \PHPUnit\Framework\TestCase
             }
         ]
     }';
+    private $delta_bug_117_links_deltas_with_attributes_take_2 = '
+    {
+        "ops":[
+            {
+                "attributes":{
+                    "italic":true,
+                    "link":"https://www.amazon.com"
+                },
+                "insert":"Space"
+            },
+            {
+                "insert":" "
+            },
+            {
+                "attributes":{
+                    "bold":true,
+                    "link":"https://www.yahoo.com"
+                },
+                "insert":"removed"
+            },
+            {
+                "insert":" but shoudn\'t"
+            },
+            {
+                "attributes":{
+                    "bold":true
+                },
+                "insert":"."
+            },
+            {
+                "insert":"\n"
+            }
+        ]
+    }';
 
     private $expected_bug_external_3 = '<p>Lorem ipsum
 <br />
@@ -282,6 +316,7 @@ Lorem ipsum
     private $expected_bug_117_links_deltas_with_attributes = '<p>The <a href="https://www.google.com"><em>quick</em></a> brown fox <a href="https://www.google.com"><strong>jumps</strong></a> over t<a href="https://www.google.com">he </a><a href="https://www.google.com"><em><strong>lazy</strong></em></a><a href="https://www.google.com"> do</a>g... <a href="https://www.amazon.com"><em>Space</em></a><a href="https://www.yahoo.com"><strong>removed</strong></a>.
 <br />
 </p>';
+    private $expected_bug_117_links_deltas_with_attributes_take_2 = '<p><a href="https://www.amazon.com"><em>Space</em></a> <a href="https://www.yahoo.com"><strong>removed</strong></a> but shoudn\'t<strong>.</strong></p>';
 
     /**
      * Newlines still proving to be an issue
@@ -403,6 +438,31 @@ Lorem ipsum
 
         $this->assertEquals(
             $this->expected_bug_117_links_deltas_with_attributes,
+            trim($result),
+            __METHOD__ . ' link output incorrect'
+        );
+    }
+
+    /**
+     * Links with attributes not being created correctly, take 2, space issues
+     * Bug report https://github.com/deanblackborough/php-quill-renderer/issues/117
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testLinkDeltasWithAdditionalAttributesTake2()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_bug_117_links_deltas_with_attributes_take_2);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals(
+            $this->expected_bug_117_links_deltas_with_attributes_take_2,
             trim($result),
             __METHOD__ . ' link output incorrect'
         );
