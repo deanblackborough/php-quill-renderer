@@ -18,15 +18,11 @@ supported are listed in the table below, the goal is to eventually support every
 
 ## Planned features
 
-The latest update, v3.16.0, took a while, after receiving many bug reports related 
-to mishandling of newlines I decided to do a minor refactor, mainly splitting the deltas 
-sooner. I'm hoping that by the v3.17.0 release I'll be done and can then concentrate on new features.
-
 If you check the table below you will note that I don't support all of Quills 
 features, that is definitely the plan, however, before I add support for new 
 attributes I want to add a major new feature.
 
-Plugins
+#### Plugins
 
 I'm planning to add support for plugins, all the existing features will become 
 plugins, therefore, based on your particular needs you will be able to disable plugins/deltas 
@@ -37,7 +33,7 @@ the known bugs and completed my planned refactoring I will start work on plugins
 in the v4 branch. 
 
 I will continue to support v3 after the eventual release of v4, some features may 
-be backported, it very much depends on the particular feature. 
+be back-ported, it very much depends on the particular feature. 
 
 ## Installation
  

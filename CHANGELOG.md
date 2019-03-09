@@ -3,7 +3,13 @@
 
 Full changelog for PHP Quill Renderer
 
-## v3.17.1 - 2019-03-xx
+## v3.17.2 - 2019-03-09
+
+* Additional work to fix [#117](https://github.com/deanblackborough/php-quill-renderer/issues/117),
+allow through any empty insert, some are valid so for now just render what quill wants, I'll 
+add strict mode later to remove what I consider to be the redundant inserts.
+
+## v3.17.1 - 2019-03-07
 
 * Fixed [#117](https://github.com/deanblackborough/php-quill-renderer/issues/117), compound
 deltas not aware of the fact that they can also be links.
