@@ -83,7 +83,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
     {
         $this->quill_json = json_decode($quill_json, true);
 
-        if (is_array($this->quill_json) === true && count($this->quill_json) > 0) {
+        if ($this->isValidDeltaJson($this->quill_json)) {
             $this->valid = true;
             $this->deltas = [];
             return $this;
@@ -109,7 +109,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
         foreach ($quill_json as $index => $json) {
             $json_stack_value = json_decode($json, true);
 
-            if (is_array($json_stack_value) === true && count($json_stack_value) > 0) {
+            if ($this->isValidDeltaJson($json_stack_value)) {
                 $this->quill_json_stack[$index] = $json_stack_value;
             }
         }
@@ -494,5 +494,24 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
     public function video(array $quill)
     {
         $this->deltas[] = new $this->class_delta_video($quill['insert']['video']);
+    }
+
+    /**
+     * Checks the delta json is valid and can be decoded
+     *
+     * @param $quill_json Quill json string
+     *
+     * @return boolean
+     */
+    private function isValidDeltaJson($quill_json): bool
+    {
+        if (is_array($quill_json) === false) {
+            return false;
+        }
+        if (count($quill_json) === 0) {
+            return false;
+        }
+
+        return true;
     }
 }
