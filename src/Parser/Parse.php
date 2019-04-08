@@ -74,14 +74,17 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
      * Load the deltas string, checks the json is valid and can be decoded
      * and then saves the decoded array to the the $quill_json property
      *
-     * @param string $quill_json Quill json string
+     * @param array|string $quill_json Quill json string
      *
      * @return Parse
      * @throws \InvalidArgumentException Throws an exception if there was an error decoding the json
      */
-    public function load(string $quill_json): Parse
+    public function load($quill_json): Parse
     {
-        $this->quill_json = json_decode($quill_json, true);
+        $this->quill_json = $quill_json;
+        if (is_string($this->quill_json) === true) {
+            $this->quill_json = json_decode($quill_json, true);
+        }
 
         if (is_array($this->quill_json) === true && count($this->quill_json) > 0) {
             $this->valid = true;
@@ -97,7 +100,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
      * ensures they can be decoded and the saves each decoded array to the
      * $quill_json_stack property indexed by the given key
      *
-     * @param array An array of $quill json strings, returnable via array index
+     * @param array An array of $quill json arrays|strings, returnable via array index
      *
      * @return Parse
      * @throws \InvalidArgumentException Throws an exception if there was an error decoding the json
@@ -106,8 +109,10 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
     {
         $this->deltas_stack = [];
 
-        foreach ($quill_json as $index => $json) {
-            $json_stack_value = json_decode($json, true);
+        foreach ($quill_json as $index => $json_stack_value) {
+            if (is_string($json_stack_value) === true) {
+                $json_stack_value = json_decode($json_stack_value, true);
+            }
 
             if (is_array($json_stack_value) === true && count($json_stack_value) > 0) {
                 $this->quill_json_stack[$index] = $json_stack_value;
