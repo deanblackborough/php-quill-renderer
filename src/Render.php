@@ -46,10 +46,7 @@ class Render
             default:
                 throw new \InvalidArgumentException(
                     'Requested $format not supported, formats supported, ' .
-                    implode(
-                        ', ',
-                        [Options::FORMAT_HTML, OPTIONS::FORMAT_MARKDOWN]
-                    )
+                    implode(', ', Options::ALL_FORMATS)
                 );
                 break;
         }
@@ -89,10 +86,7 @@ class Render
                     // Shouldn't be possible to get here
                     throw new \InvalidArgumentException(
                         'Requested $format not supported, formats supported, ' .
-                        implode(
-                            ', ',
-                            [Options::FORMAT_HTML, OPTIONS::FORMAT_MARKDOWN]
-                        )
+                        implode(', ', Options::ALL_FORMATS)
                     );
                     break;
             }

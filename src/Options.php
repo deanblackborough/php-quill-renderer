@@ -16,6 +16,12 @@ class Options
     public const FORMAT_MARKDOWN = 'Markdown';
     public const FORMAT_GITHUB_MARKDOWN = 'GithubMarkdown'; // Github flavoured markdown
 
+    public const ALL_FORMATS = [
+        self::FORMAT_HTML,
+        self::FORMAT_MARKDOWN,
+        self::FORMAT_GITHUB_MARKDOWN,
+    ];
+
     public const GITHUB_MARKDOWN_TOKEN_STRIKE = '~~';
 
     public const HTML_TAG_BOLD = 'strong';
