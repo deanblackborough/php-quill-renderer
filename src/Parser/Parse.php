@@ -232,10 +232,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
      */
     public function parse(): bool
     {
-        if (
-            $this->valid === true &&
-            array_key_exists('ops', $this->quill_json) === true
-        ) {
+        if ($this->valid === true) {
             /**
              * Before processing through the deltas, generate new deltas by splliting
              * on all new lines, will make it much simpler to work out which
@@ -509,6 +506,9 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
             return false;
         }
         if (count($quill_json) === 0) {
+            return false;
+        }
+        if (array_key_exists('ops', $quill_json) === false) {
             return false;
         }
 
