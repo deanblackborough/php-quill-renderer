@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.17.3 - 2019-04-10
+
+* Missing supported format in exception methods, thank you [Lode Claassen](https://github.com/lode).
+
 ## v3.17.2 - 2019-03-09
 
 * Additional work to fix [#117](https://github.com/deanblackborough/php-quill-renderer/issues/117),
