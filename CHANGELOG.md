@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.17.4 - 2019-05-01
+
+* Allow decoded json to be passed in rather than the library decode it, thank you [Lode Claassen](https://github.com/lode).
+* Validation code DRY, thank you [Lode Claassen](https://github.com/lode).
+
 ## v3.17.3 - 2019-04-10
 
 * Missing supported format in exception methods, thank you [Lode Claassen](https://github.com/lode).

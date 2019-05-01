@@ -159,8 +159,10 @@ for use under the MIT License (MIT).
 * [davidraijmakers](https://github.com/davidraijmakers) [Issue #108] - Children not supported with headers.
 * [philippkuehn](https://github.com/philippkuehn) [Issue #109] - Multiple list output incorrect and paragraphs not being closed.
 * [mechanicalgux](https://github.com/mechanicalgux) [Issue #117] - Compound deltas don't know that they can be links.
-* [Lode Claassen](https://github.com/lode) - Missing supported format in exception messages.
+* [Lode Claassen](https://github.com/lode) [PR121] - Missing supported format in exception messages.
+* [Lode Claassen](https://github.com/lode) [PR122] - Validation code DRY.
+* [Lode Claassen](https://github.com/lode) [PR123] - Allow already decoded json to be passed to parser.
 
-## Coding standard credit
+## Coding standards credits
 
 * [Lode Claassen](https://github.com/lode) [PR #113] - Incorrect case in keyword. 
