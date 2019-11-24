@@ -50,7 +50,9 @@ class Insert extends Delta
         } else {
             $html .= '<span';
             foreach($this->attributes as $attribute => $value) {
-                $html .= " {$attribute}=\"{$value}\"";
+                if (is_string($attribute) && is_string($value)) {
+                    $html .= " {$attribute}=\"{$value}\"";
+                }
             }
             $html .= ">{$this->escape($this->insert)}</span>";
         }

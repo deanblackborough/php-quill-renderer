@@ -47,7 +47,9 @@ class CompoundImage extends Delta
     {
         $image_attributes = '';
         foreach ($this->attributes as $attribute => $value) {
-            $image_attributes .= "{$attribute}=\"{$value}\" ";
+            if (is_string($attribute) && is_string($value)) {
+                $image_attributes .= "{$attribute}=\"{$value}\" ";
+            }
         }
         return "<img src=\"{$this->insert}\" {$image_attributes}/>";
     }
