@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DBlackborough\Quill\Delta\Html;
 
 use DBlackborough\Quill\Options;
+use DBlackborough\Quill\Settings;
 
 /**
  * Compound HTML delta, collects all the attributes for a compound insert and returns the generated HTML
@@ -82,7 +83,9 @@ class Compound extends Delta
                     break;
 
                 default:
-                    $this->element_attributes[$attribute] = $value;
+                    if (in_array($attribute, Settings::ignoredAttributes()) === false) {
+                        $this->element_attributes[$attribute] = $value;
+                    }
                     break;
             }
         }

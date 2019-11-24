@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Settings;
+
 /**
  * Default delta class for plain inserts, no attributes
  *
@@ -50,7 +52,11 @@ class Insert extends Delta
         } else {
             $html .= '<span';
             foreach($this->attributes as $attribute => $value) {
-                if (is_string($attribute) && is_string($value)) {
+                if (
+                    is_string($attribute) &&
+                    is_string($value) &&
+                    in_array($attribute, Settings::ignoredAttributes()) === false
+                ) {
                     $html .= " {$attribute}=\"{$value}\"";
                 }
             }

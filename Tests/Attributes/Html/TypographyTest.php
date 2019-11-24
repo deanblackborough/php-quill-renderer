@@ -4,7 +4,6 @@ namespace DBlackborough\Quill\Tests\Attributes\Html;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 
-use DBlackborough\Quill\Options;
 use DBlackborough\Quill\Render as QuillRender;
 
 /**
@@ -247,7 +246,7 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
      * @return void
      * @throws \Exception
      */
-    public function testCustomAttributeWhichIsAnArray()
+    public function testIgnoreCustomAttribute()
     {
         $result = null;
 
