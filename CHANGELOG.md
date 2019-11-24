@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.17.5 - 2019-11-24
+
+* Custom attributes values which aren't strings are ignored.
+ 
+
 ## v3.17.4 - 2019-05-01
 
 * Allow decoded json to be passed in rather than the library decode it, thank you [Lode Claassen](https://github.com/lode).
