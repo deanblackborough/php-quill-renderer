@@ -3,10 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
-## v3.17.5 - 2019-11-24
+## v3.18.0 - 2019-11-24
 
 * Custom attributes values which aren't strings are ignored.
- 
+* Custom attributes which the parser should ignored can now be defined. 
 
 ## v3.17.4 - 2019-05-01
 

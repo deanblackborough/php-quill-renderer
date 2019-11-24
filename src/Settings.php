@@ -12,7 +12,7 @@ namespace DBlackborough\Quill;
  */
 class Settings
 {
-    private static $ignored_attributes = [];
+    private static $ignored_custom_attributes = [];
 
     /**
      * Set any attributes which you would like the parser to ignore, specifically
@@ -20,9 +20,9 @@ class Settings
      *
      * @param array $attributes
      */
-    static public function setIgnoredAttributes(array $attributes)
+    static public function setIgnoredCustomAttributes(array $attributes)
     {
-        self::$ignored_attributes = $attributes;
+        self::$ignored_custom_attributes = $attributes;
     }
 
     /**
@@ -30,8 +30,8 @@ class Settings
      *
      * @return array
      */
-    static public function ignoredAttributes(): array
+    static public function ignoredCustomAttributes(): array
     {
-        return self::$ignored_attributes;
+        return self::$ignored_custom_attributes;
     }
 }

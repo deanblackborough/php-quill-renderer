@@ -83,7 +83,7 @@ class Compound extends Delta
                     break;
 
                 default:
-                    if (in_array($attribute, Settings::ignoredAttributes()) === false) {
+                    if (in_array($attribute, Settings::ignoredCustomAttributes()) === false) {
                         $this->element_attributes[$attribute] = $value;
                     }
                     break;

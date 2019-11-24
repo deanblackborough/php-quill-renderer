@@ -61,6 +61,18 @@ class Render
     }
 
     /**
+     * Set the custom attributes which you would like the parser to ignore
+     *
+     * @param array $ignored_attributes
+     */
+    public function setIgnoredCustomAttributes(array $ignored_attributes = [])
+    {
+        if (count($ignored_attributes) > 0) {
+            Settings::setIgnoredCustomAttributes($ignored_attributes);
+        }
+    }
+
+    /**
      * Pass the content array to the renderer and return the generated output
      *
      * @param boolean Optionally trim the output

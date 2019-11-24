@@ -61,6 +61,11 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
 <br />
 </p>
 ';
+    private $expected_custom_array_attribute_ignore_who = '<p><strong>world</strong>
+
+<br />
+</p>
+';
 
     /**
      * Test bold attribute
@@ -252,13 +257,14 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
 
         try {
             $quill = new QuillRender($this->delta_custom_array_attribute);
+            $quill->setIgnoredCustomAttributes(['who']);
             $result = $quill->render();
         } catch (\Exception $e) {
             $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
         }
 
         $this->assertEquals(
-            $this->expected_custom_array_attribute,
+            $this->expected_custom_array_attribute_ignore_who,
             $result,
             __METHOD__ . ' - Custom attribute which is an array'
         );

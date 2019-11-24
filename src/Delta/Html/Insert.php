@@ -55,7 +55,7 @@ class Insert extends Delta
                 if (
                     is_string($attribute) &&
                     is_string($value) &&
-                    in_array($attribute, Settings::ignoredAttributes()) === false
+                    in_array($attribute, Settings::ignoredCustomAttributes()) === false
                 ) {
                     $html .= " {$attribute}=\"{$value}\"";
                 }

@@ -52,7 +52,7 @@ class CompoundImage extends Delta
             if (
                 is_string($attribute) &&
                 is_string($value) &&
-                in_array($attribute, Settings::ignoredAttributes()) === false
+                in_array($attribute, Settings::ignoredCustomAttributes()) === false
             ) {
                 $image_attributes .= "{$attribute}=\"{$value}\" ";
             }
