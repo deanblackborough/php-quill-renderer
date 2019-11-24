@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DBlackborough\Quill\Delta\Html;
 
+use DBlackborough\Quill\Settings;
+
 /**
  * Default delta class for compound image inserts, multiple attributes
  *
@@ -47,7 +49,13 @@ class CompoundImage extends Delta
     {
         $image_attributes = '';
         foreach ($this->attributes as $attribute => $value) {
-            $image_attributes .= "{$attribute}=\"{$value}\" ";
+            if (
+                is_string($attribute) &&
+                is_string($value) &&
+                in_array($attribute, Settings::ignoredCustomAttributes()) === false
+            ) {
+                $image_attributes .= "{$attribute}=\"{$value}\" ";
+            }
         }
         return "<img src=\"{$this->insert}\" {$image_attributes}/>";
     }

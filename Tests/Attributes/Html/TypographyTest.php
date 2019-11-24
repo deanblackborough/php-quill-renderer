@@ -20,6 +20,32 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
     private $delta_super_script = '{"ops":[{"insert":"Lorem ipsum dolor sit"},{"attributes":{"script":"super"},"insert":"x"},{"insert":" amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas."}]}';
     private $delta_underline = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"underline":true},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
     private $delta_single_attribute = '{"ops":[{"insert":"Lorem ipsum dolor sit amet "},{"attributes":{"class":"custom_class"},"insert":"sollicitudin"},{"insert":" quam, nec auctor eros felis elementum quam. Fusce vel mollis enim."}]}';
+    private $delta_custom_array_attribute = '
+    {
+        "ops": [
+            {
+                "insert": "world",
+                "attributes": {
+                    "who": "3",
+                    "bold": true
+                }
+            },
+            {
+                "insert": "\n",
+                "attributes": {
+                    "who": "3",
+                    "table-cell": {
+                        "id": "table-id-hxrct",
+                        "rowId": "table-row-efeap",
+                        "cellId": "table-cell-vjhos"
+                    }
+                }
+            },
+            {
+                "insert": "\n"
+            }
+        ]
+    }';
 
     private $expected_bold = '<p>Lorem ipsum dolor sit amet <strong>sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_bold_with_attributes = '<p>Lorem ipsum dolor sit amet <strong class="bold_attributes">sollicitudin</strong> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
@@ -30,6 +56,16 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
     private $expected_super_script = '<p>Lorem ipsum dolor sit<sup>x</sup> amet, consectetur adipiscing elit. Pellentesque at elit dapibus risus molestie rhoncus dapibus eu nulla. Vestibulum at eros id augue cursus egestas.</p>';
     private $expected_underline = '<p>Lorem ipsum dolor sit amet <u>sollicitudin</u> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
     private $expected_single_attribute = '<p>Lorem ipsum dolor sit amet <span class="custom_class">sollicitudin</span> quam, nec auctor eros felis elementum quam. Fusce vel mollis enim.</p>';
+    private $expected_custom_array_attribute = '<p><strong who="3">world</strong>
+
+<br />
+</p>
+';
+    private $expected_custom_array_attribute_ignore_who = '<p><strong>world</strong>
+
+<br />
+</p>
+';
 
     /**
      * Test bold attribute
@@ -207,5 +243,30 @@ final class TypographyTest extends \PHPUnit\Framework\TestCase
         }
 
         $this->assertEquals($this->expected_single_attribute, trim($result), __METHOD__ . ' - Single attribute failure');
+    }
+
+    /**
+     * Test a delta with a custom attribute which is an array, ignore them
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testIgnoreCustomAttribute()
+    {
+        $result = null;
+
+        try {
+            $quill = new QuillRender($this->delta_custom_array_attribute);
+            $quill->setIgnoredCustomAttributes(['who']);
+            $result = $quill->render();
+        } catch (\Exception $e) {
+            $this->fail(__METHOD__ . 'failure, ' . $e->getMessage());
+        }
+
+        $this->assertEquals(
+            $this->expected_custom_array_attribute_ignore_who,
+            $result,
+            __METHOD__ . ' - Custom attribute which is an array'
+        );
     }
 }

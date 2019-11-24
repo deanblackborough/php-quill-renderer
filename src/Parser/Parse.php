@@ -239,7 +239,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
     {
         if ($this->valid === true) {
             /**
-             * Before processing through the deltas, generate new deltas by splliting
+             * Before processing through the deltas, generate new deltas by splitting
              * on all new lines, will make it much simpler to work out which
              * delta belong to headings, lists etc.
              */
