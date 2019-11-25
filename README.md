@@ -16,7 +16,7 @@ supported are listed in the table below, the goal is to eventually support every
 
 [Quill](https://github.com/quilljs/quill) is a modern WYSIWYG editor built for compatibility and extensibility.
 
-## Planned features
+## Planned features (v4.00.0 dev starting soon, 2019-11-25)
 
 If you check the table below you will note that I don't support all of Quills 
 features, that is definitely the plan, however, before I add support for new 
