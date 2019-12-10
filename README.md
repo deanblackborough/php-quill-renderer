@@ -162,6 +162,7 @@ for use under the MIT License (MIT).
 * [Lode Claassen](https://github.com/lode) [PR121] - Missing supported format in exception messages.
 * [Lode Claassen](https://github.com/lode) [PR122] - Validation code DRY.
 * [Lode Claassen](https://github.com/lode) [PR123] - Allow already decoded json to be passed to parser.
+* [Nicholas Humphries](https://github.com/Humni) [PR128] - Videos with attributes not supported.
 
 ## Coding standards credits
 

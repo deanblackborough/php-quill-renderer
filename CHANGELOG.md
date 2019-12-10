@@ -3,6 +3,10 @@
 
 Full changelog for PHP Quill Renderer
 
+## v3.18.1 - 2019-12-10
+
+* Videos with custom attributes supported, thank you [Nicholas Humphries](https://github.com/Humni).
+
 ## v3.18.0 - 2019-11-24
 
 * Custom attributes values which aren't strings are ignored.

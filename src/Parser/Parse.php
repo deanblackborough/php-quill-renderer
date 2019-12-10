@@ -506,7 +506,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
     /**
      * Checks the delta json is valid and can be decoded
      *
-     * @param $quill_json Quill json string
+     * @param array $quill_json Quill json string
      *
      * @return boolean
      */
