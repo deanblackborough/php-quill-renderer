@@ -292,7 +292,12 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
                                         break;
 
                                     default:
-                                        $this->insert($quill);
+                                        if (is_array($quill['insert'])) {
+                                            $this->compoundInsert($quill);
+                                        } else {
+                                            $this->insert($quill);
+                                        }
+
                                         break;
                                 }
                             }
