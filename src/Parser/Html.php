@@ -7,6 +7,7 @@ use DBlackborough\Quill\Delta\Html\Bold;
 use DBlackborough\Quill\Delta\Html\Color;
 use DBlackborough\Quill\Delta\Html\Compound;
 use DBlackborough\Quill\Delta\Html\CompoundImage;
+use DBlackborough\Quill\Delta\Html\CompoundVideo;
 use DBlackborough\Quill\Delta\Html\Delta;
 use DBlackborough\Quill\Delta\Html\Header;
 use DBlackborough\Quill\Delta\Html\Image;
@@ -287,9 +288,12 @@ class Html extends Parse
         if (count($quill['attributes']) > 0) {
             if (is_array($quill['insert']) === false) {
                 $delta = new Compound($quill['insert']);
-            } else {
+            } else if(array_key_exists('image', $quill['insert']) === true) {
                 $delta = new CompoundImage($quill['insert']['image']);
+            } else if(array_key_exists('video', $quill['insert']) === true) {
+                $delta = new CompoundVideo($quill['insert']['video']);
             }
+
             foreach ($quill['attributes'] as $attribute => $value) {
                 $delta->setAttribute($attribute, $value);
             }
