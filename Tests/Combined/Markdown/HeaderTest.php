@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Composite\Markdown;
+namespace Tests\Combined\Markdown;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 
@@ -10,7 +10,7 @@ use DBlackborough\Quill\Render as QuillRender;
 /**
  * Header tests
  */
-final class HeaderMarkdown extends \PHPUnit\Framework\TestCase
+final class HeaderTest extends \PHPUnit\Framework\TestCase
 {
     private $delta_header_then_text = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n"}]}';
     private $delta_header_then_text_then_header = '{"ops":[{"insert":"This is a heading"},{"attributes":{"header":2},"insert":"\n"},{"insert":"\nNow some normal text.\n\nNow another heading"},{"attributes":{"header":1},"insert":"\n"}]}';

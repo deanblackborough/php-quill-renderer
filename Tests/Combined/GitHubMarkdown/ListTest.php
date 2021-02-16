@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Composite\GitHubMarkdown;
+namespace Tests\Combined\GitHubMarkdown;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 

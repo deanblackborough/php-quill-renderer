@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Attributes\Markdown;
+namespace Tests\Attributes\Markdown;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 

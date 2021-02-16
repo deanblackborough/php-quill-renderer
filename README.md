@@ -1,9 +1,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/deanblackborough/php-quill-renderer.svg?style=flat-square)](https://packagist.org/packages/deanblackborough/php-quill-renderer)
 ![Packagist](https://img.shields.io/packagist/dt/deanblackborough/php-quill-renderer.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE)
-[![Minimum PHP Version](https://img.shields.io/badge/php->=7.1-8892BF.svg)](https://php.net/)
-[![Build Status](https://travis-ci.org/deanblackborough/php-quill-renderer.svg?branch=master)](https://travis-ci.org/deanblackborough/php-quill-renderer)
-[![Coverage Status](https://coveralls.io/repos/github/deanblackborough/php-quill-renderer/badge.svg?branch=master)](https://coveralls.io/github/deanblackborough/php-quill-renderer?branch=master)
+[![Minimum PHP Version](https://img.shields.io/badge/php->=7.4-8892BF.svg)](https://php.net/)
 
 # PHP Quill Renderer
 
@@ -16,24 +14,17 @@ supported are listed in the table below, the goal is to eventually support every
 
 [Quill](https://github.com/quilljs/quill) is a modern WYSIWYG editor built for compatibility and extensibility.
 
-## Planned features (v4.00.0 dev starting soon, 2019-11-25)
+## v4.00.0 and continued development
 
-If you check the table below you will note that I don't support all of Quills 
-features, that is definitely the plan, however, before I add support for new 
-attributes I want to add a major new feature.
+I released version 4.00.0 to update dependencies to PHP 7.4 and PHP 8.0. After 
+a hiatus, I'm back to use Quill in commercial projects so will be upgrading the 
+library at some point this year.
 
-#### Plugins
+Initially, the work will be towards supporting PHP 8 and 7.4 features and a
+general cleanup, the code needs to be updated to be more modular and allow 
+plugins that you can pick and choose what functions to support.
 
-I'm planning to add support for plugins, all the existing features will become 
-plugins, therefore, based on your particular needs you will be able to disable plugins/deltas 
-you don't need, in addition, this will allow me to add support for third-party plugins.
-
-Plugin support, will, of course, be a breaking change so once I have resolved all 
-the known bugs and completed my planned refactoring I will start work on plugins 
-in the v4 branch. 
-
-I will continue to support v3 after the eventual release of v4, some features may 
-be back-ported, it very much depends on the particular feature. 
+No timeline, I'm working on this in my limited free time.
 
 ## Installation
  
