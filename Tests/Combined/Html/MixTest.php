@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Composite\Html;
+namespace Tests\Combined\Html;
 
 require __DIR__ . '../../../../vendor/autoload.php';
 

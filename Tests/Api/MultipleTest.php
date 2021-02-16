@@ -1,6 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Api;
+namespace Tests\Api;
 
 use DBlackborough\Quill\RenderMultiple;
 

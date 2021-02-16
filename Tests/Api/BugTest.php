@@ -1,8 +1,6 @@
 <?php
 
-namespace DBlackborough\Quill\Tests\Api;
-
-require __DIR__ . '../../../vendor/autoload.php';
+namespace Tests\Api;
 
 use DBlackborough\Quill\Render as QuillRender;
 
