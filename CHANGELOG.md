@@ -7,7 +7,7 @@ Full changelog for PHP Quill Renderer
 
 * Update requirements to PHP 8 or PHP 7.4.
 * Update tests to run on latest version of PHP Unit.
-* Remove travis config, will switch to GitHub actions at some point soon.
+* Removed Travis config, will switch to GitHub actions at some point soon.
 
 ## v3.18.1 - 2019-12-10
 
