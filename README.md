@@ -17,12 +17,12 @@ supported are listed in the table below, the goal is to eventually support every
 ## v4.00.0 and continued development
 
 I released version 4.00.0 to update dependencies to PHP 7.4 and PHP 8.0. After 
-a hiatus, I'm back to use Quill in commercial projects so will be upgrading the 
+a hiatus, I'm back to use Quill in commercial projects, so I will be upgrading the 
 library at some point this year.
 
 Initially, the work will be towards supporting PHP 8 and 7.4 features and a
 general cleanup, the code needs to be updated to be more modular and allow 
-plugins that you can pick and choose what functions to support.
+plugins, then you can pick and choose what functions to support.
 
 No timeline, I'm working on this in my limited free time.
 
@@ -150,10 +150,11 @@ for use under the MIT License (MIT).
 * [davidraijmakers](https://github.com/davidraijmakers) [Issue #108] - Children not supported with headers.
 * [philippkuehn](https://github.com/philippkuehn) [Issue #109] - Multiple list output incorrect and paragraphs not being closed.
 * [mechanicalgux](https://github.com/mechanicalgux) [Issue #117] - Compound deltas don't know that they can be links.
-* [Lode Claassen](https://github.com/lode) [PR121] - Missing supported format in exception messages.
-* [Lode Claassen](https://github.com/lode) [PR122] - Validation code DRY.
-* [Lode Claassen](https://github.com/lode) [PR123] - Allow already decoded json to be passed to parser.
-* [Nicholas Humphries](https://github.com/Humni) [PR128] - Videos with attributes not supported.
+* [Lode Claassen](https://github.com/lode) [PR #121] - Missing supported format in exception messages.
+* [Lode Claassen](https://github.com/lode) [PR #122] - Validation code DRY.
+* [Lode Claassen](https://github.com/lode) [PR #123] - Allow already decoded json to be passed to parser.
+* [Nicholas Humphries](https://github.com/Humni) [PR #128] - Videos with attributes not supported.
+* [hybridvision](https://github.com/hybridvision) [Issue #132] - Issue rendering single item lists when they aren't the first content.
 
 ## Coding standards credits
 

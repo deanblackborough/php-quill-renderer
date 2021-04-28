@@ -16,7 +16,7 @@ final class ListTest extends \PHPUnit\Framework\TestCase
     private string $delta_paragraph_then_list_then_paragraph_final_list_character_bold = '{"ops":[{"insert":"This is a paragraph.\n\nList item 1"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"List item 2"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"List item "},{"attributes":{"bold":true},"insert":"3"},{"attributes":{"list":"ordered"},"insert":"\n"},{"insert":"\nThis is another paragraph.\n"}]}';
     private string $delta_paragraph_then_single_item_list = '{"ops":[{"insert":"Normal paragraph\n\nList with a single item"},{"attributes":{"list":"bullet"},"insert":"\n"},{"insert":"\nAnother normal paragraph\n"}]}';
 
-    /** @var string Not keen on the new line in this result, will deal with it at ome point  */
+    /** @var string Not keen on the new line in this result, will deal with it at some point  */
     private string $expected_paragraph_then_list = '<p>This is a single line of text.
 <br />
 </p>
