@@ -104,9 +104,9 @@ class Render
             }
 
             return $renderer->load($this->parser->deltas())->render($trim);
-        } else {
-            throw new \Exception('Failed to parse the supplied $quill_json array');
         }
+
+        throw new \Exception('Failed to parse the supplied $quill_json array');
     }
 
     /**

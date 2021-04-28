@@ -148,10 +148,10 @@ class Html extends Parse
                     $this_delta->close() === true
                 ) {
                     break;
-                } else {
-                    $this->deltas[$current_index]->addChild($this->deltas[$i]);
-                    unset($this->deltas[$i]);
                 }
+
+                $this->deltas[$current_index]->addChild($this->deltas[$i]);
+                unset($this->deltas[$i]);
             }
 
             $this->deltas = array_values($this->deltas);
@@ -173,6 +173,7 @@ class Html extends Parse
                 } else {
                     $this->deltas[$previous_index]->setLastChild();
                     $this->deltas[$current_index]->setFirstChild();
+                    $this->deltas[$current_index]->setLastChild();
                 }
             }
         }
@@ -212,7 +213,9 @@ class Html extends Parse
                     $this_delta->close() === true
                 ) {
                     break;
-                } else if ($this_delta->hasAttributes() === true) {
+                }
+
+                if ($this_delta->hasAttributes() === true) {
                     $this->deltas[$current_index]->addChild($this->deltas[$i]);
                     unset($this->deltas[$i]);
                 } else {

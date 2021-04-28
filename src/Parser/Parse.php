@@ -122,14 +122,14 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
         if (count($quill_json) === count($this->quill_json_stack)) {
             $this->valid = true;
             return $this;
-        } else {
-            throw new \InvalidArgumentException('Unable to decode all the json and assign to the stack');
         }
+
+        throw new \InvalidArgumentException('Unable to decode all the json and assign to the stack');
     }
 
     /**
      * Iterate over the deltas, create new deltas each time a new line is found,
-     * this should make it simpler o work out which delta belongs to which attribute
+     * this should make it simpler to work out which delta belongs to which attribute
      *
      * @param array $inserts
      *
@@ -223,7 +223,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
             }
 
             $new_deltas[] = [
-                'insert' => $sub_match . ($final_append !== null ? $final_append : $append)
+                'insert' => $sub_match . ($final_append ?? $append)
             ];
         }
 
@@ -320,9 +320,9 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
                 }
             }
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -343,11 +343,7 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
             }
         }
 
-        if (in_array(false, $results) === false) {
-            return true;
-        } else {
-            return false;
-        }
+        return in_array(false, $results, true) === false;
     }
 
     /**
@@ -372,11 +368,11 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
     {
         if (array_key_exists($index, $this->deltas_stack) === true) {
             return $this->deltas_stack[$index];
-        } else {
-            throw new \OutOfRangeException(
-                'Deltas array does not exist for the given index: ' . $index
-            );
         }
+
+        throw new \OutOfRangeException(
+            'Deltas array does not exist for the given index: ' . $index
+        );
     }
 
     /**
@@ -405,7 +401,8 @@ abstract class Parse implements ParserInterface, ParserAttributeInterface
         if (
             in_array(
                 $quill['attributes'][OPTIONS::ATTRIBUTE_HEADER],
-                array(1, 2, 3, 4, 5, 6, 7)
+                array(1, 2, 3, 4, 5, 6, 7),
+                true
             ) === true
         ) {
             $insert = $this->deltas[count($this->deltas) - 1]->getInsert();
