@@ -99,8 +99,8 @@ class Html extends Render
 
         if ($trim === false) {
             return $this->output;
-        } else {
-            return trim($this->output);
         }
+
+        return trim($this->output);
     }
 }
