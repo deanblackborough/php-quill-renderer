@@ -36,7 +36,7 @@ library or app.
 ## Usage
 
 ### Via API, single $quill_json
-```
+```injectablephp
 try {
     $quill = new \DBlackborough\Quill\Render($quill_json);
     $result = $quill->render();
@@ -49,7 +49,7 @@ echo $result;
 
 ### Via API, multiple $quill_json, passed in via array
 
-```
+```injectablephp
 try {
     $quill = new RenderMultiple($quill_json, 'HTML');
     
@@ -65,7 +65,7 @@ echo $result_two;
 
 ### Direct, parse and then render, single $quill_json - updated in v3.10.0
 
-```
+```injectablephp
 $parser = new \DBlackborough\Quill\Parser\Html();
 $renderer = new \DBlackborough\Quill\Renderer\Html();
 
@@ -76,7 +76,7 @@ echo $renderer->load($parser->deltas())->render();
 
 ### Direct, parse and then render, multiple $quill_json - updated in v3.10.0
 
-```
+```injectablephp
 $parser = new \DBlackborough\Quill\Parser\Html();
 $renderer = new \DBlackborough\Quill\Renderer\Html();
 
