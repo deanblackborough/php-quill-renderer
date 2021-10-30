@@ -156,6 +156,7 @@ for use under the MIT License (MIT).
 * [Nicholas Humphries](https://github.com/Humni) [PR #128] - Videos with attributes not supported.
 * [hybridvision](https://github.com/hybridvision) [Issue #132] - Issue rendering single item lists when they aren't the first content.
 
-## Coding standards credits
+## Coding standards and documentation credits
 
 * [Lode Claassen](https://github.com/lode) [PR #113] - Incorrect case in keyword. 
+* [Theo W](https://github.com/Theo-W) - Readme documentation updates
