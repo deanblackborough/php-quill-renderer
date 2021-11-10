@@ -3,6 +3,11 @@
 
 Full changelog for PHP Quill Renderer
 
+## Unreleased
+
+* Added GitHub actions.
+* Documentation improvements, thank you [Theo W](https://github.com/Theo-W).
+
 ## v4.00.2 - 2021-04-28 (v4.00.1 - testing pre-release)
 
 * Fixed an issue rendering single item lists, they don't get closed if they are the first delta, thank you [hybridvision](https://github.com/hybridvision).
