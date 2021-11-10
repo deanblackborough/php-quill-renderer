@@ -30,6 +30,9 @@
     "suggest": {
         "php": "^8.0"
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "repositories": [
         {
             "type": "vcs",
