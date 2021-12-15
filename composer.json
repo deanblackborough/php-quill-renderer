@@ -24,8 +24,7 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9",
-        "php-coveralls/php-coveralls": "^v2.4.3"
+        "phpunit/phpunit": "^9"
     },
     "suggest": {
         "php": "^8.0"
