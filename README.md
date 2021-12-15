@@ -2,6 +2,8 @@
 ![Packagist](https://img.shields.io/packagist/dt/deanblackborough/php-quill-renderer.svg)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/deanblackborough/php-quill-renderer/blob/master/LICENSE)
 [![Minimum PHP Version](https://img.shields.io/badge/php->=7.4-8892BF.svg)](https://php.net/)
+[![Supported PHP Version](https://img.shields.io/badge/php-^8.0-8892BF.svg)](https://php.net/)
+[![Supported PHP Version](https://img.shields.io/badge/php-^8.1-8892BF.svg)](https://php.net/)
 [![Validate dependencies and run tests](https://github.com/deanblackborough/php-quill-renderer/actions/workflows/php.yml/badge.svg)](https://github.com/deanblackborough/php-quill-renderer/actions/workflows/php.yml)
 
 # PHP Quill Renderer
