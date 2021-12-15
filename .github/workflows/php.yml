@@ -9,7 +9,13 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4', '8.0', '8.1']
+        
+    name: PHP ${{ matrix.php-versions }} test on ${{ matrix.operating-system }}
 
     steps:
     - uses: actions/checkout@v2
