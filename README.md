@@ -10,24 +10,15 @@
 
 Render quill insert deltas to HTML, Markdown and GitHub flavoured Markdown.
 
+## Read-only
+It doesn't look like there will be new version of Quill, I've decided to make the repo read-only, I'm not going to dedicate anymore time to this package.
+
 ## Description
 
 [Quill](https://github.com/quilljs/quill)  deltas renderer, converts deltas to HTML and Markdown, the [Quill](https://github.com/quilljs/quill) attributes 
 supported are listed in the table below, the goal is to eventually support every Quill feature.
 
 [Quill](https://github.com/quilljs/quill) is a modern WYSIWYG editor built for compatibility and extensibility.
-
-## v4.00.0 and continued development
-
-I released version 4.00.0 to update dependencies to PHP 7.4 and PHP 8.0. After 
-a hiatus, I'm back to use Quill in commercial projects, so I will be upgrading the 
-library at some point this year.
-
-Initially, the work will be towards supporting PHP 8 and 7.4 features and a
-general cleanup, the code needs to be updated to be more modular and allow 
-plugins, then you can pick and choose what functions to support.
-
-No timeline, I'm working on this in my limited free time.
 
 ## Installation
  
@@ -104,14 +95,14 @@ echo $renderer->load($parser->deltasByIndex('two'))->render();
 | Image | Yes | Yes | Yes | Yes
 | Video | No | No | Yes | Yes
 | List | Yes | Yes | Yes | Yes
-| Child lists | No | No | Planned | Planned
-| Indent/Outdent | No| No | Planned | Planned
-| Text direction | No | No | Planned | N/A
-| Color | No | No | Planned | N/K
-| Font | No | No | Planned | N/K
-| Text align | No | No | Planned | N/A
-| Block quote | No | No | Planned | Planned
-| Code block | No | No | Planned | Planned
+| Child lists | No | No | No | No
+| Indent/Outdent | No| No | No | No
+| Text direction | No | No | No | N/A
+| Color | No | No | No | N/K
+| Font | No | No | No | N/K
+| Text align | No | No | No | N/A
+| Block quote | No | No | No | No
+| Code block | No | No | No | No
 | Custom attributes | No | No | Yes | N/A
 | Line breaks | No | No | Yes | Yes
 | Paragraphs | Yes | Yes | Yes | Yes
